@@ -1,0 +1,10 @@
+__pycache__
+.ttf
+.venv
+venv.bat
+*.png
+.idea
+.vscode
+.html
+.db
+html/
