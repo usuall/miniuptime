@@ -1,6 +1,6 @@
 from mini.config import get_Config
 import mini.library as lib
-import mini.model as model
+
 
 properties = get_Config()
 config_sys = properties['SYSTEM']

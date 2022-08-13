@@ -1,7 +1,6 @@
-import pymysql
-import time
-# from dash04 import log_output
 from mini.config import get_Config
+import pymysql
+import logging
 
 # DB 환경에 맞게 입력할것
 
@@ -29,7 +28,7 @@ def with_cursor(original_func):
             return rv
         except Exception as e:
             code, msg = e.args
-            log_output ('MYSQL Error : ' + str(code) + ' '+ msg, 1)
+            logging.error('MYSQL Error : ' + str(code) + ' '+ msg, 1)
         
     return wrapper
 
@@ -60,7 +59,7 @@ def get_org_url_list(c, keyword):
     if(keyword.get('SITE_URL')):
         sql += f" and b.url_addr like '%{keyword.get('SITE_URL')}%'"
     
-    log_output('- SQL : ' + sql )
+    print('- SQL : ' + sql )
     c.execute(sql)
     
     return c.fetchall()
