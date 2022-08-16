@@ -11,15 +11,10 @@ python -m pip install --upgrade pip
  
 ## image-match install
 git clone https://github.com/ascribe/image-match.git
-
 cd image-match
-
 pip install numpy
-
 pip install scipy
-
 pip install .
-
 ## html-similarity 설치
 pip install html-similarity
 
