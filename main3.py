@@ -23,7 +23,7 @@ def long_function_thread(window, values):
     # 조회조건 출력
     keyword = mini.getCondition(window, values)
     url_cnt = mini.get_monitoring(window, keyword)    
-    logger.info('(long_function_thread) url_cnt ---> ' + str(url_cnt)) 
+    logger.info('GET_MONITORING WORK_CNT : ' + str(url_cnt)) 
     window.write_event_value('-THREAD DONE-', '') # Thread 종료 후 이벤트(반복 작업을 위해 사용)    
     
 
@@ -48,8 +48,8 @@ def main():
         # [sg.Listbox(values=(org_list), size=(30, 1), key='-ORG_LIST-', enable_events=True)],
         [sg.Text('사이트명'), sg.InputText('', key='-SITE_TITLE-', size=(30, 1), tooltip='사이트명을 입력하세요.'),
          sg.Text('  URL명'), sg.InputText('', key='-SITE_URL-', size=(30, 1), tooltip='도메인(URL)을 입력하세요.')],
-        [sg.CBox('반복 점검', key='-REPEAT-', default=False, tooltip='체크 대상을 반복하여 점검합니다.'), 
-         sg.CBox('비활성화 URL 포함', key='-DISABLED-'), sg.CBox('백그라운드 실행', key='-BG_EXE-', default=True, tooltip='임시 비활성화 URL 대상까지 검색')],
+        [sg.CBox('반복 점검', key='-REPEAT-', default=True, tooltip='체크 대상을 반복하여 점검합니다.'), 
+         sg.CBox('비활성화 URL 포함', key='-DISABLED-'), sg.CBox('백그라운드 실행', key='-BG_EXE-', default=True, tooltip='크롬 브라우져의 실행화면이 표시되지 않음')],
         [sg.CBox('AP작업 포함', key='-AP_WORK-', default=TRUE, tooltip='AP작업중 URL.....'), 
          sg.CBox('이미지 유사도 검증', key='-ADD1-'), sg.CBox('소스 파일 유사도 검증', key='-ADD2-', default=True)],
         [sg.MLine(default_text='', font='Gothic', size=(80, 20), key='-OUTPUT-', autoscroll=True, disabled=True)],
@@ -59,14 +59,6 @@ def main():
                             sg.Radio('20초', group_id="RADIO1", key='-TIMEOUT4-'),
                             sg.Radio('25초', group_id="RADIO1", key='-TIMEOUT5-'),
                             sg.Radio('30초', group_id="RADIO1", key='-TIMEOUT6-')],
-        # [sg.Combo(('Combobox 1', 'Combobox 2'), key='combo', size=(20, 1)),sg.Slider(range=(1, 100), orientation='h', size=(34, 20), key='slide1', default_value=85)],
-        # [sg.Combo(('Combobox 1', 'Combobox 2'), key='combo', size=(20, 1))],
-        # [sg.OptionMenu(('Menu Option 1', 'Menu Option 2', 'Menu Option 3'), key='optionmenu')],
-
-        # [sg.Text('Choose A Folder', size=(35, 1))],
-        # [sg.Text('Your Folder', size=(15, 1), justification='right'),
-        # sg.InputText('Default Folder', key='folder'), sg.FolderBrowse()],
-        # [sg.Col(layout_left, p=0), sg.Col(layout_right, p=0)],
         [sg.Button('종 료', key='-BUTTON_EXIT-', button_color=('white', 'firebrick3')),
          sg.Button('도움말', key='-BUTTON_HELP-', button_color=('white', 'firebrick3')),
          sg.Text('  ' * 30), sg.Button('     실 행     ', key='-BUTTON_START-'), sg.Button('중 지', key='-BUTTON_STOP-', disabled=True, button_color=('black', 'lightblue'))]

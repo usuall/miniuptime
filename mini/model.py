@@ -59,13 +59,20 @@ def get_grp_url_list(c, keyword):
     if(keyword.get('SITE_URL')):
         sql += f" and b.url_addr like '%{keyword.get('SITE_URL')}%'"
     
-    logger.info('- SQL : ' + sql )
+    logger.info('SQL : ' + sql )
     c.execute(sql)
     
     return c.fetchall()
 
 @with_cursor
-def add_monitoring(c, url_no, status_code, file_name):
-    sql_data = ("INSERT INTO tb_monitor (url_no, status_code, file_name ) VALUES ( %s, %s, %s)")
-    sql_val = (url_no, status_code, file_name)
+def add_monitoring(c, tb_monitor):
+    sql_data = ("INSERT INTO tb_monitor (url_no, status_code, html_file, mon_image, mon_img_match1 ) VALUES ( %s, %s, %s, %s, %s)")
+    sql_val = (tb_monitor['url_no'], tb_monitor['status_code'], tb_monitor['html_file'], tb_monitor['mon_image'], tb_monitor['mon_img_match1'])
     c.execute(sql_data, sql_val)
+    
+@with_cursor
+def update_url_monitoring(c, tb_url):
+    sql_data = ("UPDATE tb_url SET url_redirected = %s, url_status = %s, url_lastest_check_dt = now() WHERE url_no = %s ")
+    sql_val = (tb_url['url_redirected'], tb_url['url_status'], tb_url['url_no'])
+    c.execute(sql_data, sql_val)
+    

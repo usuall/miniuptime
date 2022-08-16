@@ -37,5 +37,5 @@ pip install loguru
 
 
 ### optional
-pip install gtts
-pip install playsound
+pip install gtts  
+pip install playsound  
