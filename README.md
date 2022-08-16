@@ -1,15 +1,15 @@
-"# miniuptime" 
+"# uptime mini" 
 -----------------
-# python 가상환경 생성
+## python 가상환경 생성
 python -m venv .venv
 
-# into the python environment
+## into the python env
 $PROJECT_HOME/.venv/Scripts/activate
 
-# pip 업그레이드
+## pip upgrade
 python -m pip install --upgrade pip
  
-# image-match 설치
+## image-match install
 git clone https://github.com/ascribe/image-match.git
 
 cd image-match
@@ -17,14 +17,14 @@ pip install numpy
 pip install scipy
 pip install .
 
-# html-similarity 설치
+## html-similarity 설치
 pip install html-similarity
 
 -------------------------
-# 크롬 드라이버 다운로드
+### 크롬 드라이버 다운로드
 https://chromedriver.chromium.org/downloads
 
-# 관련 패키지 설치
+### 관련 패키지 설치
 pip install PySimpleGUI
 pip install pymysql
 pip install selenium
