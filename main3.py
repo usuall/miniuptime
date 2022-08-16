@@ -50,15 +50,14 @@ def main():
          sg.Text('  URL명'), sg.InputText('', key='-SITE_URL-', size=(30, 1), tooltip='도메인(URL)을 입력하세요.')],
         [sg.CBox('반복 점검', key='-REPEAT-', default=True, tooltip='체크 대상을 반복하여 점검합니다.'), 
          sg.CBox('비활성화 URL 포함', key='-DISABLED-'), sg.CBox('백그라운드 실행', key='-BG_EXE-', default=True, tooltip='크롬 브라우져의 실행화면이 표시되지 않음')],
-        [sg.CBox('AP작업 포함', key='-AP_WORK-', default=TRUE, tooltip='AP작업중 URL.....'), 
-         sg.CBox('이미지 유사도 검증', key='-ADD1-'), sg.CBox('소스 파일 유사도 검증', key='-ADD2-', default=True)],
-        [sg.MLine(default_text='', font='Gothic', size=(80, 20), key='-OUTPUT-', autoscroll=True, disabled=True)],
+        [sg.CBox('이미지 유사도 검증', key='-IMAGE_MATCH-', default=True), sg.CBox('HTML 유사도 검증(작업중)', key='-HTML_MATCH-', default=True)],
         [sg.Text('타임아웃'), sg.Radio('5초',  group_id="RADIO1", key='-TIMEOUT1-'),
                             sg.Radio('10초', group_id="RADIO1", default=True, key='-TIMEOUT2-'),
                             sg.Radio('15초', group_id="RADIO1", key='-TIMEOUT3-'),
                             sg.Radio('20초', group_id="RADIO1", key='-TIMEOUT4-'),
                             sg.Radio('25초', group_id="RADIO1", key='-TIMEOUT5-'),
                             sg.Radio('30초', group_id="RADIO1", key='-TIMEOUT6-')],
+        [sg.MLine(default_text='', font='Gothic', size=(80, 20), key='-OUTPUT-', autoscroll=True, disabled=True)],        
         [sg.Button('종 료', key='-BUTTON_EXIT-', button_color=('white', 'firebrick3')),
          sg.Button('도움말', key='-BUTTON_HELP-', button_color=('white', 'firebrick3')),
          sg.Text('  ' * 30), sg.Button('     실 행     ', key='-BUTTON_START-'), sg.Button('중 지', key='-BUTTON_STOP-', disabled=True, button_color=('black', 'lightblue'))]
@@ -78,6 +77,7 @@ def main():
 
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
+
         if event == '-BUTTON_START-':
             logger.info(' --- BUTTON_START --- ')
             # 버튼 비활성화 전환
@@ -89,20 +89,21 @@ def main():
                 
         elif event == '-THREAD DONE-':
             logger.info(' --- THREAD DONE --- ')
+            # 반복 점검
             if (keyword.get('REPEAT') == True):
                 cnt += 1
-                # print(' --- THREAD REPEAT (' + str(cnt)+  ' times) ---')
                 logger.info('--- THREAD REPEAT (' + str(cnt)+  ' times) ---')
                 long_function(window, values)                
-                
                 
         elif event == '-BUTTON_EXIT-':
             logger.info (' --- BUTTON_EXIT --- ')
             break
+
         elif event == '-BUTTON_STOP-':
             logger.info (' --- BUTTON_STOP --- ')
             stop_event.set()
             # break
+
         elif event == '-BUTTON_HELP-':
             help_text = '''Uptime Mini는 URL Health Check Agent 입니다.
             

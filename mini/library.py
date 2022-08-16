@@ -28,9 +28,10 @@ data_path = project_path + config_sys['DATA_PATH'] + '\\'
 img_path = data_path + config_sys['IMG_PATH'] + '\\'   # screenshot 경로
 img_origin_path = img_path + '\\' + config_sys['IMG_ORIGIN_PATH'] + '\\'
 img_daily_path = img_path + '\\' + config_sys['IMG_DAILY_PATH'] + '\\'
-img_resize_path = img_path + '\\' + config_sys['IMG_RESIZE_PATH'] + '\\'
 html_path = data_path + config_sys['HTML_PATH'] + '\\'     # html 경로
 logs_path = data_path + config_sys['LOGS_PATH'] + '\\'     # 각종로그 경로
+html_origin_path = html_path + config_sys['HTML_ORIGIN_PATH'] + '\\'
+html_daily_path = html_path + config_sys['HTML_DAILY_PATH'] + '\\'
 
 # 실행환경
 user_agent = 'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
@@ -64,8 +65,9 @@ def before_main():
     isExist_dir(img_path)
     isExist_dir(img_origin_path)
     isExist_dir(img_daily_path)
-    isExist_dir(img_resize_path)
     isExist_dir(html_path)
+    isExist_dir(html_origin_path)
+    isExist_dir(html_daily_path)
     isExist_dir(logs_path)
 
     
@@ -77,7 +79,7 @@ def isExist_dir(path):
 def button_activate(window, activate):
     
     # 화면 요소ID
-    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-')
+    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-BUTTON_START-')
     #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
     
     # 버튼 활성화 전환
@@ -119,6 +121,8 @@ def getCondition(window, values):
     window['-OUTPUT-'].update(value='- 반복 점검 : ' + str(values['-REPEAT-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 비활성화 URL포함. : ' + str(values['-DISABLED-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 백그라운드 실행 : ' + str(values['-BG_EXE-']) + '\n', append=True)
+    window['-OUTPUT-'].update(value='- 이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']) + '\n', append=True)
+    window['-OUTPUT-'].update(value='- HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 타임아웃 설정 : ' + str(timeout_term) + '초\n', append=True)
     # window['-OUTPUT-'].update(value='-------------------------------------------\n', append=True)
 
@@ -129,6 +133,8 @@ def getCondition(window, values):
                 'REPEAT':       values['-REPEAT-'], 
                 'DISABLED':     values['-DISABLED-'], 
                 'BG_EXE':       values['-BG_EXE-'], 
+                'IMAGE_MATCH':  values['-IMAGE_MATCH-'], 
+                'HTML_MATCH':   values['-HTML_MATCH-'], 
                 'TIME_OUT':     timeout_term }
     
     logger.info('--------- <모니터링 시작> ---------')
@@ -138,6 +144,8 @@ def getCondition(window, values):
     logger.info('반복 점검 : ' + str(values['-REPEAT-']))
     logger.info('비활성화 URL포함. : ' + str(values['-DISABLED-']))
     logger.info('백그라운드 실행 : ' + str(values['-BG_EXE-']))
+    logger.info('이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']))
+    logger.info('HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']))
     logger.info('타임아웃 설정 : ' + str(timeout_term) + '초')
 
     # for k in keyword.values():
@@ -146,7 +154,7 @@ def getCondition(window, values):
     return keyword
 
 
-#기관단위 모니터링
+# 검색결과 모니터링
 def get_monitoring(window, keyword):    
     
     global _step_
@@ -154,8 +162,8 @@ def get_monitoring(window, keyword):
     
     stime = time.time()
     # 브라우저 환경 설정 취득
-    bg_exec = keyword.get('BG_EXE') # 백그라운드 실행
-    driver = set_browser_option(bg_exec)
+    BG_EXE = keyword.get('BG_EXE') # 백그라운드 실행
+    driver = set_browser_option(BG_EXE)
         
     cnt = 0    
     result = model.get_grp_url_list(keyword)
@@ -186,9 +194,9 @@ def get_monitoring(window, keyword):
         # 브라우져 URL 탐색
         web_url = row['url_type']+row['url_addr']
         
-        #브라우져 무한로딩시 timeout 으로 회피(jnpolice.go.kr 사례) / 해결하는데 5일 걸림
-        get_url_timout = keyword.get('TIME_OUT') #디폴트 10초
-        driver.set_page_load_timeout(get_url_timout)
+        # 브라우져 무한로딩시 timeout 회피(jnpolice.go.kr 사례) / 해결하는데 5일 걸림
+        TIME_OUT = keyword.get('TIME_OUT') #디폴트 10초
+        driver.set_page_load_timeout(TIME_OUT)
         outtime = time.time()
         
         logger.info(step_add(total_step) + 'URL_GET(1/2) ' + web_url + diff_time(outtime))
@@ -202,14 +210,11 @@ def get_monitoring(window, keyword):
             logger.exception('URL_GET Exception Occured : '+ str(e))
             break
         
-        redirected_url = driver.current_url
+        redirected_url = driver.current_url       
         
-        
-        #logger.info(step_add(total_step) + 'URL redirected : '+ redirected_url+ ' ('+ str(round(time.time()-pertime, 2))+'s)')
         logger.info(step_add(total_step) + 'URL redirected : '+ redirected_url + diff_time(pertime))
         window['-OUTPUT-'].update(value=' Redirected → '+redirected_url + diff_time(pertime), append=True)
-        # print('redirected -->', driver.current_url)
-        window.refresh() # 작업내용 출력 반영        
+        window.refresh() # 작업내용 출력 반영
         
         # 이미지 캡쳐 (브라우져 크기 설정후 캡쳐 사이즈 지정 필요)
         # redirect 된 url로 이미지 캡쳐 필요
@@ -232,40 +237,43 @@ def get_monitoring(window, keyword):
         # origin_img = img_origin_path + img_str
         # new_img = img_daily_path + img_str
         
-        origin_img = img_str
-        new_img = img_str
+        # 이미지 유사도 검증
+        IMAGE_MATCH = keyword.get('IMAGE_MATCH')
+        if(IMAGE_MATCH == True):
+            origin_img = img_str
+            new_img = img_str
 
-        img_matching_point = image_match(origin_img, new_img)
-        if(img_matching_point == -99.99):
-            logger.info(step_add(total_step) + 'image_match skipped(file is not exist.) ' + diff_time(pertime))
-        else:
-            if(img_matching_point < 0.4):
-                img_match = '(OK) '
+            img_matching_point = image_match(origin_img, new_img)
+            if(img_matching_point == -99.99):
+                logger.info(step_add(total_step) + 'image_match skipped(file is not exist.) ' + diff_time(pertime))
             else:
-                img_match = '(NG) '
-            logger.info(step_add(total_step) + 'image_match '+ img_match + str(round(img_matching_point,3)) + diff_time(pertime))
+                if(img_matching_point < 0.4):
+                    img_match = '(OK) '
+                else:
+                    img_match = '(NG) '
+                logger.info(step_add(total_step) + 'image_match '+ img_match + str(round(img_matching_point,3)) + diff_time(pertime))
+        else:
+            logger.info(step_add(total_step) + 'image_match skipped(search option) ' + diff_time(pertime))
         
 
         window['-OUTPUT-'].update(value=' → captured'+ diff_time(pertime), append=True)
         window.refresh() 
-        #html 소스코드 취득
+
+        # HTML 저장 및 검증 ----------------------------------- #
+        # HTML 소스코드 취득
         html_source = driver.page_source # redirected 최종 URL의 소스를 취득
-        #window['-OUTPUT-'].update(value=' redirected2 -> '+ driver.current_url, append=True)
-        #print(html_source)
-        # window['-OUTPUT-'].update(value='11111-------------------------------------------\n', append=True)
-        # window['-OUTPUT-'].update(value=html_source, append=True)
         
-        #로그를 보기좋게 정리(prettfy)
+        # 로그를 보기좋게 정리(prettfy)
         html_source = BeautifulSoup(html_source, 'html.parser').prettify
-        # log_output(html_source )
         
-        #html 저장
-        html_file = save_html(row['url_no'], row['url_no'], html_source)
+        # HTML 저장 ------------------------------------------- #
+        html_file = save_html(row['url_no'], html_source)
         logger.info(step_add(total_step) + 'HTML Save'+ diff_time(pertime))
         window['-OUTPUT-'].update(value=' → html' + diff_time(pertime), append=True)
         window.refresh()
         
-        # Request Code 취득 : (200 : ok, 404 : page not found)
+        # Request Code 취득 ----------------------------------- #
+        # (200 : ok, 404 : page not found)
         req_code = get_request_code(redirected_url)
         logger.info(step_add(total_step) + 'Status : '+ str(req_code) + diff_time(pertime))
         
@@ -276,6 +284,10 @@ def get_monitoring(window, keyword):
         window['-OUTPUT-'].update(value='→ Status ' + str(req_code) + diff_time(pertime), append=True, text_color_for_value=t_color)
         window.refresh()
 
+        # HTML 유사도 검증 ------------------------------------- #
+        # 
+                
+                
         # 새창 닫기
         close_new_tabs(driver)
         logger.info(step_add(total_step) + 'New Tab Closed' + diff_time(pertime))
@@ -326,9 +338,8 @@ def get_monitoring(window, keyword):
     return cnt
 
 # 브라우저 기본 설정
-def set_browser_option(bg_exec):
+def set_browser_option(BG_EXE):
     
-    # print ('bg_exec ',bg_exec)
     # 크롬 브라우저 오픈
     options = webdriver.ChromeOptions()
     # USER_Agent 지정
@@ -337,7 +348,7 @@ def set_browser_option(bg_exec):
     # '시스템에 부착된 장치가 작동하지 않습니다' 오류 제거
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
     # 브라우져 창 최소화 유무
-    if (bg_exec == True):
+    if (BG_EXE == True):
         # 백그라운드 실행
         options.add_argument('--window-size=1900,1080')
         options.add_argument("--headless")
@@ -375,7 +386,7 @@ def my_grp_list_combo():
     return grp_list
 
 @logger.catch 
-def save_html(url_no, mon_no, src_text):
+def save_html(url_no, src_text):
     
     sysdate = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     # print(html_path + str(url_no)+'_'+str(sysdate)+'.html')
