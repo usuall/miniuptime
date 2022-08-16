@@ -6,10 +6,10 @@ python -m venv .venv
 ## into the python env
 $PROJECT_HOME/.venv/Scripts/activate
 
-## pip upgrade
+### pip upgrade
 python -m pip install --upgrade pip
  
-## image-match install
+### image-match install
 git clone https://github.com/ascribe/image-match.git
 
 cd image-match  
@@ -17,7 +17,7 @@ pip install numpy
 pip install scipy  
 pip install .  
 
-## html-similarity 설치
+### html-similarity 설치
 pip install html-similarity  
 
 -------------------------
@@ -36,6 +36,6 @@ pip install BeautifulSoup4
 pip install loguru  
 
 
-# optional
+### optional
 pip install gtts
 pip install playsound
