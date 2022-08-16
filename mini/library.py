@@ -6,11 +6,12 @@ from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
-import logging
 import os
 import time
 import urllib3
 import requests
+from loguru import logger
+import sys
 
 # 환경 설정값 취득
 properties = get_Config()
@@ -21,31 +22,19 @@ config_db = properties['DATABASE']
 # 각종 디렉토리 경로 지정
 project_path = os.path.abspath(os.getcwd()) + '\\'
 lib_path = project_path + config_sys['LIB_PATH'] + '\\'  # 라이브러리 경로
-img_path = project_path + config_sys['DATA_PATH'] + '\\' + config_sys['IMG_PATH'] + '\\'   # screenshot 경로
-img_resize_path = project_path + config_sys['DATA_PATH'] + '\\' + config_sys['IMG_RESIZE_PATH'] + '\\' 
-html_path = project_path + config_sys['DATA_PATH'] + '\\' + config_sys['HTML_PATH'] + '\\'     # html 경로
-logs_path = project_path + config_sys['DATA_PATH'] + '\\' + config_sys['LOGS_PATH'] + '\\'     # 각종로그 경로
+data_path = project_path + config_sys['DATA_PATH'] + '\\' 
+img_path = data_path + config_sys['IMG_PATH'] + '\\'   # screenshot 경로
+img_resize_path = data_path + '\\' + config_sys['IMG_RESIZE_PATH'] + '\\' 
+html_path = data_path + '\\' + config_sys['HTML_PATH'] + '\\'     # html 경로
+logs_path = data_path + '\\' + config_sys['LOGS_PATH'] + '\\'     # 각종로그 경로
 
 # 실행환경
 user_agent = 'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
 
-def set_Logger(log_level):
-    # 로그 레벨정의
-    LOG_LEVELS = {
-        'DEBUG': logging.DEBUG,
-        'INFO': logging.INFO,
-        'WARNING': logging.WARNING,
-        'ERROR': logging.ERROR,
-        'CRITICAL': logging.CRITICAL,
-    }
+logger.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="INFO")
+logger.add(logs_path + "uptime.log", rotation="100 MB", retention=30 ) # rotation=로그 사이즈, retantion=10세대분 보유
+logger.add(logs_path + "uptime_err.log", rotation="100 MB", level='WARNING', retention=30)  # rotation=로그 사이즈, level=로그레벨, retantion=30세대분 보유
 
-    debug_file = 'miniuptime.log'
-    file_handler = logging.FileHandler(debug_file)
-    file_handler.setLevel(log_level)
-    file_handler.setFormatter('%(asctime)s (%(levelname)s) %(message)s')
-
-    logger = logging.getLogger('miniuptime')
-    logger.addHandler(file_handler)
 
 #현재시각
 def get_sysdate():
@@ -54,11 +43,18 @@ def get_sysdate():
 
 
 def before_main():
+    
     # 저장 디렉토리 존재 확인
+    isExist_dir(data_path)
     isExist_dir(img_path)
     isExist_dir(html_path)
     isExist_dir(logs_path)
     
+    # global logger
+    # set_logger(config_log['LOG_LEVEL'])
+    
+    # logger.info("sssssssssssss번째 방문입니다.")
+
     
 def isExist_dir(path):    
     isExist = os.path.exists(path)
@@ -68,7 +64,8 @@ def isExist_dir(path):
 def button_activate(window, activate):
     
     # 화면 요소ID
-    obj_list = ('-ORG_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
+    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-')
+    #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
     
     # 버튼 활성화 전환
     if activate == 0:
@@ -103,7 +100,7 @@ def getCondition(window, values):
 
     # window['-OUTPUT-'].update(value='- 실행시간 : ' + str1 + '\n', append=True)
     window['-OUTPUT-'].update(value='--------- <검색조건> ---------\n', append=True)
-    window['-OUTPUT-'].update(value='- 카테고리 : ' + values['-ORG_LIST-'] + '\n', append=True)
+    window['-OUTPUT-'].update(value='- 카테고리 : ' + values['-GRP_LIST-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- 사이트명 : ' + values['-SITE_TITLE-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- URL명 : ' + values['-SITE_URL-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- 반복 점검 : ' + str(values['-REPEAT-']) + '\n', append=True)
@@ -113,7 +110,7 @@ def getCondition(window, values):
     # window['-OUTPUT-'].update(value='-------------------------------------------\n', append=True)
 
     #검색 조건 저장
-    keyword = { 'ORG_LIST':     values['-ORG_LIST-'], 
+    keyword = { 'GRP_LIST':     values['-GRP_LIST-'], 
                 'SITE_TITLE':   values['-SITE_TITLE-'], 
                 'SITE_URL':     values['-SITE_URL-'], 
                 'REPEAT':       values['-REPEAT-'], 
@@ -121,14 +118,14 @@ def getCondition(window, values):
                 'BG_EXE':       values['-BG_EXE-'], 
                 'TIME_OUT':     timeout_term }
     
-    logging.info('--------- <모니터링 시작> ---------')
-    logging.info('- 카테고리 : ' + values['-ORG_LIST-'])
-    logging.info('- 사이트명 : ' + values['-SITE_TITLE-'])
-    logging.info('- URL명 : ' + values['-SITE_URL-'])
-    logging.info('- 반복 점검 : ' + str(values['-REPEAT-']))
-    logging.info('- 비활성화 URL포함. : ' + str(values['-DISABLED-']))
-    logging.info('- 백그라운드 실행 : ' + str(values['-BG_EXE-']))
-    logging.info('- 타임아웃 설정 : ' + str(timeout_term) + '초')
+    logger.info('--------- <모니터링 시작> ---------')
+    logger.info('- 카테고리 : ' + values['-GRP_LIST-'])
+    logger.info('- 사이트명 : ' + values['-SITE_TITLE-'])
+    logger.info('- URL명 : ' + values['-SITE_URL-'])
+    logger.info('- 반복 점검 : ' + str(values['-REPEAT-']))
+    logger.info('- 비활성화 URL포함. : ' + str(values['-DISABLED-']))
+    logger.info('- 백그라운드 실행 : ' + str(values['-BG_EXE-']))
+    logger.info('- 타임아웃 설정 : ' + str(timeout_term) + '초')
 
     # for k in keyword.values():
     #     print('>>>',k)
@@ -137,18 +134,18 @@ def getCondition(window, values):
 
 
 #기관단위 모니터링
-def get_monitoring(window, keyword):
-    
+def get_monitoring(window, keyword):    
+        
     stime = time.time()
     # 브라우저 환경 설정 취득
     bg_exec = keyword.get('BG_EXE') # 백그라운드 실행
     driver = set_browser_option(bg_exec)
         
     cnt = 0    
-    result = model.get_org_url_list(keyword)
+    result = model.get_grp_url_list(keyword)
     # print('resutl ',type(result), len(result))
     total_cnt = len(result) # 조회 건수
-    logging.info('☞  조회결과 : '+ str(total_cnt) + '건')
+    logger.info('☞  조회결과 : '+ str(total_cnt) + '건')
     window['-OUTPUT-'].update(value='☞ 조회결과 : '+ str(total_cnt) +'건\n', append=True)
     window['-OUTPUT-'].update(value='------------------------------\n', append=True)
     
@@ -156,14 +153,13 @@ def get_monitoring(window, keyword):
     steped = 1
     for row in result:
         cnt += 1
-        
-        
+                
         window['-OUTPUT-'].update(value='\n', append=True)
         window.refresh() 
         
         pertime = time.time() # 개별작업시간
         # 작업시간 출력
-        logging.info('---- URL Health Check Start' + ' ['+ str(cnt) + '/' + str(total_cnt) + '] ----')
+        logger.info('---- URL Health Check Start' + ' ['+ str(cnt) + '/' + str(total_cnt) + '] ----')
         str1 = '[' + get_sysdate() + '] ['+ str(cnt) + '/' + str(total_cnt) + '] ' + row['url_addr'] + ' (NO:' + str(row['url_no'])  +')\n'
         window['-OUTPUT-'].update(value=str1, append=True)
         window.refresh() 
@@ -175,19 +171,19 @@ def get_monitoring(window, keyword):
         get_url_timout = keyword.get('TIME_OUT') #디폴트 10초
         driver.set_page_load_timeout(get_url_timout)
         outtime = time.time()
-        logging.info('url_get(1/2) ' + web_url + ' ('+str(round((time.time() - outtime), 2))+'s)')
+        logger.info('url_get(1/2) ' + web_url + ' ('+str(round((time.time() - outtime), 2))+'s)')
         try:
             driver.get(web_url)
-            logging.info('url_get(2/2) '+ 'URL Loading ('+ str(round((time.time() - outtime), 2))+'s)')
+            logger.info('url_get(2/2) '+ 'URL Loading ('+ str(round((time.time() - outtime), 2))+'s)')
         except TimeoutException as e:
-            logging.warning('url_get / time_out exception : '+ web_url)
+            logger.exception('url_get / time_out exception : '+ web_url)
             pass
         except Exception as e:  # 기타 오류 발생시 처리 정지
-            logging.critical('URL_GET Exception Occured : '+ str(e))
+            logger.exception('URL_GET Exception Occured : '+ str(e))
             break
         
         redirected_url = driver.current_url
-        logging.info('URL redirected : '+ redirected_url+ ' ('+ str(round(time.time()-pertime, 2))+'s)')
+        logger.info('URL redirected : '+ redirected_url+ ' ('+ str(round(time.time()-pertime, 2))+'s)')
         window['-OUTPUT-'].update(value=' Redirected → '+redirected_url+ ' ('+ str(round(time.time()-pertime, 2))+'s)\n', append=True)
         # print('redirected -->', driver.current_url)
         window.refresh() # 작업내용 출력 반영        
@@ -201,13 +197,13 @@ def get_monitoring(window, keyword):
         try:
             driver.save_screenshot(img_path + img_str)
         except TimeoutException as e:
-            logging.warning('Screenshot Timout')
+            logger.warning('Screenshot Timout')
             pass    
         except Exception as e:  # 기타 오류 발생시 처리 정지
-            logging.critical('SCREENSHOT Exception Occured : '+ str(e))
+            logger.critical('SCREENSHOT Exception Occured : '+ str(e))
             break
 
-        logging.info('Screenshot ('+ str(round(time.time()-pertime, 2))+'s)')
+        logger.info('Screenshot ('+ str(round(time.time()-pertime, 2))+'s)')
         window['-OUTPUT-'].update(value=' → captured ('+ str(round(time.time()-pertime, 2))+'s)', append=True)
         window.refresh() 
         #html 소스코드 취득
@@ -223,13 +219,13 @@ def get_monitoring(window, keyword):
         
         #html 저장
         file_name = save_html(row['url_no'], row['url_no'], html_source)
-        logging.info('HTML Save ('+ str(round(time.time()-pertime, 2))+'s)')
+        logger.info('HTML Save ('+ str(round(time.time()-pertime, 2))+'s)')
         window['-OUTPUT-'].update(value=' → html ('+ str(round(time.time()-pertime, 2))+'s) ', append=True)
         window.refresh()
         
         # Request Code 취득 : (200 : ok, 404 : page not found)
         req_code = get_request_code(redirected_url)
-        logging.info('Status : '+ str(req_code) + ' (' + str(round(time.time()-pertime, 2))+'s)')
+        logger.info('Status : '+ str(req_code) + ' (' + str(round(time.time()-pertime, 2))+'s)')
         
         t_color='#333333'
         if(req_code != 200):
@@ -295,10 +291,10 @@ def set_browser_option(bg_exec):
     
     return driver
 
-def my_org_list_combo():
+def my_grp_list_combo():
     
-    org_list = ['전 체']
-    result = model.get_org_list()
+    grp_list = ['전 체']
+    result = model.get_grp_list()
     
     # # DB조회결과 없는 경우
     # if( type(result) != 'list'):
@@ -306,17 +302,18 @@ def my_org_list_combo():
     
     for row in result:
         #org_list.append(row['org_title']+'['+row['org_no']+']')
-        org_list.append(row['org_title'])
+        grp_list.append(row['grp_title'])
 
-    return org_list
+    return grp_list
 
+@logger.catch 
 def save_html(url_no, mon_no, src_text):
     
     sysdate = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     # print(html_path + str(url_no)+'_'+str(sysdate)+'.html')
     file_name = str(url_no)+'_'+str(sysdate)+'.html'
     full_path_name = html_path + file_name
-    print(full_path_name)
+    # print(full_path_name)
     
     f = open(full_path_name, 'w', encoding='UTF-8')
     # print(type(src_text))
@@ -325,15 +322,17 @@ def save_html(url_no, mon_no, src_text):
 
     return file_name
     # DB insert
-    
+
+@logger.catch    
 def get_request_code(web_url):
+    status = None
     try:
-        response = requests.get(web_url, verify=False) # SSLerror 오류 발생 회피 
-        requests_code = response.status_code
+        response = requests.get(web_url, verify=False) # verify=False (SSLerror 오류 발생 회피)
+        status = response.status_code
     except:
         pass
 
-    return requests_code        
+    return status
 
 # 새창 뜨는 경우 닫기 기능
 def close_new_tabs(driver):
@@ -343,3 +342,4 @@ def close_new_tabs(driver):
         driver.close()
         tabs = driver.window_handles
     driver.switch_to.window(tabs[0])
+    

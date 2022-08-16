@@ -1,0 +1,1261 @@
+2022-08-16 08:53:58.083 | ERROR    | mini.library:get_monitoring:274 - url_get / time_out exception : https://gnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000029B1D281870>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000029B1D281870>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-7 (long_function_thread), started daemon 25672)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000029B1D281870>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x0000029B190E1BD0>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 25672)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x0000029B190E1900>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 25672)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-7 (long_function_thread), started daemon 25672)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x0000029B1CE3CE50>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-7 (long_function_thread), started daemon 25672)>
+    │    └ <function long_function_thread at 0x0000029B1B91F010>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 25672)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': False, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x0000029B1CE3CE50>
+              │    └ <function get_monitoring at 0x0000029B1CD004C0>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 271, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'https://gnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x0000029B1C06B6D0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="85e1d61df13337dee346b55a2749827e")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'https://gnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x0000029B1C06B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="85e1d61df13337dee346b55a2749827e")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 9.837\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x0000029B1BED0820>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x0000029B1D283250>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="85e1d61df13337dee346b55a2749827e")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 9.837\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 9.837
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:00:37.143 | ERROR    | mini.library:get_monitoring:275 - url_get / time_out exception : https://gnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB1E10>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB1E10>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-7 (long_function_thread), started daemon 19504)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB1E10>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000261F8A21BD0>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 19504)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000261F8A21900>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 19504)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-7 (long_function_thread), started daemon 19504)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-7 (long_function_thread), started daemon 19504)>
+    │    └ <function long_function_thread at 0x00000261FB23F010>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 19504)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>
+              │    └ <function get_monitoring at 0x00000261FC618430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 272, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'https://gnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x00000261FC18B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="ac1b38d7a2f305b241a73c1936cc0c21")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'https://gnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000261FC18B5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="ac1b38d7a2f305b241a73c1936cc0c21")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 9.858\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x00000261FBFF4790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x00000261FCBB37F0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="ac1b38d7a2f305b241a73c1936cc0c21")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 9.858\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 9.858
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:01:17.355 | ERROR    | mini.library:get_monitoring:275 - url_get / time_out exception : http://jnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB1E10>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB1E10>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-7 (long_function_thread), started daemon 19504)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB1E10>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000261F8A21BD0>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 19504)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000261F8A21900>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 19504)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-7 (long_function_thread), started daemon 19504)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-7 (long_function_thread), started daemon 19504)>
+    │    └ <function long_function_thread at 0x00000261FB23F010>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 19504)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>
+              │    └ <function get_monitoring at 0x00000261FC618430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 272, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'http://jnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x00000261FC18B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="ac1b38d7a2f305b241a73c1936cc0c21")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'http://jnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000261FC18B5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="ac1b38d7a2f305b241a73c1936cc0c21")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 6.081\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x00000261FBFF4790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x00000261FCBB37F0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="ac1b38d7a2f305b241a73c1936cc0c21")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 6.081\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 6.081
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:04:27.832 | ERROR    | mini.library:get_monitoring:275 - url_get / time_out exception : https://gnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB2020>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB2020>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-8 (long_function_thread), started daemon 9756)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB2020>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000261F8A21BD0>
+    └ <Thread(Thread-8 (long_function_thread), started daemon 9756)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000261F8A21900>
+    └ <Thread(Thread-8 (long_function_thread), started daemon 9756)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-8 (long_function_thread), started daemon 9756)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-8 (long_function_thread), started daemon 9756)>
+    │    └ <function long_function_thread at 0x00000261FB23F010>
+    └ <Thread(Thread-8 (long_function_thread), started daemon 9756)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>
+              │    └ <function get_monitoring at 0x00000261FC618430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 272, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'https://gnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x00000261FC18B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="42f78beaa0d53d870ac0ab2456a9b923")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'https://gnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000261FC18B5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="42f78beaa0d53d870ac0ab2456a9b923")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 9.863\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x00000261FBFF4790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x0000026181DE6FE0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="42f78beaa0d53d870ac0ab2456a9b923")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 9.863\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 9.863
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:05:08.511 | ERROR    | mini.library:get_monitoring:275 - url_get / time_out exception : http://jnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB2020>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB2020>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-8 (long_function_thread), started daemon 9756)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x00000261FCBB2020>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000261F8A21BD0>
+    └ <Thread(Thread-8 (long_function_thread), started daemon 9756)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000261F8A21900>
+    └ <Thread(Thread-8 (long_function_thread), started daemon 9756)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-8 (long_function_thread), started daemon 9756)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-8 (long_function_thread), started daemon 9756)>
+    │    └ <function long_function_thread at 0x00000261FB23F010>
+    └ <Thread(Thread-8 (long_function_thread), started daemon 9756)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>
+              │    └ <function get_monitoring at 0x00000261FC618430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 272, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'http://jnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x00000261FC18B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="42f78beaa0d53d870ac0ab2456a9b923")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'http://jnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000261FC18B5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="42f78beaa0d53d870ac0ab2456a9b923")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 6.004\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x00000261FBFF4790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x0000026181DE6FE0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="42f78beaa0d53d870ac0ab2456a9b923")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 6.004\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 6.004
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:08:14.018 | ERROR    | mini.library:get_monitoring:275 - url_get / time_out exception : https://gnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026181DE50F0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026181DE50F0>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-9 (long_function_thread), started daemon 18740)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026181DE50F0>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000261F8A21BD0>
+    └ <Thread(Thread-9 (long_function_thread), started daemon 18740)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000261F8A21900>
+    └ <Thread(Thread-9 (long_function_thread), started daemon 18740)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-9 (long_function_thread), started daemon 18740)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-9 (long_function_thread), started daemon 18740)>
+    │    └ <function long_function_thread at 0x00000261FB23F010>
+    └ <Thread(Thread-9 (long_function_thread), started daemon 18740)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>
+              │    └ <function get_monitoring at 0x00000261FC618430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 272, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'https://gnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x00000261FC18B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="4d063e2f1f61b6de03749dcd850ea97f")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'https://gnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000261FC18B5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="4d063e2f1f61b6de03749dcd850ea97f")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 9.831\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x00000261FBFF4790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x000002618295F460>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="4d063e2f1f61b6de03749dcd850ea97f")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 9.831\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 9.831
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:12:02.811 | ERROR    | mini.library:get_monitoring:275 - url_get / time_out exception : https://gnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002618295D570>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002618295D570>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-10 (long_function_thread), started daemon 25360)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002618295D570>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000261F8A21BD0>
+    └ <Thread(Thread-10 (long_function_thread), started daemon 25360)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000261F8A21900>
+    └ <Thread(Thread-10 (long_function_thread), started daemon 25360)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-10 (long_function_thread), started daemon 25360)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-10 (long_function_thread), started daemon 25360)>
+    │    └ <function long_function_thread at 0x00000261FB23F010>
+    └ <Thread(Thread-10 (long_function_thread), started daemon 25360)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>
+              │    └ <function get_monitoring at 0x00000261FC618430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 272, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'https://gnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x00000261FC18B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="8bf4b97ebe057f691082f63a56cd2b6b")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'https://gnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000261FC18B5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="8bf4b97ebe057f691082f63a56cd2b6b")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 9.853\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x00000261FBFF4790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x0000026181DFAAA0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="8bf4b97ebe057f691082f63a56cd2b6b")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 9.853\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 9.853
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:15:48.841 | ERROR    | mini.library:get_monitoring:275 - url_get / time_out exception : https://gnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026181DF8BB0>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026181DF8BB0>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-11 (long_function_thread), started daemon 25568)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026181DF8BB0>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000261F8A21BD0>
+    └ <Thread(Thread-11 (long_function_thread), started daemon 25568)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000261F8A21900>
+    └ <Thread(Thread-11 (long_function_thread), started daemon 25568)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-11 (long_function_thread), started daemon 25568)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-11 (long_function_thread), started daemon 25568)>
+    │    └ <function long_function_thread at 0x00000261FB23F010>
+    └ <Thread(Thread-11 (long_function_thread), started daemon 25568)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>
+              │    └ <function get_monitoring at 0x00000261FC618430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 272, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'https://gnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x00000261FC18B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="3fac4746d5c413a8838e3226a34bb7fc")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'https://gnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000261FC18B5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="3fac4746d5c413a8838e3226a34bb7fc")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 9.840\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x00000261FBFF4790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x0000026182C02C50>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="3fac4746d5c413a8838e3226a34bb7fc")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 9.840\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 9.840
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:19:43.200 | ERROR    | mini.library:get_monitoring:275 - url_get / time_out exception : https://gnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026182C00D60>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026182C00D60>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-12 (long_function_thread), started daemon 11324)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026182C00D60>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000261F8A21BD0>
+    └ <Thread(Thread-12 (long_function_thread), started daemon 11324)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000261F8A21900>
+    └ <Thread(Thread-12 (long_function_thread), started daemon 11324)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-12 (long_function_thread), started daemon 11324)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-12 (long_function_thread), started daemon 11324)>
+    │    └ <function long_function_thread at 0x00000261FB23F010>
+    └ <Thread(Thread-12 (long_function_thread), started daemon 11324)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>
+              │    └ <function get_monitoring at 0x00000261FC618430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 272, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'https://gnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x00000261FC18B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="f8f0b74512d69b2aedcb05d1181112d7")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'https://gnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000261FC18B5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="f8f0b74512d69b2aedcb05d1181112d7")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 9.850\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x00000261FBFF4790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x0000026182A079A0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="f8f0b74512d69b2aedcb05d1181112d7")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 9.850\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 9.850
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:23:28.936 | ERROR    | mini.library:get_monitoring:275 - url_get / time_out exception : https://gnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026182696B90>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026182696B90>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-13 (long_function_thread), started daemon 25428)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026182696B90>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000261F8A21BD0>
+    └ <Thread(Thread-13 (long_function_thread), started daemon 25428)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000261F8A21900>
+    └ <Thread(Thread-13 (long_function_thread), started daemon 25428)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-13 (long_function_thread), started daemon 25428)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-13 (long_function_thread), started daemon 25428)>
+    │    └ <function long_function_thread at 0x00000261FB23F010>
+    └ <Thread(Thread-13 (long_function_thread), started daemon 25428)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>
+              │    └ <function get_monitoring at 0x00000261FC618430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 272, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'https://gnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x00000261FC18B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="adf023dda6c79c4027ad1f741a3a0e0f")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'https://gnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000261FC18B5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="adf023dda6c79c4027ad1f741a3a0e0f")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 9.843\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x00000261FBFF4790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x0000026182B7AAD0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="adf023dda6c79c4027ad1f741a3a0e0f")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 9.843\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 9.843
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:24:10.803 | ERROR    | mini.library:get_monitoring:275 - url_get / time_out exception : http://jnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026182696B90>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026182696B90>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-13 (long_function_thread), started daemon 25428)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x0000026182696B90>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000261F8A21BD0>
+    └ <Thread(Thread-13 (long_function_thread), started daemon 25428)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000261F8A21900>
+    └ <Thread(Thread-13 (long_function_thread), started daemon 25428)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-13 (long_function_thread), started daemon 25428)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-13 (long_function_thread), started daemon 25428)>
+    │    └ <function long_function_thread at 0x00000261FB23F010>
+    └ <Thread(Thread-13 (long_function_thread), started daemon 25428)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000261FC735270>
+              │    └ <function get_monitoring at 0x00000261FC618430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 272, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'http://jnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x00000261FC18B640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="adf023dda6c79c4027ad1f741a3a0e0f")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'http://jnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000261FC18B5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="adf023dda6c79c4027ad1f741a3a0e0f")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 4.994\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x00000261FBFF4790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x0000026182B7AAD0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="adf023dda6c79c4027ad1f741a3a0e0f")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 4.994\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 4.994
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:27:15.013 | ERROR    | mini.library:get_monitoring:179 - url_get / time_out exception : https://gnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002BC395D1D20>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002BC395D1D20>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-7 (long_function_thread), started daemon 17544)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002BC395D1D20>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000002BC35421BD0>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 17544)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000002BC35421900>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 17544)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-7 (long_function_thread), started daemon 17544)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x000002BC39155300>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-7 (long_function_thread), started daemon 17544)>
+    │    └ <function long_function_thread at 0x000002BC37C5F010>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 17544)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': False, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x000002BC39155300>
+              │    └ <function get_monitoring at 0x000002BC3903C430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 176, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'https://gnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x000002BC38BAB640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="25ab918f73f806f0328db953d5afe1ff")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'https://gnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x000002BC38BAB5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="25ab918f73f806f0328db953d5afe1ff")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 9.825\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x000002BC38A14790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x000002BC395D3700>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="25ab918f73f806f0328db953d5afe1ff")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 9.825\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 9.825
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+
+2022-08-16 09:27:57.151 | ERROR    | mini.library:get_monitoring:179 - url_get / time_out exception : http://jnpolice.go.kr
+Traceback (most recent call last):
+
+  File "c:\Users\prius\.vscode\extensions\ms-python.python-2022.12.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py", line 1053, in __call__
+    ret = self.original_func(*self.args, **self.kwargs)
+          │    │              │    │       │    └ {}
+          │    │              │    │       └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002BC395D1D20>
+          │    │              │    └ ()
+          │    │              └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002BC395D1D20>
+          │    └ <bound method Thread._bootstrap of <Thread(Thread-7 (long_function_thread), started daemon 17544)>>
+          └ <_pydev_bundle.pydev_monkey._NewThreadStartupWithTrace object at 0x000002BC395D1D20>
+
+  File "C:\Python310\lib\threading.py", line 966, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000002BC35421BD0>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 17544)>
+
+  File "C:\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x000002BC35421900>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 17544)>
+
+  File "C:\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-7 (long_function_thread), started daemon 17544)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x000002BC39155300>, {'-GRP_LIST-': '전 체', '-SITE_TITLE-': '', '-SITE_URL-': '', '...
+    │    │        └ <Thread(Thread-7 (long_function_thread), started daemon 17544)>
+    │    └ <function long_function_thread at 0x000002BC37C5F010>
+    └ <Thread(Thread-7 (long_function_thread), started daemon 17544)>
+
+  File "d:\projects\miniuptime\main3.py", line 25, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': False, 'DISABLED': False, 'BG_EXE': True, 'TIME_OUT': 10}
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x000002BC39155300>
+              │    └ <function get_monitoring at 0x000002BC3903C430>
+              └ <module 'mini.library' from 'd:\\projects\\miniuptime\\mini\\library.py'>
+
+> File "d:\projects\miniuptime\mini\library.py", line 176, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'http://jnpolice.go.kr'
+    │      └ <function WebDriver.get at 0x000002BC38BAB640>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="25ab918f73f806f0328db953d5afe1ff")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 446, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'http://jnpolice.go.kr'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x000002BC38BAB5B0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="25ab918f73f806f0328db953d5afe1ff")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 434, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: 5.896\\n...
+    │    │             └ <function ErrorHandler.check_response at 0x000002BC38A14790>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x000002BC395D3700>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="25ab918f73f806f0328db953d5afe1ff")>
+
+  File "d:\projects\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A678B3+2193587]', '\tOrdinal0 [0x00A00681+1771137]', '\tOrdinal0 [0x009141A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: 5.896\n  (Session info: headless chrome=104.0.5112.81)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 5.896
+  (Session info: headless chrome=104.0.5112.81)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A678B3+2193587]
+	Ordinal0 [0x00A00681+1771137]
+	Ordinal0 [0x009141A8+803240]
+	Ordinal0 [0x009070AA+749738]
+	Ordinal0 [0x00905E94+745108]
+	Ordinal0 [0x00906498+746648]
+	Ordinal0 [0x0090F35F+783199]
+	Ordinal0 [0x0091A47B+828539]
+	Ordinal0 [0x0091D750+841552]
+	Ordinal0 [0x00906766+747366]
+	Ordinal0 [0x0091A2C9+828105]
+	Ordinal0 [0x0096DE25+1170981]
+	Ordinal0 [0x0095D5C6+1103302]
+	Ordinal0 [0x009377E0+948192]
+	Ordinal0 [0x009386E6+952038]
+	GetHandleVerifier [0x00D10CB2+2738370]
+	GetHandleVerifier [0x00D021B8+2678216]
+	GetHandleVerifier [0x00AF17AA+512954]
+	GetHandleVerifier [0x00AF0856+509030]
+	Ordinal0 [0x00A0743B+1799227]
+	Ordinal0 [0x00A0BB68+1817448]
+	Ordinal0 [0x00A0BC55+1817685]
+	Ordinal0 [0x00A15230+1856048]
+	BaseThreadInitThunk [0x7594FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A6E+238]
+

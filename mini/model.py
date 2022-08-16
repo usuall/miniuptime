@@ -1,6 +1,6 @@
 from mini.config import get_Config
 import pymysql
-import logging
+from loguru import logger
 
 # DB 환경에 맞게 입력할것
 
@@ -28,7 +28,7 @@ def with_cursor(original_func):
             return rv
         except Exception as e:
             code, msg = e.args
-            logging.error('MYSQL Error : ' + str(code) + ' '+ msg, 1)
+            logger.error('MYSQL Error : ' + str(code) + ' '+ msg, 1)
         
     return wrapper
 
@@ -39,27 +39,27 @@ def get_url_list(c):
     return c.fetchall()
 
 @with_cursor
-def get_org_list(c):
-    c.execute("SELECT * FROM tb_org order by org_title")
+def get_grp_list(c):
+    c.execute("SELECT * FROM tb_group order by grp_title")
     return c.fetchall()
 
 @with_cursor
-def get_org_url_list(c, keyword):
+def get_grp_url_list(c, keyword):
     
-    sql = f"select b.* from tb_org as a right outer join tb_url as b on a.org_no = b.org_no"
+    sql = f"select b.* from tb_group as a right outer join tb_url as b on a.grp_no = b.grp_no"
     if(keyword.get('DISABLED') == True):
         sql += f" where 1=1"
     else:
         sql += f" where b.url_fg=1"
 
-    if(keyword.get('ORG_LIST') != '전 체' and len(keyword.get('ORG_LIST')) > 0):
-        sql += f" and a.org_title='{keyword.get('ORG_LIST')}'"
+    if(keyword.get('GRP_LIST') != '전 체' and len(keyword.get('GRP_LIST')) > 0):
+        sql += f" and a.grp_title='{keyword.get('GRP_LIST')}'"
     if(keyword.get('SITE_TITLE')):
         sql += f" and b.url_title like '%{keyword.get('SITE_TITLE')}%'"
     if(keyword.get('SITE_URL')):
         sql += f" and b.url_addr like '%{keyword.get('SITE_URL')}%'"
     
-    print('- SQL : ' + sql )
+    logger.info('- SQL : ' + sql )
     c.execute(sql)
     
     return c.fetchall()
