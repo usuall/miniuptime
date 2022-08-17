@@ -4,6 +4,7 @@ from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoAlertPresentException
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import os
@@ -203,13 +204,24 @@ def get_monitoring(window, keyword):
         logger.info(step_add(total_step) + 'URL_GET(1/2) ' + web_url + diff_time(outtime))
         try:
             driver.get(web_url)
+            
+            #브라우져 비율 조정(이미지 사이즈 다운)
+            driver.execute_script("document.body.style.zoom='80%'")
+            
+            try:
+                driver.switch_to.alert.accept()
+            except NoAlertPresentException:
+                print('alert 발생 ')
+                pass
             logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ diff_time(outtime))
+            
         except TimeoutException as e:
             logger.exception('URL_GET / time_out exception : '+ web_url)
             pass
         except Exception as e:  # 기타 오류 발생시 처리 정지
             logger.exception('URL_GET Exception Occured : '+ str(e))
-            break
+            #break
+            pass
         
         redirected_url = driver.current_url       
         
@@ -243,7 +255,7 @@ def get_monitoring(window, keyword):
         if(IMAGE_MATCH == True):
             origin_img = img_str
             new_img = img_str
-
+            
             img_matching_point = image_match(origin_img, new_img)
             if(img_matching_point == -99.99):
                 logger.info(step_add(total_step) + 'image_match skipped(file is not exist.) ' + diff_time(pertime))
@@ -334,7 +346,9 @@ def get_monitoring(window, keyword):
     # 작업 종료후 버튼 활성화
     button_activate(window, 1)
 
-      
+    # 작업종료후 브라우져 닫기
+    driver.close()
+
     #처리건수 리턴
     return cnt
 
@@ -348,16 +362,23 @@ def set_browser_option(BG_EXE):
     options.add_argument("disable-gpu")
     # '시스템에 부착된 장치가 작동하지 않습니다' 오류 제거
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    
+    # 자바스크립트 비활성화
+    # options.add_experimental_option( "prefs",{'profile.managed_default_content_settings.javascript': 2})
+
     # 브라우져 창 최소화 유무
     if (BG_EXE == True):
         # 백그라운드 실행
-        options.add_argument('--window-size=1900,1080')
+        #options.add_argument('--window-size=1900,1080')
+        options.add_argument('--window-size=1280,1000')
         options.add_argument("--headless")
         # options.headless = True
 
     else:
         # driver.set_window_size(1920, 1080)
-        options.add_argument("--start-maximized")
+        options.add_argument('--window-size=1280,1000')
+
+        #options.add_argument("--start-maximized")
     
     # 브라우져 옵션 설정
     driver = webdriver.Chrome(lib_path + 'chromedriver.exe', options=options) # deprecated option
@@ -365,6 +386,8 @@ def set_browser_option(BG_EXE):
 
     # 명시적으로 대기(10초) 
     driver.implicitly_wait(time_to_wait=10)
+    
+    
     
     # InsecureRequestWarning  메시지 제거
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -439,8 +462,8 @@ def diff_time(pertime, type = 0):
 # 이미지 유사도 체크    
 def image_match(origin_img, new_img):
 
-    # logger.info('origin_img --> ' + img_origin_path + origin_img)
-    # logger.info('new_img --> ' + img_daily_path + new_img)
+    logger.info('org_img --> ' + img_origin_path + origin_img)
+    logger.info('new_img --> ' + img_daily_path + new_img)
     file1 = img_origin_path + origin_img 
     file2 = img_daily_path + new_img
     

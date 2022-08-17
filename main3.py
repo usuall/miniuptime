@@ -49,7 +49,7 @@ def main():
         [sg.Text('사이트명'), sg.InputText('', key='-SITE_TITLE-', size=(30, 1), tooltip='사이트명을 입력하세요.'),
          sg.Text('  URL명'), sg.InputText('', key='-SITE_URL-', size=(30, 1), tooltip='도메인(URL)을 입력하세요.')],
         [sg.CBox('반복 점검', key='-REPEAT-', default=True, tooltip='체크 대상을 반복하여 점검합니다.'), 
-         sg.CBox('비활성화 URL 포함', key='-DISABLED-'), sg.CBox('백그라운드 실행', key='-BG_EXE-', default=True, tooltip='크롬 브라우져의 실행화면이 표시되지 않음')],
+         sg.CBox('비활성화 URL 포함', key='-DISABLED-'), sg.CBox('백그라운드 실행', key='-BG_EXE-', default=False, tooltip='크롬 브라우져의 실행화면이 표시되지 않음')],
         [sg.CBox('이미지 유사도 검증', key='-IMAGE_MATCH-', default=True), sg.CBox('HTML 유사도 검증(작업중)', key='-HTML_MATCH-', default=True)],
         [sg.Text('타임아웃'), sg.Radio('5초',  group_id="RADIO1", key='-TIMEOUT1-'),
                             sg.Radio('10초', group_id="RADIO1", default=True, key='-TIMEOUT2-'),
