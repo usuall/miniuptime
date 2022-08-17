@@ -60,7 +60,7 @@ def get_sysdate():
 
 def before_main():
     
-    # 저장 디렉토리 존재 확인
+    # 저장 디렉토리 존재 확인 및 생성
     isExist_dir(data_path)
     isExist_dir(img_path)
     isExist_dir(img_origin_path)
@@ -192,7 +192,8 @@ def get_monitoring(window, keyword):
         window.refresh() 
 
         # 브라우져 URL 탐색
-        web_url = row['url_type']+row['url_addr']
+        # web_url = row['url_type']+row['url_addr']
+        web_url = row['url_addr']
         
         # 브라우져 무한로딩시 timeout 회피(jnpolice.go.kr 사례) / 해결하는데 5일 걸림
         TIME_OUT = keyword.get('TIME_OUT') #디폴트 10초
@@ -359,8 +360,8 @@ def set_browser_option(BG_EXE):
         options.add_argument("--start-maximized")
     
     # 브라우져 옵션 설정
-    # driver = webdriver.Chrome(lib_path + 'chromedriver.exe', options=options) # deprecated option
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(lib_path + 'chromedriver.exe', options=options) # deprecated option
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
     # 명시적으로 대기(10초) 
     driver.implicitly_wait(time_to_wait=10)
