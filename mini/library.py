@@ -209,6 +209,7 @@ def get_monitoring(window, keyword):
         try:
             driver.get(web_url)
             
+            
             #브라우져 비율 조정(이미지 사이즈 다운)
             # driver.execute_script("document.body.style.zoom='80%'")
             
@@ -228,6 +229,10 @@ def get_monitoring(window, keyword):
             pass
         
         redirected_url = driver.current_url       
+        
+        #팝업 레이어 
+        driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
+        
         
         logger.info(step_add(total_step) + 'URL redirected : '+ redirected_url + diff_time(pertime))
         window['-OUTPUT-'].update(value=' Redirected → '+redirected_url + diff_time(pertime), append=True)
