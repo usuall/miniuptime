@@ -81,3 +81,14 @@ def update_url_monitoring(c, tb_url):
     sql_val = (tb_url['url_redirected'], tb_url['url_status'], tb_url['url_no'])
     c.execute(sql_data, sql_val)
     
+    
+        
+'''
+# 오류 리스트 출력
+SELECT *, round(100-(mon_img_match1*100), 2) as diff_rate
+FROM `tb_monitor` 
+WHERE 1=1 
+and mon_img_match1 >= 0.4 
+order by mon_dt desc;
+
+'''
