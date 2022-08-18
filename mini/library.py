@@ -14,7 +14,7 @@ import requests
 from loguru import logger
 import sys
 from image_match.goldberg import ImageSignature
-
+from PIL import Image
 
 # 환경 설정값 취득
 properties = get_Config()
@@ -80,7 +80,7 @@ def isExist_dir(path):
 def button_activate(window, activate):
     
     # 화면 요소ID
-    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-BUTTON_START-')
+    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-BUTTON_START-')
     #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
     
     # 버튼 활성화 전환
@@ -117,6 +117,7 @@ def getCondition(window, values):
     # window['-OUTPUT-'].update(value='- 실행시간 : ' + str1 + '\n', append=True)
     window['-OUTPUT-'].update(value='--------- <검색조건> ---------\n', append=True)
     window['-OUTPUT-'].update(value='- 카테고리 : ' + values['-GRP_LIST-'] + '\n', append=True)
+    window['-OUTPUT-'].update(value='- URL번호 : ' + values['-URL_NO-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- 사이트명 : ' + values['-SITE_TITLE-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- URL명 : ' + values['-SITE_URL-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- 반복 점검 : ' + str(values['-REPEAT-']) + '\n', append=True)
@@ -129,6 +130,7 @@ def getCondition(window, values):
 
     #검색 조건 저장
     keyword = { 'GRP_LIST':     values['-GRP_LIST-'], 
+                'URL_NO':     values['-URL_NO-'], 
                 'SITE_TITLE':   values['-SITE_TITLE-'], 
                 'SITE_URL':     values['-SITE_URL-'], 
                 'REPEAT':       values['-REPEAT-'], 
@@ -140,6 +142,7 @@ def getCondition(window, values):
     
     logger.info('--------- <모니터링 시작> ---------')
     logger.info('카테고리 : ' + values['-GRP_LIST-'])
+    logger.info('URL번호 : ' + values['-URL_NO-'])
     logger.info('사이트명 : ' + values['-SITE_TITLE-'])
     logger.info('URL명 : ' + values['-SITE_URL-'])
     logger.info('반복 점검 : ' + str(values['-REPEAT-']))
@@ -158,6 +161,7 @@ def getCondition(window, values):
 # 검색결과 모니터링
 def get_monitoring(window, keyword):    
     
+    global driver
     global _step_
     
     
@@ -206,12 +210,12 @@ def get_monitoring(window, keyword):
             driver.get(web_url)
             
             #브라우져 비율 조정(이미지 사이즈 다운)
-            driver.execute_script("document.body.style.zoom='80%'")
+            # driver.execute_script("document.body.style.zoom='80%'")
             
             try:
                 driver.switch_to.alert.accept()
             except NoAlertPresentException:
-                print('alert 발생 ')
+                logger.info('NoAlertPresentException ... pass ')
                 pass
             logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ diff_time(outtime))
             
@@ -232,12 +236,20 @@ def get_monitoring(window, keyword):
         # 이미지 캡쳐 (브라우져 크기 설정후 캡쳐 사이즈 지정 필요)
         # redirect 된 url로 이미지 캡쳐 필요
         #img_str = str(row['url_no'])+ "__" + row['url_addr'] + ".png"
-        img_str = str(row['url_no'])+ "_site.png"
+        
+        #img_str = str(row['url_no'])+ "_site.png"        
+        img_str = str('{0:04}'.format(row['url_no']))+ "_site.png"
+        
         time.sleep(2) # 화면캡쳐 전 2초대기
+        
         
         # 화면 캡쳐
         try:
-            driver.save_screenshot(img_daily_path + img_str)
+            # 특정 사이즈 저장
+            # driver.save_screenshot(img_daily_path + img_str)
+
+            # Full 스크린 저장
+            fullpage_screenshot(driver, img_daily_path + img_str)
         except TimeoutException as e:
             logger.warning('Screenshot Timout')
             pass    
@@ -260,7 +272,7 @@ def get_monitoring(window, keyword):
             if(img_matching_point == -99.99):
                 logger.info(step_add(total_step) + 'image_match skipped(file is not exist.) ' + diff_time(pertime))
             else:
-                if(img_matching_point < 0.4):
+                if(img_matching_point >= 40):
                     img_match = '(OK) '
                 else:
                     img_match = '(NG) '
@@ -287,8 +299,13 @@ def get_monitoring(window, keyword):
         
         # Request Code 취득 ----------------------------------- #
         # (200 : ok, 404 : page not found)
-        req_code = get_request_code(redirected_url)
-        logger.info(step_add(total_step) + 'Status : '+ str(req_code) + diff_time(pertime))
+        try:
+            req_code = get_request_code(redirected_url)
+            logger.info(step_add(total_step) + 'Status : '+ str(req_code) + diff_time(pertime))
+        except Exception as e:  # 기타 오류 발생시 처리 정지
+            logger.critical('Request Code Exception Occured : '+ str(e))
+            req_code = 'FAILED'
+            pass  
         
         t_color='#333333'
         if(req_code != 200):
@@ -321,9 +338,6 @@ def get_monitoring(window, keyword):
         tb_url['url_no'] = row['url_no']
         tb_url['url_redirected'] = redirected_url
         tb_url['url_status'] = req_code
-
-        
-        
         
         #모니터링 데이터 DB(TB_MONITOR)
         model.add_monitoring(tb_monitor)
@@ -414,7 +428,10 @@ def save_html(url_no, src_text):
     
     sysdate = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     # print(html_path + str(url_no)+'_'+str(sysdate)+'.html')
-    html_file = str(url_no)+'_'+str(sysdate)+'.html'
+    
+    # html_file = str(url_no)+'_'+str(sysdate)+'.html'
+    html_file = str('{0:04}'.format(url_no))+'_'+str(sysdate)+'.html'
+    
     full_path_name = html_path + html_file
     # print(full_path_name)
     
@@ -473,9 +490,94 @@ def image_match(origin_img, new_img):
         a = gis.generate_signature(file1)
         b = gis.generate_signature(file2)
     
+        # 0.4% 이하 유사도 높음
         result = gis.normalized_distance(a, b)
+        
+        # 100% 비율로 환산(0.4% 이하 => 60% 이상 유사도 높음)
+        result = round((100-(result * 100)),2)
         return result
     else:
-        logger.info('images_match skipped')
-        result = -99.99
+        logger.info('Original image is nothing ... Image_matching skipped')
+        result = -1 # 스킵(상태) = -1
         return result
+
+@logger.catch    
+def fullpage_screenshot(driver, file):
+
+        # print("Starting chrome full page screenshot workaround ...")
+        total_width = driver.execute_script("return document.body.offsetWidth")
+        total_height = driver.execute_script("return document.body.parentNode.scrollHeight")
+        viewport_width = driver.execute_script("return document.body.clientWidth")
+        viewport_height = driver.execute_script("return window.innerHeight")
+        logger.info("FullpageScreenshot_Total: ({0}, {1}), Viewport: ({2},{3})".format(total_width, total_height, viewport_width, viewport_height))
+        rectangles = []
+
+        i = 0
+        while i < total_height:
+            ii = 0
+            top_height = i + viewport_height
+
+            if top_height > total_height:
+                top_height = total_height
+
+            while ii < total_width:
+                top_width = ii + viewport_width
+
+                if top_width > total_width:
+                    top_width = total_width
+
+                #print("Appending rectangle ({0},{1},{2},{3})".format(ii, i, top_width, top_height))
+                rectangles.append((ii, i, top_width,top_height))
+
+                ii = ii + viewport_width
+
+            i = i + viewport_height
+
+        stitched_image = Image.new('RGB', (total_width, total_height))
+        previous = None
+        part = 0
+
+        for rectangle in rectangles:
+            if not previous is None:
+                driver.execute_script("window.scrollTo({0}, {1})".format(rectangle[0], rectangle[1]))
+                #print("Scrolled To ({0},{1})".format(rectangle[0], rectangle[1]))
+                time.sleep(0.2)
+
+            file_name = "part_{0}.png".format(part)
+            #print("Capturing {0} ...".format(file_name))
+
+            driver.get_screenshot_as_file(file_name)
+            screenshot = Image.open(file_name)
+
+            if rectangle[1] + viewport_height > total_height:
+                offset = (rectangle[0], total_height - viewport_height)
+            else:
+                offset = (rectangle[0], rectangle[1])
+
+            # print("Adding to stitched image with offset ({0}, {1})".format(offset[0],offset[1]))
+            stitched_image.paste(screenshot, offset)
+
+            del screenshot
+            os.remove(file_name)
+            part = part + 1
+            previous = rectangle
+
+        stitched_image.save(file)
+        # print("Finishing chrome full page screenshot workaround...")
+        return True
+    
+
+def after_main():
+    global driver
+    
+    try:
+        # 작업종료후 브라우져 닫기
+        driver.close()
+        print("11111111111  =>",type(driver))
+        logger.info("Chrome Browser Closed")
+    except:
+        # 시작하지 않고 종료시 driver 변수 에러 방지(NameError: name 'driver' is not defined)
+        pass
+    
+    
+    

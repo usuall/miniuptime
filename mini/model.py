@@ -58,6 +58,8 @@ def get_grp_url_list(c, keyword):
         sql += f" and b.url_title like '%{keyword.get('SITE_TITLE')}%'"
     if(keyword.get('SITE_URL')):
         sql += f" and b.url_addr like '%{keyword.get('SITE_URL')}%'"
+    if(keyword.get('URL_NO')):
+        sql += f" and b.url_no = '{keyword.get('URL_NO')}'"
         
     #sql += f" order by b.url_lastest_check_dt desc"
     sql += f" order by rand()"

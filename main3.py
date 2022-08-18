@@ -44,7 +44,8 @@ def main():
         [sg.Text('(Uptime Mini) Health Check Agent', size=(30, 1), font=("Helvetica", 25))],
         [sg.Text('Uptime Mini는 URL 모니터링 툴입니다. 검색조건을 입력하고 실행하세요')],
         # [sg.InputText('', key='in1')],
-        [sg.Text('카테고리'), sg.Combo(values=(grp_list), default_value='전 체', size=(30, 1), key='-GRP_LIST-', enable_events=False, tooltip='카테고리를 선택해주세요.')],
+        [sg.Text('카테고리'), sg.Combo(values=(grp_list), default_value='전 체', size=(30, 1), key='-GRP_LIST-', enable_events=False, tooltip='카테고리를 선택해주세요.'),
+         sg.Text('URL번호'), sg.InputText('', key='-URL_NO-', size=(10, 1), tooltip='URL 번호')],
         # [sg.Listbox(values=(org_list), size=(30, 1), key='-ORG_LIST-', enable_events=True)],
         [sg.Text('사이트명'), sg.InputText('', key='-SITE_TITLE-', size=(30, 1), tooltip='사이트명을 입력하세요.'),
          sg.Text('  URL명'), sg.InputText('', key='-SITE_URL-', size=(30, 1), tooltip='도메인(URL)을 입력하세요.')],
@@ -96,6 +97,7 @@ def main():
                 long_function(window, values)                
                 
         elif event == '-BUTTON_EXIT-':
+            mini.after_main()
             logger.info (' --- BUTTON_EXIT --- ')
             break
 
@@ -141,5 +143,6 @@ if __name__ == '__main__':
 
     mini.before_main()    
     main()
+    
     
          
