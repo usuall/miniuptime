@@ -10,5 +10,4 @@ venv.bat
 test/
 data/html/
 data/logs/
-data/capture/
-data/public_html
+data/public_html/capture/
