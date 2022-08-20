@@ -12,3 +12,9 @@ data/html/
 data/logs/
 data/capture/
 data/public_html
+
+.idea
+build
+dist
+*.exe
+*.spec

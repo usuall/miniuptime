@@ -31,18 +31,19 @@ def long_function(window, values):
     threading.Thread(target=long_function_thread, args=(window, values), daemon=True).start()
     
 def main():
-    global keyword, logger
+    global keyword, logger, logo
     
     #모니터링 실시
     
     #카테고리 취득
-    grp_list = mini.my_grp_list_combo()
-
+    grp_list = mini.my_grp_list_combo()    
+    
     # GUI 실행
     sg.theme('TanBlue')
     layout = [
-        [sg.Text('(Uptime Mini) Health Check Agent', size=(30, 1), font=("Helvetica", 25))],
-        [sg.Text('Uptime Mini는 URL 모니터링 툴입니다. 검색조건을 입력하고 실행하세요')],
+        [sg.Image(filename=logo, key='key1', pad=((5, 0), (10, 10)))],
+        # [sg.Text('(Uptime Mini) Health Check Agent', size=(30, 1), font=("Helvetica", 25))],
+        # [sg.Text('Uptime Stream is URL Health Check Manager')],
         # [sg.InputText('', key='in1')],
         [sg.Text('카테고리'), sg.Combo(values=(grp_list), default_value='전 체', size=(30, 1), key='-GRP_LIST-', enable_events=False, tooltip='카테고리를 선택해주세요.'),
          sg.Text('URL번호'), sg.InputText('', key='-URL_NO-', size=(10, 1), tooltip='URL 번호')],
@@ -65,7 +66,9 @@ def main():
     ]
     
     #window = sg.Window('Uptime Manager for NIRS', layout, default_element_size=(40, 1), grab_anywhere=False, location=sg.user_settings_get_entry('-LOCATION-', (None, None)))
-    window = sg.Window('Uptime Manager for NIRS', layout, default_element_size=(40, 1), grab_anywhere=True )
+    window = sg.Window('Uptime Stream for NIRS', layout, default_element_size=(40, 1), grab_anywhere=True,
+                       icon=ico
+                       )
 
     stop_event = Event()
     cnt = 0
@@ -107,7 +110,7 @@ def main():
             # break
 
         elif event == '-BUTTON_HELP-':
-            help_text = '''Uptime Mini는 URL Health Check Agent 입니다.
+            help_text = '''Uptime Stream is URL Health Check Manager.
             
 ■ 기능설명
 - 시뮬레이션 방식으로 브라우져가 URL을 접속하여 확인
@@ -133,14 +136,27 @@ def main():
             #print(event, values)
     
     window.close()
+
+
+def init():
+    global logo, ico
     
+    properties = mini.get_Config()
+    config_sys = properties['SYSTEM']
+    # 각종 디렉토리 경로 지정
+    project_path = os.path.abspath(os.getcwd()) + '\\'
+    data_path = project_path + config_sys['DATA_PATH'] + '\\'
+    logo = data_path + 'uptime_s2.png'
+    ico = data_path + 'logo.ico'
+        
 if __name__ == '__main__':
-   
+    
+    
     # root_logger = logging.getLogger()
     # root_logger.debug("디버그")
     # root_logger.info("정보")
     # root_logger.error("오류")
-
+    init()
     mini.before_main()    
     main()
     

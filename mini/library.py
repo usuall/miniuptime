@@ -3,6 +3,7 @@ import mini.model as model
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoAlertPresentException
 from webdriver_manager.chrome import ChromeDriverManager
@@ -70,6 +71,7 @@ def before_main():
     isExist_dir(html_origin_path)
     isExist_dir(html_daily_path)
     isExist_dir(logs_path)
+    
 
     
 def isExist_dir(path):    
@@ -130,7 +132,7 @@ def getCondition(window, values):
 
     #검색 조건 저장
     keyword = { 'GRP_LIST':     values['-GRP_LIST-'], 
-                'URL_NO':     values['-URL_NO-'], 
+                'URL_NO':       values['-URL_NO-'], 
                 'SITE_TITLE':   values['-SITE_TITLE-'], 
                 'SITE_URL':     values['-SITE_URL-'], 
                 'REPEAT':       values['-REPEAT-'], 
@@ -211,7 +213,11 @@ def get_monitoring(window, keyword):
             
             
             #브라우져 비율 조정(이미지 사이즈 다운)
-            # driver.execute_script("document.body.style.zoom='80%'")
+            # driver.execute_script("document.body.style.zoom='80%'")            
+            
+            # c1 = driver.find_elements(By.CSS_SELECTOR("input[type='checkbox']"))
+            # c2 = c1.count()
+            # print ('checkbox --> ', c1, c2)
             
             try:
                 driver.switch_to.alert.accept()
@@ -220,18 +226,23 @@ def get_monitoring(window, keyword):
                 pass
             logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ diff_time(outtime))
             
-        except TimeoutException as e:
+        except TimeoutException:
             logger.exception('URL_GET / time_out exception : '+ web_url)
             pass
-        except Exception as e:  # 기타 오류 발생시 처리 정지
-            logger.exception('URL_GET Exception Occured : '+ str(e))
+        except Exception:  # 기타 오류 발생시 처리 정지
+            logger.exception('URL_GET Exception Occured ')
             #break
             pass
         
         redirected_url = driver.current_url       
         
         #팝업 레이어 
-        driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
+        #driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
+        # driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
+        
+        
+        #do_checkbox_checked(driver)
+        
         
         
         logger.info(step_add(total_step) + 'URL redirected : '+ redirected_url + diff_time(pertime))
@@ -371,6 +382,14 @@ def get_monitoring(window, keyword):
     #처리건수 리턴
     return cnt
 
+
+def do_checkbox_checked(driver):
+    #checkboxes = driver.find_elements_by_css_selector("#data_configuration_datamaps_ct_fields_body input[type='checkbox']")
+    
+    for checkbox in checkboxes:
+        checkbox.click()
+        
+        
 # 브라우저 기본 설정
 def set_browser_option(BG_EXE):
     
@@ -421,6 +440,10 @@ def my_grp_list_combo():
     # # DB조회결과 없는 경우
     # if( type(result) != 'list'):
     #     return False
+    # print ('11',type(result))
+    # if(type(result) == "<class 'NoneType'>"):
+    #     print ('22',type(result))
+    
     
     for row in result:
         #org_list.append(row['org_title']+'['+row['org_no']+']')
