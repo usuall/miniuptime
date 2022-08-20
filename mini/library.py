@@ -27,7 +27,8 @@ config_db = properties['DATABASE']
 project_path = os.path.abspath(os.getcwd()) + '\\'
 lib_path = project_path + config_sys['LIB_PATH'] + '\\'  # 라이브러리 경로
 data_path = project_path + config_sys['DATA_PATH'] + '\\' 
-img_path = data_path + config_sys['IMG_PATH'] + '\\'   # screenshot 경로
+web_path = data_path + config_sys['WEB_PATH'] + '\\'   # apache_htdocs 경로
+img_path = web_path + config_sys['IMG_PATH'] + '\\'   # screenshot 경로
 img_origin_path = img_path + '\\' + config_sys['IMG_ORIGIN_PATH'] + '\\'
 img_daily_path = img_path + '\\' + config_sys['IMG_DAILY_PATH'] + '\\'
 html_path = data_path + config_sys['HTML_PATH'] + '\\'     # html 경로
@@ -64,6 +65,7 @@ def before_main():
     
     # 저장 디렉토리 존재 확인 및 생성
     isExist_dir(data_path)
+    isExist_dir(web_path)
     isExist_dir(img_path)
     isExist_dir(img_origin_path)
     isExist_dir(img_daily_path)
@@ -237,12 +239,7 @@ def get_monitoring(window, keyword):
         redirected_url = driver.current_url       
         
         #팝업 레이어 
-        #driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
-        # driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
-        
-        
-        #do_checkbox_checked(driver)
-        
+        driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
         
         
         logger.info(step_add(total_step) + 'URL redirected : '+ redirected_url + diff_time(pertime))
@@ -382,14 +379,6 @@ def get_monitoring(window, keyword):
     #처리건수 리턴
     return cnt
 
-
-def do_checkbox_checked(driver):
-    #checkboxes = driver.find_elements_by_css_selector("#data_configuration_datamaps_ct_fields_body input[type='checkbox']")
-    
-    for checkbox in checkboxes:
-        checkbox.click()
-        
-        
 # 브라우저 기본 설정
 def set_browser_option(BG_EXE):
     

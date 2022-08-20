@@ -12,9 +12,12 @@ data/html/
 data/logs/
 data/capture/
 data/public_html
-
+data/htdocs/capture/
+data/htdocs/tabler-dev/
 .idea
 build
 dist
 *.exe
 *.spec
+
+
