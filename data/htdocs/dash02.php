@@ -54,8 +54,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
 
 }
-$smarty->debugging = true;
-// var_dump($result);
+// $smarty->debugging = true;
 $smarty->assign('result', $result);
 
 //template파일 설정
