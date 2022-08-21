@@ -213,6 +213,11 @@ def get_monitoring(window, keyword):
         try:
             driver.get(web_url)
             
+            # 응답시간 취득 
+            # domComplete 시간이 취득안되는 경우가 있어 보류
+            # resp_time = getResponseTime(driver)
+            
+            
             
             #브라우져 비율 조정(이미지 사이즈 다운)
             # driver.execute_script("document.body.style.zoom='80%'")            
@@ -226,7 +231,11 @@ def get_monitoring(window, keyword):
             except NoAlertPresentException:
                 logger.info('NoAlertPresentException ... pass ')
                 pass
-            logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ diff_time(outtime))
+            
+            # 응답시간 취득
+            resp_time = str(round(time.time()-outtime, 2))
+            
+            logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ resp_time)
             
         except TimeoutException:
             logger.exception('URL_GET / time_out exception : '+ web_url)
@@ -239,7 +248,7 @@ def get_monitoring(window, keyword):
         redirected_url = driver.current_url       
         
         #팝업 레이어 
-        driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
+        # driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
         
         
         logger.info(step_add(total_step) + 'URL redirected : '+ redirected_url + diff_time(pertime))
@@ -342,6 +351,7 @@ def get_monitoring(window, keyword):
         img_matching_point = image_match( img_str , img_str) # 이미지 유사도
         
         tb_monitor['url_no'] = row['url_no']
+        tb_monitor['mon_response_time'] = resp_time
         tb_monitor['status_code'] = req_code
         tb_monitor['html_file'] = html_file
         tb_monitor['mon_image'] = img_str   # img_daily_path + img_str
@@ -378,6 +388,32 @@ def get_monitoring(window, keyword):
 
     #처리건수 리턴
     return cnt
+
+# 응답시간 취득
+def getResponseTime(driver):
+    
+    """
+    Use Selenium to Measure Web Timing
+    Performance Timing Events flow
+    navigationStart -> redirectStart -> redirectEnd -> fetchStart -> domainLookupStart -> domainLookupEnd
+    -> connectStart -> connectEnd -> requestStart -> responseStart -> responseEnd
+    -> domLoading -> domInteractive -> domContentLoaded -> domComplete -> loadEventStart -> loadEventEnd
+    """
+    navigationStart = driver.execute_script("return window.performance.timing.navigationStart")
+    responseStart = driver.execute_script("return window.performance.timing.responseStart")
+    domComplete = driver.execute_script("return window.performance.timing.domComplete")
+
+    # domComplete 시간이 취득안되는 경우가 있어 보류
+    
+    backendPerformance = responseStart - navigationStart
+    frontendPerformance = domComplete - responseStart
+    resp_time = domComplete - navigationStart
+
+    logger.info ("Back End: %s" % backendPerformance)
+    logger.info ("Front End: %s" % frontendPerformance)
+    logger.info ("Response Time: %s" % resp_time)
+    
+    return resp_time
 
 # 브라우저 기본 설정
 def set_browser_option(BG_EXE):

@@ -139,12 +139,13 @@ def main():
     window.close()
 
 
-def init():
+def init_process():
     global logo, ico
     
     properties = mini.get_Config()
     config_sys = properties['SYSTEM']
-    # 각종 디렉토리 경로 지정
+    
+    # 각종 디렉토리 경로
     project_path = os.path.abspath(os.getcwd()) + '\\'
     data_path = project_path + config_sys['DATA_PATH'] + '\\'
     logo = data_path + 'uptime_s2.png'
@@ -157,7 +158,7 @@ if __name__ == '__main__':
     # root_logger.debug("디버그")
     # root_logger.info("정보")
     # root_logger.error("오류")
-    init()
+    init_process()
     mini.before_main()    
     main()
     
