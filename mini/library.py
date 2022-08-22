@@ -580,7 +580,7 @@ def after_main():
     try:
         # 작업종료후 브라우져 닫기
         driver.close()
-        print("11111111111  =>",type(driver))
+        print("작업 종료 ..  =>",type(driver))
         logger.info("Chrome Browser Closed")
     except:
         # 시작하지 않고 종료시 driver 변수 에러 방지(NameError: name 'driver' is not defined)
