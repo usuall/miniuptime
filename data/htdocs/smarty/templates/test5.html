@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>초간단 테이블</title>
+</head>
+<body>
+	{* Smarty *}
+	Hello {$name}, welcome to Smarty!
+    <table border="1">
+	<th>테이블</th>
+	<th>만들기</th>
+	<tr><!-- 첫번째 줄 시작 -->
+	    <td>첫번째 칸</td>
+	    <td>두번째 칸</td>
+	</tr><!-- 첫번째 줄 끝 -->
+	<tr><!-- 두번째 줄 시작 -->
+	    <td>{$name}</td>
+	    <td>두번째 칸</td>
+	</tr><!-- 두번째 줄 끝 -->
+    </table>
+
+Hello {$firstname} {$lastname}, glad to see you can make it.
+<br />
+{* これは動作しません。変数名は大文字小文字を区別するからです。 *}
+This weeks meeting is in {$meetingplace}.  
+{* こちらは動作します *}
+This weeks meeting is in {$meetingPlace}.
+<br />
+
+
+{$meetingplace22}.
+
+{$Contacts.fax}<br />
+{$Contacts.email}<br />
+{* you can print arrays of arrays as well *}
+{$Contacts.phone.home}<br />
+{$Contacts.phone.cell}<br />
+
+
+</body>
+</html>

@@ -10,5 +10,12 @@ venv.bat
 test/
 data/html/
 data/logs/
+data/capture/
 data/htdocs/capture/
 data/htdocs/tabler-dev/
+.idea
+build
+dist
+*.exe
+*.spec
+data/htdocs/smarty/templates_c/

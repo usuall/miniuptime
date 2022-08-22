@@ -3,6 +3,7 @@ import mini.model as model
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoAlertPresentException
 from webdriver_manager.chrome import ChromeDriverManager
@@ -72,6 +73,7 @@ def before_main():
     isExist_dir(html_origin_path)
     isExist_dir(html_daily_path)
     isExist_dir(logs_path)
+    
 
     
 def isExist_dir(path):    
@@ -132,7 +134,7 @@ def getCondition(window, values):
 
     #검색 조건 저장
     keyword = { 'GRP_LIST':     values['-GRP_LIST-'], 
-                'URL_NO':     values['-URL_NO-'], 
+                'URL_NO':       values['-URL_NO-'], 
                 'SITE_TITLE':   values['-SITE_TITLE-'], 
                 'SITE_URL':     values['-SITE_URL-'], 
                 'REPEAT':       values['-REPEAT-'], 
@@ -211,22 +213,35 @@ def get_monitoring(window, keyword):
         try:
             driver.get(web_url)
             
+            # 응답시간 취득 
+            # domComplete 시간이 취득안되는 경우가 있어 보류
+            # resp_time = getResponseTime(driver)
+            
+            
             
             #브라우져 비율 조정(이미지 사이즈 다운)
-            # driver.execute_script("document.body.style.zoom='80%'")
+            # driver.execute_script("document.body.style.zoom='80%'")            
+            
+            # c1 = driver.find_elements(By.CSS_SELECTOR("input[type='checkbox']"))
+            # c2 = c1.count()
+            # print ('checkbox --> ', c1, c2)
             
             try:
                 driver.switch_to.alert.accept()
             except NoAlertPresentException:
                 logger.info('NoAlertPresentException ... pass ')
                 pass
-            logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ diff_time(outtime))
             
-        except TimeoutException as e:
+            # 응답시간 취득
+            resp_time = str(round(time.time()-outtime, 2))
+            
+            logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ resp_time)
+            
+        except TimeoutException:
             logger.exception('URL_GET / time_out exception : '+ web_url)
             pass
-        except Exception as e:  # 기타 오류 발생시 처리 정지
-            logger.exception('URL_GET Exception Occured : '+ str(e))
+        except Exception:  # 기타 오류 발생시 처리 정지
+            logger.exception('URL_GET Exception Occured ')
             #break
             pass
         
@@ -336,6 +351,7 @@ def get_monitoring(window, keyword):
         img_matching_point = image_match( img_str , img_str) # 이미지 유사도
         
         tb_monitor['url_no'] = row['url_no']
+        tb_monitor['mon_response_time'] = resp_time
         tb_monitor['status_code'] = req_code
         tb_monitor['html_file'] = html_file
         tb_monitor['mon_image'] = img_str   # img_daily_path + img_str
@@ -372,6 +388,32 @@ def get_monitoring(window, keyword):
 
     #처리건수 리턴
     return cnt
+
+# 응답시간 취득
+def getResponseTime(driver):
+    
+    """
+    Use Selenium to Measure Web Timing
+    Performance Timing Events flow
+    navigationStart -> redirectStart -> redirectEnd -> fetchStart -> domainLookupStart -> domainLookupEnd
+    -> connectStart -> connectEnd -> requestStart -> responseStart -> responseEnd
+    -> domLoading -> domInteractive -> domContentLoaded -> domComplete -> loadEventStart -> loadEventEnd
+    """
+    navigationStart = driver.execute_script("return window.performance.timing.navigationStart")
+    responseStart = driver.execute_script("return window.performance.timing.responseStart")
+    domComplete = driver.execute_script("return window.performance.timing.domComplete")
+
+    # domComplete 시간이 취득안되는 경우가 있어 보류
+    
+    backendPerformance = responseStart - navigationStart
+    frontendPerformance = domComplete - responseStart
+    resp_time = domComplete - navigationStart
+
+    logger.info ("Back End: %s" % backendPerformance)
+    logger.info ("Front End: %s" % frontendPerformance)
+    logger.info ("Response Time: %s" % resp_time)
+    
+    return resp_time
 
 # 브라우저 기본 설정
 def set_browser_option(BG_EXE):
@@ -423,6 +465,10 @@ def my_grp_list_combo():
     # # DB조회결과 없는 경우
     # if( type(result) != 'list'):
     #     return False
+    # print ('11',type(result))
+    # if(type(result) == "<class 'NoneType'>"):
+    #     print ('22',type(result))
+    
     
     for row in result:
         #org_list.append(row['org_title']+'['+row['org_no']+']')
