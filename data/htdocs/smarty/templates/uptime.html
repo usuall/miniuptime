@@ -618,10 +618,9 @@
                         <tr>
                           <th>NO</th>
                           <th>사이트명</th>
-                          <th>url_no</th>
                           <th>응답시간</th>
-                          <th>상태코드</th>                          
-                          <th>이미지 유사성</th>
+                          <th>상태코드</th>
+                          <th>이미지 유사성(%)</th>
                           <th>일시</th>
                         </tr>
                       </thead>
@@ -629,14 +628,13 @@
                         {foreach $result as $row}
                         <tr>
                           <td>{$row.mon_no}</td>
-                          <td><a href='{$row.url_addr}' target='_blank'>{$row.url_title}</a></td>
-                          <td>{$row.url_no}</td>
+                          <td><a href='{$row.url_addr}' target='_blank'>{$row.url_title}</a> ({$row.url_no})</td>
                           <td>{$row.mon_response_time}</td>
                           <td>                           
                             <div class="{$row.status_code_color}" data-demo-color="">{$row.status_code}</div>
                           </td>
                           <td>
-                            <div class="{$row.mon_img_match1_color}" data-demo-color="">{$row.mon_img_match1}%</div>
+                            <div class="{$row.mon_img_match1_color}" data-demo-color="">{$row.mon_img_match1}</div>
                           </td>
                           <td>{$row.mon_dt}</td>
                         </tr>

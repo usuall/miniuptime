@@ -20,7 +20,10 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
     }
 
     $mon_img_match1_color = 'text-dark bg-white';
-    if($data['mon_img_match1'] < 100 && $data['mon_img_match1'] > 60){
+    if($data['mon_img_match1'] == '-1'){
+        $data['mon_img_match1'] = '원본없음';
+        $mon_img_match1_color = 'strong text-pink bg-white';
+    } else if($data['mon_img_match1'] < 100 && $data['mon_img_match1'] > 60){
         $mon_img_match1_color = 'text-indigo bg-white';
     } else if ($data['mon_img_match1'] <= 60) {
         $mon_img_match1_color = 'strong text-pink bg-white';
