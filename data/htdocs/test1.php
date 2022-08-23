@@ -5,6 +5,7 @@ $base_dir = dirname(__FILE__);
 
 
 
+
 $smarty->assign('name', 'Ned');
 $smarty->display('test1.html');
 

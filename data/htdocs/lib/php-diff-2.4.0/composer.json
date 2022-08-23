@@ -1,0 +1,71 @@
+{
+    "name": "jblond/php-diff",
+    "type": "library",
+    "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "php",
+        "diff",
+        "side-by-sidediff",
+        "unified",
+        "udiff",
+        "unidiff",
+        "unified diff"
+    ],
+    "authors": [
+        {
+            "name": "Mario",
+            "email": "leet31337@web.de"
+        },
+        {
+            "name": "Ferry Cools",
+            "email": "info@digilive.nl"
+        },
+        {
+            "name": "Chris Boulton",
+            "email": "chris.boulton@interspire.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "ext-mbstring": "*",
+        "ext-pcre": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8 || ^9",
+        "squizlabs/php_codesniffer": "*",
+        "phpmd/phpmd": "2.*",
+        "jblond/php-cli": "^1.0",
+        "digilive/git-changelog": "^1"
+    },
+    "suggest": {
+        "jblond/php-cli": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "jblond\\": "lib/jblond"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "config": {
+        "classmap-authoritative": true
+    },
+    "scripts": {
+        "phpunit": "phpunit",
+        "php_src": "phpcs --standard=phpcs.xml -s -p --colors ./lib/",
+        "php_test": "phpcs --standard=phpcs.xml -s -p --colors ./tests/",
+        "phpmd": "phpmd ./ ansi cleancode,codesize,controversial,design,naming,unusedcode --exclude vendor",
+        "changelog": "php generateChangelog.php"
+    },
+    "scripts-descriptions": {
+        "phpunit": "Run PHPUnit tests",
+        "php_src": "Run code sniffer on lib directory",
+        "php_test": "Run code sniffer on tests directory",
+        "phpmd": "Run php mess detector",
+        "changelog": "generate changelog from commits"
+    }
+}

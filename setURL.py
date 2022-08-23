@@ -1,4 +1,4 @@
-import mini.library2 as mini
+import mini.library as mini
 import mini.model as model
 import PySimpleGUI as sg
 from pickle import TRUE
@@ -23,7 +23,7 @@ def long_function_thread(window, values):
     global keyword
     # 조회조건 출력
     keyword = mini.getCondition(window, values)
-    url_cnt = mini.get_monitoring(window, keyword)    
+    url_cnt = mini.set_Monitoring(window, keyword)    
     logger.info('GET_MONITORING WORK_CNT : ' + str(url_cnt)) 
     window.write_event_value('-THREAD DONE-', '') # Thread 종료 후 이벤트(반복 작업을 위해 사용)    
     
@@ -43,7 +43,7 @@ def main():
     sg.theme('TanBlue')
     layout = [
         [sg.Image(filename=logo, key='key1', pad=((5, 0), (10, 10)))],
-        # [sg.Text('(Uptime Mini) Health Check Agent', size=(30, 1), font=("Helvetica", 25))],
+        [sg.Text('초기 URL 설정', size=(30, 1), font=("돋움", 25))],
         # [sg.Text('Uptime Stream is URL Health Check Manager')],
         # [sg.InputText('', key='in1')],
         [sg.Text('카테고리'), sg.Combo(values=(grp_list), default_value='전 체', size=(30, 1), key='-GRP_LIST-', enable_events=False, tooltip='카테고리를 선택해주세요.'),
@@ -51,15 +51,15 @@ def main():
         # [sg.Listbox(values=(org_list), size=(30, 1), key='-ORG_LIST-', enable_events=True)],
         [sg.Text('사이트명'), sg.InputText('', key='-SITE_TITLE-', size=(30, 1), tooltip='사이트명을 입력하세요.'),
          sg.Text('  URL명'), sg.InputText('', key='-SITE_URL-', size=(30, 1), tooltip='도메인(URL)을 입력하세요.')],
-        [sg.CBox('반복 점검', key='-REPEAT-', default=True, tooltip='체크 대상을 반복하여 점검합니다.'),
+        [sg.CBox('반복 점검', key='-REPEAT-', default=False, tooltip='체크 대상을 반복하여 점검합니다.'),
          sg.CBox('비활성화 URL 포함', key='-DISABLED-'), sg.CBox('백그라운드 실행', key='-BG_EXE-', default=False, tooltip='크롬 브라우져의 실행화면이 표시되지 않음')],
         [sg.CBox('이미지 유사도 검증', key='-IMAGE_MATCH-', default=True), sg.CBox('HTML 유사도 검증(작업중)', key='-HTML_MATCH-', default=True)],
         [sg.Text('타임아웃'), sg.Radio('5초',  group_id="RADIO1", key='-TIMEOUT1-'),
-                            sg.Radio('10초', group_id="RADIO1", default=True, key='-TIMEOUT2-'),
+                            sg.Radio('10초', group_id="RADIO1", key='-TIMEOUT2-'),
                             sg.Radio('15초', group_id="RADIO1", key='-TIMEOUT3-'),
                             sg.Radio('20초', group_id="RADIO1", key='-TIMEOUT4-'),
                             sg.Radio('25초', group_id="RADIO1", key='-TIMEOUT5-'),
-                            sg.Radio('30초', group_id="RADIO1", key='-TIMEOUT6-')],
+                            sg.Radio('30초', group_id="RADIO1", key='-TIMEOUT6-', default=True)],
         [sg.MLine(default_text='', font='Gothic', size=(80, 20), key='-OUTPUT-', autoscroll=True, disabled=True)],        
         [sg.Button('종 료', key='-BUTTON_EXIT-', button_color=('white', 'firebrick3')),
          sg.Button('도움말', key='-BUTTON_HELP-', button_color=('white', 'firebrick3')),

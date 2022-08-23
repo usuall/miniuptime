@@ -62,7 +62,7 @@ def get_grp_url_list(c, keyword):
         sql += f" and b.url_no = '{keyword.get('URL_NO')}'"
         
     #sql += f" order by b.url_lastest_check_dt desc"
-    sql += f" order by rand()"
+    sql += f" order by b.url_no"
     
     logger.info('SQL : ' + sql )
     c.execute(sql)
@@ -71,8 +71,8 @@ def get_grp_url_list(c, keyword):
 
 @with_cursor
 def add_monitoring(c, tb_monitor):
-    sql_data = ("INSERT INTO tb_monitor (url_no, mon_response_time, status_code, html_file, mon_image, mon_img_match1 ) VALUES ( %s, %s, %s, %s, %s, %s)")
-    sql_val = (tb_monitor['url_no'], tb_monitor['mon_response_time'], tb_monitor['status_code'], tb_monitor['html_file'], tb_monitor['mon_image'], tb_monitor['mon_img_match1'])
+    sql_data = ("INSERT INTO tb_monitor (url_no, mon_response_time, status_code, html_file, mon_image, mon_img_match1, mon_html_match1, mon_html_diff_output ) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s) ")
+    sql_val = (tb_monitor['url_no'], tb_monitor['mon_response_time'], tb_monitor['status_code'], tb_monitor['html_file'], tb_monitor['mon_image'], tb_monitor['mon_img_match1'], tb_monitor['mon_html_match1'], tb_monitor['mon_html_diff_output'])
     c.execute(sql_data, sql_val)
     
 @with_cursor

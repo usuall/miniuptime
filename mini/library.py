@@ -16,6 +16,8 @@ from loguru import logger
 import sys
 from image_match.goldberg import ImageSignature
 from PIL import Image
+from html_similarity import style_similarity, structural_similarity, similarity   # 소스 유사도 검사
+
 
 # 환경 설정값 취득
 properties = get_Config()
@@ -35,6 +37,7 @@ html_path = data_path + config_sys['HTML_PATH'] + '\\'     # html 경로
 logs_path = data_path + config_sys['LOGS_PATH'] + '\\'     # 각종로그 경로
 html_origin_path = html_path + config_sys['HTML_ORIGIN_PATH'] + '\\'
 html_daily_path = html_path + config_sys['HTML_DAILY_PATH'] + '\\'
+html_diff_path = html_path + config_sys['HTML_DIFF_PATH'] + '\\'
 
 # 실행환경
 user_agent = 'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
@@ -72,6 +75,7 @@ def before_main():
     isExist_dir(html_path)
     isExist_dir(html_origin_path)
     isExist_dir(html_daily_path)
+    isExist_dir(html_diff_path)
     isExist_dir(logs_path)
     
 
@@ -161,6 +165,153 @@ def getCondition(window, values):
 
     return keyword
 
+# 초기 URL 설정 (Scrrentshot, html 저장)
+def set_Monitoring(window, keyword):
+    
+    global driver
+    global _step_
+    
+    stime = time.time()
+    # 브라우저 환경 설정 취득
+    BG_EXE = keyword.get('BG_EXE') # 백그라운드 실행
+    driver = set_browser_option(BG_EXE)
+        
+    cnt = 0    
+    result = model.get_grp_url_list(keyword)
+    # print('resutl ',type(result), len(result))
+    total_cnt = len(result) # 조회 건수
+    logger.info('☞  조회결과 : '+ str(total_cnt) + '건')
+    window['-OUTPUT-'].update(value='☞ 조회결과 : '+ str(total_cnt) +'건\n', append=True)
+    window['-OUTPUT-'].update(value='------------------------------\n', append=True)
+    
+    total_step = 8
+    for row in result:
+        cnt += 1
+        _step_ = 0
+        
+        tb_url = {}
+        tb_monitor = {}
+        
+        window['-OUTPUT-'].update(value=' ---------------- URL NO : ' + str(row['url_no']) + '\n', append=True)
+        window.refresh() 
+        
+        
+        
+        # 원본이미지 존재 확인
+        img_str = str('{0:04}'.format(row['url_no']))+ "_site.png"
+        existFile = os.path.isfile(img_daily_path + img_str)
+        logger.info("파일 존재 유무 : " + img_daily_path + img_str)        
+        window['-OUTPUT-'].update(value="IMG 파일 존재 유무 "+ img_daily_path + img_str  +' \n', append=True)
+        window.refresh() 
+        
+        # 원본 HTML 존재 확인
+        org_html = str('{0:04}'.format(row['url_no']))+ ".html"
+        existFile2 = os.path.isfile(html_origin_path + org_html)
+        logger.info("파일 존재 유무 : " + html_origin_path + org_html +' \n')
+        window['-OUTPUT-'].update(value="HTML 파일 존재 유무 "+ html_origin_path + org_html  +' \n', append=True)
+        window.refresh() 
+        
+        
+        if(existFile != True or existFile2 != True):
+            if( existFile != True ):
+                logger.info ('이미지 파일 미존재')
+                window['-OUTPUT-'].update(value="이미지 파일 미존재 \n", append=True)
+                
+            if( existFile2 != True ):
+                logger.info ('HTML 파일 미존재')
+                window['-OUTPUT-'].update(value="HTML 파일 미존재 \n", append=True)
+
+            window.refresh() 
+            
+            pertime = time.time() # 개별작업시간
+            
+            web_url = row['url_addr']
+            
+            # 브라우져 무한로딩시 timeout 회피(jnpolice.go.kr 사례) / 해결하는데 5일 걸림
+            TIME_OUT = keyword.get('TIME_OUT')
+            driver.set_page_load_timeout(TIME_OUT)
+            outtime = time.time()
+            
+            logger.info(step_add(total_step) + 'URL_GET(1/2) ' + web_url + diff_time(outtime))
+            try:
+                driver.get(web_url)
+                
+                try:
+                    driver.switch_to.alert.accept()
+                except NoAlertPresentException:
+                    logger.info('NoAlertPresentException ... pass ')
+                    pass
+                
+                # # 응답시간 취득
+                # resp_time = str(round(time.time()-outtime, 2))
+                
+                logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ resp_time)
+                
+            except TimeoutException:
+                logger.exception('URL_GET / time_out exception : '+ web_url)
+                pass
+            except Exception:  # 기타 오류 발생시 처리 정지
+                logger.exception('URL_GET Exception Occured ')
+                #break
+                pass
+            
+            # 응답시간 취득
+            resp_time = str(round(time.time()-outtime, 2))
+                
+            redirected_url = driver.current_url       
+                    
+            time.sleep(2) # 화면캡쳐 전 2초대기
+            
+            
+            # 화면 캡쳐
+            try:
+                # 특정 사이즈 저장
+                # driver.save_screenshot(img_daily_path + img_str)
+
+                # Full 스크린 저장
+                fullpage_screenshot(driver, img_origin_path + img_str)
+            except TimeoutException as e:
+                logger.warning('Screenshot Timout')
+                pass    
+            except Exception as e:  # 기타 오류 발생시 처리 정지
+                logger.critical('SCREENSHOT Exception Occured : '+ str(e))
+                break
+            
+            # logger.info(step_add(total_step) + 'Screenshot' + diff_time(pertime))
+
+            # HTML 저장 및 검증 ----------------------------------- #
+            # HTML 소스코드 취득
+            html_source = driver.page_source # redirected 최종 URL의 소스를 취득
+            
+            # 로그를 보기좋게 정리(prettfy)
+            html_source = BeautifulSoup(html_source, 'html.parser').prettify
+            
+            # HTML 저장 ------------------------------------------- #
+            html_file = save_org_html(row['url_no'], html_source)
+
+        else:
+            logger.info ('이미지, HTML 파일 존재')
+        
+        
+                
+        # 새창 닫기        
+        close_new_tabs(driver)
+
+        
+        
+    if(cnt > 0):
+        endtime = time.time()
+        window['-OUTPUT-'].update(value='-------------------------------------------\n', append=True)
+        window['-OUTPUT-'].update(value='▶ (처리 URL) ' + str(cnt) +'건, (처리시간) '+ str(round(endtime-stime, 2)) + '초, (평균처리 시간) '+ str(round((endtime-stime)/cnt,2)) +'초 \n', append=True)
+    else:
+        window['-OUTPUT-'].update(value='▶ 검색 결과 없음', append=True)
+    
+    # 작업 종료후 버튼 활성화
+    button_activate(window, 1)
+
+    # 작업종료후 브라우져 닫기
+    driver.close()
+    
 
 # 검색결과 모니터링
 def get_monitoring(window, keyword):    
@@ -232,8 +383,8 @@ def get_monitoring(window, keyword):
                 logger.info('NoAlertPresentException ... pass ')
                 pass
             
-            # 응답시간 취득
-            resp_time = str(round(time.time()-outtime, 2))
+            # # 응답시간 취득
+            # resp_time = str(round(time.time()-outtime, 2))
             
             logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ resp_time)
             
@@ -245,6 +396,9 @@ def get_monitoring(window, keyword):
             #break
             pass
         
+        # 응답시간 취득
+        resp_time = str(round(time.time()-outtime, 2))
+            
         redirected_url = driver.current_url       
         
         #팝업 레이어 
@@ -319,6 +473,12 @@ def get_monitoring(window, keyword):
         window['-OUTPUT-'].update(value=' → html' + diff_time(pertime), append=True)
         window.refresh()
         
+        
+        # HTML 비교
+        org_html = str('{0:04}'.format(row['url_no'])) + '.html'
+        html_rate, html_diff_output = diff_html(org_html, html_file, row['url_no'])
+        logger.info('HTML 유사도 : ' + str(html_rate) )
+
         # Request Code 취득 ----------------------------------- #
         # (200 : ok, 404 : page not found)
         try:
@@ -341,6 +501,7 @@ def get_monitoring(window, keyword):
                 
                 
         # 새창 닫기
+        
         close_new_tabs(driver)
         logger.info(step_add(total_step) + 'New Tab Closed' + diff_time(pertime))
         window['-OUTPUT-'].update(value=' → Tab', append=True)
@@ -348,7 +509,7 @@ def get_monitoring(window, keyword):
         window['-OUTPUT-'].update(value='\n', append=True)
         window.refresh() # 작업내용 출력 반영
 
-        img_matching_point = image_match( img_str , img_str) # 이미지 유사도
+        # img_matching_point = image_match( img_str , img_str) # 이미지 유사도
         
         tb_monitor['url_no'] = row['url_no']
         tb_monitor['mon_response_time'] = resp_time
@@ -356,6 +517,8 @@ def get_monitoring(window, keyword):
         tb_monitor['html_file'] = html_file
         tb_monitor['mon_image'] = img_str   # img_daily_path + img_str
         tb_monitor['mon_img_match1'] = img_matching_point
+        tb_monitor['mon_html_match1'] = html_rate
+        tb_monitor['mon_html_diff_output'] = html_diff_output
         # tb_monitor['mon_html_match1'] = 
 
         tb_url['url_no'] = row['url_no']
@@ -389,6 +552,80 @@ def get_monitoring(window, keyword):
     #처리건수 리턴
     return cnt
 
+
+def diff_html(org_html, html_file, url_no):
+    #todo.
+    org_html  = html_path + 'orign\\' +  org_html 
+    daily_html = html_path + 'daily\\' + html_file
+
+    logger.info('org_html >>>>>' + org_html)
+    logger.info('daily_html >>>>>'  + daily_html)
+    
+    
+    # 원본파일 로딩
+    try:
+        f = open(org_html, "r", encoding='utf-8')
+        reader1 = f.read()
+        
+    except:
+        logger.info("Origin No file: %s\n" % org_html)
+        s4 = -1
+        return s4
+
+    # 대상파일 로딩
+    try:
+        f2 = open(daily_html, "r", encoding='utf-8')
+        reader2 = f2.read()        
+    except:
+        logger.info("Daily No file: %s\n" % daily_html)
+        s4 = -1
+        return s4        
+
+    # 유사도 검사       
+    s1 = style_similarity(reader1, reader2)
+    s2 = structural_similarity(reader1, reader2)
+    s3 = similarity(reader1, reader2)
+
+    # 복합 유사도 검사
+    # Using k=0.3 give use better results. 
+    # The style similarity gives more information about the similarity rather than the structural similarity.
+    k = 0.3 
+    s4 = k * structural_similarity(reader1, reader2) + (1 - k) * style_similarity(reader1, reader2)
+    
+    logger.info ('style_similarity : ' +  str(s1))
+    logger.info ('structural_similarity : ' + str(s2))
+    logger.info ('similarity : ' + str(s3))
+    logger.info ('Joint Similarity : ' + str(s4))
+    
+    # 100분율 환산
+    s4 = s4 * 100
+    
+    f.close()
+    f2.close()
+    
+    # diff_save_html()
+    if(s4 != 100):
+        
+        import difflib
+        from pathlib import Path
+
+        first_file_lines = Path(org_html).read_text('utf-8').splitlines()
+        second_file_lines = Path(daily_html).read_text('utf-8').splitlines()
+
+        output = difflib.HtmlDiff().make_file(first_file_lines, second_file_lines)
+        html_diff_path = html_path + 'diff\\'
+        
+        sysdate = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
+        html_diff_output = html_diff_path + str('{0:04}'.format(url_no)) + '_' + str(sysdate) +'_diff.html'
+        Path(html_diff_output).write_text(output, encoding = 'utf-8')
+    else:
+        html_diff_output = 'HTML Code is samed'
+    
+    
+    return s4, html_diff_output
+    
+    
+    
 # 응답시간 취득
 def getResponseTime(driver):
     
@@ -476,6 +713,23 @@ def my_grp_list_combo():
 
     return grp_list
 
+
+@logger.catch 
+def save_org_html(url_no, src_text):
+    
+    html_file = str('{0:04}'.format(url_no))+'.html'
+    
+    #원본 저장경로    
+    full_path_name = html_path + 'orign\\' + html_file
+    
+    f = open(full_path_name, 'w', encoding='UTF-8')
+    # print(type(src_text))
+    f.write(str(src_text))
+    f.close()
+
+    return html_file
+    # DB insert
+
 @logger.catch 
 def save_html(url_no, src_text):
     
@@ -485,7 +739,7 @@ def save_html(url_no, src_text):
     # html_file = str(url_no)+'_'+str(sysdate)+'.html'
     html_file = str('{0:04}'.format(url_no))+'_'+str(sysdate)+'.html'
     
-    full_path_name = html_path + html_file
+    full_path_name = html_path + 'daily\\' + html_file
     # print(full_path_name)
     
     f = open(full_path_name, 'w', encoding='UTF-8')
