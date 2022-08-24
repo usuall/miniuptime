@@ -83,7 +83,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 $smarty->assign('result', $result);
 
 //template파일 설정
-$smarty->display('uptime.html');
+$smarty->display('dash02.html');
 
 //DB 접속종료
 $pdo = null;
