@@ -17,6 +17,8 @@ import sys
 from image_match.goldberg import ImageSignature
 from PIL import Image
 from html_similarity import style_similarity, structural_similarity, similarity   # 소스 유사도 검사
+from pathlib import Path
+from difflib import HtmlDiff
 
 
 # 환경 설정값 취득
@@ -37,7 +39,7 @@ html_path = data_path + config_sys['HTML_PATH'] + '\\'     # html 경로
 logs_path = data_path + config_sys['LOGS_PATH'] + '\\'     # 각종로그 경로
 html_origin_path = html_path + config_sys['HTML_ORIGIN_PATH'] + '\\'
 html_daily_path = html_path + config_sys['HTML_DAILY_PATH'] + '\\'
-html_diff_path = html_path + config_sys['HTML_DIFF_PATH'] + '\\'
+html_diff_path = web_path + config_sys['HTML_DIFF_PATH'] + '\\'
 
 # 실행환경
 user_agent = 'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
@@ -245,7 +247,7 @@ def set_Monitoring(window, keyword):
                 # # 응답시간 취득
                 # resp_time = str(round(time.time()-outtime, 2))
                 
-                logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ resp_time)
+                # logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ resp_time)
                 
             except TimeoutException:
                 logger.exception('URL_GET / time_out exception : '+ web_url)
@@ -318,6 +320,7 @@ def get_monitoring(window, keyword):
     
     global driver
     global _step_
+    global html_output
     
     
     stime = time.time()
@@ -386,7 +389,7 @@ def get_monitoring(window, keyword):
             # # 응답시간 취득
             # resp_time = str(round(time.time()-outtime, 2))
             
-            logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ resp_time)
+            # logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ resp_time)
             
         except TimeoutException:
             logger.exception('URL_GET / time_out exception : '+ web_url)
@@ -475,9 +478,14 @@ def get_monitoring(window, keyword):
         
         
         # HTML 비교
+        html_output = {}
         org_html = str('{0:04}'.format(row['url_no'])) + '.html'
-        html_rate, html_diff_output = diff_html(org_html, html_file, row['url_no'])
-        logger.info('HTML 유사도 : ' + str(html_rate) )
+        # html_rate, html_diff_output = diff_html(org_html, html_file, row['url_no'])
+        html_output = diff_html(org_html, html_file, row['url_no'])
+        
+        # print(html_output)
+        
+        # logger.info('HTML 유사도 : ' + str(html_output['s4']) )
 
         # Request Code 취득 ----------------------------------- #
         # (200 : ok, 404 : page not found)
@@ -511,14 +519,16 @@ def get_monitoring(window, keyword):
 
         # img_matching_point = image_match( img_str , img_str) # 이미지 유사도
         
+        mon_html_match1 = html_output.get('s4')
+        mon_html_diff_output = html_output.get('mon_html_diff_output')
         tb_monitor['url_no'] = row['url_no']
         tb_monitor['mon_response_time'] = resp_time
         tb_monitor['status_code'] = req_code
         tb_monitor['html_file'] = html_file
         tb_monitor['mon_image'] = img_str   # img_daily_path + img_str
         tb_monitor['mon_img_match1'] = img_matching_point
-        tb_monitor['mon_html_match1'] = html_rate
-        tb_monitor['mon_html_diff_output'] = html_diff_output
+        tb_monitor['mon_html_match1'] = mon_html_match1
+        tb_monitor['mon_html_diff_output'] = mon_html_diff_output
         # tb_monitor['mon_html_match1'] = 
 
         tb_url['url_no'] = row['url_no']
@@ -553,7 +563,75 @@ def get_monitoring(window, keyword):
     return cnt
 
 
+# 소스파일 비교용(변경되지 않은 행을 제외)
+def trim_unchanged(lines:list[str]) -> list[str]:
+
+    # tr の部分とその前後で分ける
+    pre = lines[:7]
+    trs = lines[7:-2]
+    post = lines[-2:]
+
+    # 省略部分を示すフィラー
+    filler = '<tr class="filler"><td class="diff_next"></td><td class="diff_header"></td><td nowrap="nowrap"></td><td class="diff_next"></td><td class="diff_header"></td><td nowrap="nowrap"></td></tr>'
+
+    minimal_lines = []
+    for i, line in enumerate(trs):
+
+        if ('class="diff_chg"' in line) or ('class="diff_sub"' in line) or ('class="diff_add"' in line):
+            # 表示する行とそのインデックスを控えていく
+            minimal_lines.append([-1, filler])
+            minimal_lines.append([i, line])
+            if i == 0:
+                # 先頭の行が変更されていた場合は冒頭にフィラー不要
+                minimal_lines.pop(-2)
+            if len(minimal_lines) > 2 and minimal_lines[-3][0] + 1 == i:
+                # 2つ前の行番号と今の行番号が1つしか違わない、すなわち行が連続している場合もフィラー不要
+                minimal_lines.pop(-2)
+
+    return pre + [x[1] for x in minimal_lines] + post
+
+def html_diff_output(from_file, to_file, html_diff_output_file, template_path, css_path, skip_unchanged=None):
+    
+    # import argparse
+    # from pathlib import Path
+    # from difflib import HtmlDiff
+
+    f_path = Path(from_file)
+    t_path = Path(to_file)
+    f = f_path.read_text("utf-8").splitlines()
+    t = t_path.read_text("utf-8").splitlines()
+
+    # 差分を html table に変換
+    df = HtmlDiff()
+    markup_lines = df.make_table(f, t, fromdesc=f_path.name, todesc=t_path.name).splitlines()
+    if skip_unchanged:
+        markup_lines = trim_unchanged(markup_lines)
+    markup_table = "\n".join(markup_lines)
+
+    # テンプレートの html 読み込み
+    template = Path(template_path).read_text("utf-8")
+
+    # css 読み込み
+    style_sheet = Path(css_path).read_text("utf-8")
+
+    # 整形してファイルに書き込み
+    html_page = template.replace(
+        "<style></style>", "<style>\n{}\n</style>".format(style_sheet)
+    ).replace(
+        '<div class="main"></div>', '<div class="main">\n{}\n</div>'.format(markup_table)
+    )
+    #Path(out_path).write_text(html_page, "utf-8")
+    
+    
+    f = open(html_diff_output_file, 'w', encoding='UTF-8')
+    f.write(str(html_page))
+    f.close()
+    
+    
 def diff_html(org_html, html_file, url_no):
+    
+    global html_output
+    
     #todo.
     org_html  = html_path + 'orign\\' +  org_html 
     daily_html = html_path + 'daily\\' + html_file
@@ -569,8 +647,8 @@ def diff_html(org_html, html_file, url_no):
         
     except:
         logger.info("Origin No file: %s\n" % org_html)
-        s4 = -1
-        return s4
+        html_output['s4'] = '-1'
+        return html_output
 
     # 대상파일 로딩
     try:
@@ -578,8 +656,8 @@ def diff_html(org_html, html_file, url_no):
         reader2 = f2.read()        
     except:
         logger.info("Daily No file: %s\n" % daily_html)
-        s4 = -1
-        return s4        
+        html_output['s4'] = '-1'
+        return html_output
 
     # 유사도 검사       
     s1 = style_similarity(reader1, reader2)
@@ -597,32 +675,51 @@ def diff_html(org_html, html_file, url_no):
     logger.info ('similarity : ' + str(s3))
     logger.info ('Joint Similarity : ' + str(s4))
     
-    # 100분율 환산
-    s4 = s4 * 100
-    
+  
     f.close()
     f2.close()
-    
+
+    # 100분율 환산    
+    html_output['s1'] = s1 * 100
+    html_output['s2'] = s2 * 100
+    html_output['s3'] = s3 * 100
+    html_output['s4'] = s4 * 100
     # diff_save_html()
-    if(s4 != 100):
+    html_output['mon_html_diff_output'] = 'None'
+    
+    
+    if(html_output['s4'] != 100):
+
+        # first_file_lines = Path(org_html).read_text('utf-8').splitlines()
+        # second_file_lines = Path(daily_html).read_text('utf-8').splitlines()
+
+        # output = difflib.HtmlDiff().make_file(first_file_lines, second_file_lines)
+        # html_diff_path = html_path + 'diff\\'
         
-        import difflib
-        from pathlib import Path
-
-        first_file_lines = Path(org_html).read_text('utf-8').splitlines()
-        second_file_lines = Path(daily_html).read_text('utf-8').splitlines()
-
-        output = difflib.HtmlDiff().make_file(first_file_lines, second_file_lines)
-        html_diff_path = html_path + 'diff\\'
+        # sysdate = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
+        # html_diff_output = html_diff_path + str('{0:04}'.format(url_no)) + '_' + str(sysdate) +'_diff.html'
+        # Path(html_diff_output).write_text(output, encoding = 'utf-8')
+        
+        template_path = lib_path + 'diff_template.html'
+        css_path = lib_path + 'diff_wrap.css'
+        skip_unchanged = True
         
         sysdate = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
-        html_diff_output = html_diff_path + str('{0:04}'.format(url_no)) + '_' + str(sysdate) +'_diff.html'
-        Path(html_diff_output).write_text(output, encoding = 'utf-8')
+        
+        file_name = str('{0:04}'.format(url_no)) + '_' + str(sysdate) +'_diff.html'
+        html_diff_output_file = html_diff_path + file_name
+        html_diff_output(org_html, daily_html, html_diff_output_file, template_path, css_path, skip_unchanged)
+        
+        html_output['mon_html_diff_output'] = file_name
+        
+        logger.info('Joint Similarity not ...100')
+        
     else:
-        html_diff_output = 'HTML Code is samed'
+        logger.info('Joint Similarity is 100')
     
+    print (html_output)
     
-    return s4, html_diff_output
+    return html_output
     
     
     
@@ -885,6 +982,5 @@ def after_main():
     except:
         # 시작하지 않고 종료시 driver 변수 에러 방지(NameError: name 'driver' is not defined)
         pass
-    
     
     

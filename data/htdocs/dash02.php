@@ -2,8 +2,10 @@
 
 require_once(dirname(__FILE__).'/lib/config.php');
 
+error_reporting (E_ALL ^ E_NOTICE);
 
 //이미지 유사도 표시 상한선
+$img_level = '';
 $img_level = $_GET['img'];
 if(isset($img_level) == True){
 } else {
@@ -65,7 +67,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         'mon_img_match1_color' => $mon_img_match1_color,
         'mon_html_match1' => $data['mon_html_match1'],
         'mon_html_match1_color' => $mon_html_match1_color,
-        // 'mon_dt' => $data['mon_dt'],
+        'mon_html_diff_output' => $data['mon_html_diff_output'],
         // 'mon_dt' => $data['mon_dt'],
     );
 

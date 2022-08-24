@@ -13,9 +13,10 @@ data/logs/
 data/capture/
 data/htdocs/capture/
 data/htdocs/tabler-dev/
+data/htdocs/smarty/templates_c/
+data/htdocs/html_diff/
 .idea
 build
 dist
 *.exe
 *.spec
-data/htdocs/smarty/templates_c/
