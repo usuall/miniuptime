@@ -307,7 +307,7 @@
                         {else} 
                           {assign var='btn_color' value='danger'}
                         {/if}
-                        <a href="{$url.url_addr}" class="btn btn-{$btn_color}" target="_blank" rel="noopener">{$url.url_no}. {$url.url_title}</a>
+                        <a href="{$url.url_addr}" class="btn btn-{$btn_color}" target="_blank" rel="noopener">{$url@index+1}. {$url.url_title}</a>
                       </div>
                       {/foreach}
                     </div>
