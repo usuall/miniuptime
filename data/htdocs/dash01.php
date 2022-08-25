@@ -2,6 +2,8 @@
 
 require_once(dirname(__FILE__).'/lib/config.php');
 
+//상단 메뉴
+include_once('menu.php');
 
 //データ検索
 $mysql = $pdo->query('SELECT * FROM tb_group where grp_fg = 1 ORDER BY grp_title');
@@ -56,12 +58,16 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 }
 
 // var_dump($result);
+
+
+
 $smarty->assign('result', $result);
+$smarty->display('dash01.html');
 
 // $smarty->debugging = true;
 
-//template파일 설정
-$smarty->display('dash01.html');
+
+
 
 //DB 접속종료
 $pdo = null;

@@ -4,6 +4,9 @@ require_once(dirname(__FILE__).'/lib/config.php');
 
 error_reporting (E_ALL ^ E_NOTICE);
 
+//상단 메뉴
+include_once('menu.php');
+
 //이미지 유사도 표시 상한선
 $img_level = '';
 $img_level = $_GET['img'];

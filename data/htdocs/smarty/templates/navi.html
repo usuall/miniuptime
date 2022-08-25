@@ -20,44 +20,15 @@
       </a>
       <div class="dropdown-menu">
         <div class="dropdown-menu-columns">
-          <div class="dropdown-menu-column">
-            <a class="dropdown-item" href="./dash01.php">
-              Dash01
-            </a>
-            <a class="dropdown-item" href="./dash02.php">
-              Dash02
-            </a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=1"><span class="badge badge-sm bg-green text-uppercase ms-2">01</span>&nbsp; 경찰청</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=2">공수처</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=3">공정위</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=4">권익위</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=5">국세청</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=6">국토부</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=7">군사망위</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=8">기상청</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=9">기재부</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=10">농축산부</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=11">농진청</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=12">검찰청</a>
-            <a class="dropdown-item" href="./dash03.php?grp_no=13">문화재청</a>
-          </div>
-          <div class="dropdown-menu-column">
-            <a class="dropdown-item" href="./dash03.php">법무부</a>
-            <a class="dropdown-item" href="./dash03.php">병무청</a>
-            <a class="dropdown-item" href="./dash03.php">보건복지부</a>
-            <a class="dropdown-item" href="./dash03.php">산림청</a>
-            <a class="dropdown-item" href="./dash03.php">새만금</a>
-            <a class="dropdown-item" href="./dash03.php">식약처</a>
-            <a class="dropdown-item" href="./dash03.php">여가부</a>
-            <a class="dropdown-item" href="./dash03.php">외교부</a>
-            <a class="dropdown-item" href="./dash03.php">인사처</a>
-            <a class="dropdown-item" href="./dash03.php">중기부</a>
-            <a class="dropdown-item" href="./dash03.php">통일부</a>
-            <a class="dropdown-item" href="./dash03.php">특허청</a>
-            <a class="dropdown-item" href="./dash03.php">해경청</a>
-            <a class="dropdown-item" href="./dash03.php">해수부</a>
-            <a class="dropdown-item" href="./dash03.php">행안부</a>
-          </div>
+          <div class="dropdown-menu-column">            
+            {foreach $menu as $row}
+              {if $row@index == 10 || $row@index == 20 || $row@index == 30}
+              </div>
+              <div class="dropdown-menu-column">
+              {/if}
+            <a class="dropdown-item" href="./dash03.php?grp_no={$row.grp_no}">{$row.grp_short_title} <span class="badge badge-sm bg-blue text-uppercase ms-2">{$row.grp_no}</span></a>
+            {/foreach}
+          </div>          
         </div>
       </div>
     </li>
@@ -85,11 +56,11 @@
       <div class="dropdown-menu">
         <div class="dropdown-menu-columns">
           <div class="dropdown-menu-column">
-            <a class="dropdown-item" href="./activity.html">
-              Activity
+            <a class="dropdown-item" href="./dash01.php">
+              Dash01
             </a>
-            <a class="dropdown-item" href="./gallery.html">
-              Gallery
+            <a class="dropdown-item" href="./dash02.php">
+              Dash02
             </a>
             <a class="dropdown-item" href="./invoice.html">
               Invoice

@@ -2,6 +2,8 @@
 
 require_once(dirname(__FILE__).'/lib/config.php');
 
+//상단 메뉴
+include_once('menu.php');
 
 $grp_no = $_GET['grp_no'];
 
