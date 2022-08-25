@@ -688,7 +688,8 @@ def diff_html(org_html, html_file, url_no):
     html_output['mon_html_diff_output'] = 'None'
     
     
-    if(html_output['s4'] != 100):
+    if(s4 != 100):
+    #if(html_output['s4'] != 100):
 
         # first_file_lines = Path(org_html).read_text('utf-8').splitlines()
         # second_file_lines = Path(daily_html).read_text('utf-8').splitlines()
@@ -702,7 +703,7 @@ def diff_html(org_html, html_file, url_no):
         
         template_path = lib_path + 'diff_template.html'
         css_path = lib_path + 'diff_wrap.css'
-        skip_unchanged = True
+        skip_unchanged = False
         
         sysdate = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
         

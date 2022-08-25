@@ -3,9 +3,12 @@
 require_once(dirname(__FILE__).'/lib/config.php');
 
 
-//データ検索
-$mysql = $pdo->query('SELECT * FROM tb_group where grp_fg = 1 ORDER BY grp_title');
+$grp_no = $_GET['grp_no'];
 
+//データ検索
+$mysql = $pdo->prepare('SELECT * FROM tb_group where grp_fg = 1 and grp_no = :id ORDER BY grp_title');
+$mysql->bindValue(':id', $grp_no);
+$mysql->execute();
 //データ割り当て
 // $groups = array();
 $result = array();
@@ -61,7 +64,7 @@ $smarty->assign('result', $result);
 // $smarty->debugging = true;
 
 //template파일 설정
-$smarty->display('dash01.html');
+$smarty->display('dash03.html');
 
 //DB 접속종료
 $pdo = null;
