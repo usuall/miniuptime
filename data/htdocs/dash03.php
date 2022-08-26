@@ -150,7 +150,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 }
 $smarty->assign('result2', $result2);
 
-$smarty->debugging = true;
+// $smarty->debugging = true;
 
 $smarty->display('dash03.html');
 

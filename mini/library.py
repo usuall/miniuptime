@@ -35,6 +35,8 @@ web_path = data_path + config_sys['WEB_PATH'] + '\\'   # apache_htdocs 경로
 img_path = web_path + config_sys['IMG_PATH'] + '\\'   # screenshot 경로
 img_origin_path = img_path + '\\' + config_sys['IMG_ORIGIN_PATH'] + '\\'
 img_daily_path = img_path + '\\' + config_sys['IMG_DAILY_PATH'] + '\\'
+img_diff_path = img_path + '\\' + config_sys['IMG_DIFF_PATH'] + '\\'
+
 html_path = data_path + config_sys['HTML_PATH'] + '\\'     # html 경로
 logs_path = data_path + config_sys['LOGS_PATH'] + '\\'     # 각종로그 경로
 html_origin_path = html_path + config_sys['HTML_ORIGIN_PATH'] + '\\'
@@ -74,6 +76,7 @@ def before_main():
     isExist_dir(img_path)
     isExist_dir(img_origin_path)
     isExist_dir(img_daily_path)
+    isExist_dir(img_diff_path)     
     isExist_dir(html_path)
     isExist_dir(html_origin_path)
     isExist_dir(html_daily_path)
@@ -983,5 +986,45 @@ def after_main():
     except:
         # 시작하지 않고 종료시 driver 변수 에러 방지(NameError: name 'driver' is not defined)
         pass
+    
+
+def image_diff_opencv(src, dest):
+    
+    from PIL import ImageChops
+    import cv2    
+        
+    diff = ImageChops.difference(src, dest)
+    diff.save(img_diff_path + 'diff.png')
+    
+    # 파일생성 대기
+    while not os.path.exists(img_diff_path + 'diff.png'):
+        time.sleep(1)
+        
+        
+        
+    
+    src_img = cv2.imread(src)
+    dest_img = cv2.imread(dest)
+    diff_img = cv2.imread(img_diff_path + 'diff.png')
+    
+    grey = cv2.cvtColor(diff_img, cv2.COLOR_BGR2GRAY)
+    contours, _ = cv2.findContours(gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    
+    COLOR = (0, 200, 0)
+    
+    for cnt in contours:
+        if cv2.contourArea(cnt) > 100:
+            x, y, width, height = cv2.boundingRect(cnt)
+            cv2.rectangle(src_img, (x, y), (x + width, y + height), COLOR, 2)
+            cv2.rectangle(dest_img, (x, y), (x + width, y + height), COLOR, 2)
+            cv2.rectangle(diff_img, (x, y), (x + width, y + height), COLOR, 2)
+        
+   
+    cv2.imshow('src', src_img)
+    cv2.imshow('dest', dest_img)
+    cv2.imshow('diff', diff_img)
+    
+    
+    
     
     
