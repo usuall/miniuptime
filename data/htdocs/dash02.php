@@ -27,29 +27,29 @@ $arr_row = array();
 $i = 1;
 while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
-    $status_code_color = 'text-dark bg-white';
+    $status_code_color = 'text-dark';
     if($data['status_code'] != 200){
-        $status_code_color = 'strong text-pink bg-white';
+        $status_code_color = 'strong text-pink';
     }
 
-    $mon_img_match1_color = 'text-dark bg-white';
+    $mon_img_match1_color = 'text-dark';
     if($data['mon_img_match1'] == '-1'){
         $data['mon_img_match1'] = '원본없음';
-        $mon_img_match1_color = 'strong text-pink bg-white';
+        $mon_img_match1_color = 'strong text-pink';
     } else if($data['mon_img_match1'] < 100 && $data['mon_img_match1'] > 60){
-        $mon_img_match1_color = 'text-indigo bg-white';
+        $mon_img_match1_color = 'text-indigo';
     } else if ($data['mon_img_match1'] <= 60) {
-        $mon_img_match1_color = 'strong text-pink bg-white';
+        $mon_img_match1_color = 'strong text-pink';
     }
     
-    $mon_html_match1_color = 'text-dark bg-white';
+    $mon_html_match1_color = 'text-dark';
     if($data['mon_html_match1'] == '-1'){
         $data['mon_html_match1'] = '원본없음';
-        $mon_html_match1_color = 'strong text-pink bg-white';
+        $mon_html_match1_color = 'strong text-pink';
     } else if($data['mon_html_match1'] < 100 && $data['mon_html_match1'] > 60){
-        $mon_html_match1_color = 'text-indigo bg-white';
+        $mon_html_match1_color = 'text-indigo';
     } else if ($data['mon_html_match1'] <= 60) {
-        $mon_html_match1_color = 'strong text-pink bg-white';
+        $mon_html_match1_color = 'strong text-pink';
     }
 
     
