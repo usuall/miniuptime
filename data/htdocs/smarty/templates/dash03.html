@@ -19,7 +19,19 @@
     <link href="./dist/css/tabler-payments.min.css" rel="stylesheet"/>
     <link href="./dist/css/tabler-vendors.min.css" rel="stylesheet"/>
     <link href="./dist/css/demo.min.css" rel="stylesheet"/>
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
+    
+    <style>
+      canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+      }
+    </style>
   </head>
+  
   <body >
     <div class="page">
       {include file='header.html'}
@@ -291,31 +303,56 @@
                   </div>
                 </div>
               </div>
-
-              {foreach $result as $groups}
-              <div class="col-12">
+              <div class="col-md-3">
                 <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">{$groups.grp_title}</h3>
-                  </div>
                   <div class="card-body">
-                    <div class="row g-2 align-items-center">
-                      {foreach $groups.urls as $url}
-                      <div class="col-6 col-sm-4 col-md-2 col-xl-auto">
-                        {if ($url.url_status == 200) } 
-                          {assign var='btn_color' value='primary'}
-                        {else} 
-                          {assign var='btn_color' value='danger'}
-                        {/if}
-                        <a href="{$url.url_addr}" class="btn btn-{$btn_color}" target="_blank" rel="noopener">{$url@index+1}. {$url.url_title}</a>
-                      </div>
-                      {/foreach}
-                    </div>
+                    <h3 class="card-title">공동이용 정보유통맵</h3>
+                    <canvas id="timeSeriesChart" width="200" height="100"></canvas>
                   </div>
                 </div>
               </div>
-              {/foreach}
-              
+              <div class="col-md-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">경찰청</h3>
+                    <canvas id="timeSeriesChart" width="200" height="100"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">경찰청</h3>
+                    <canvas id="timeSeriesChart" width="200" height="100"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">경찰청</h3>
+                    <canvas id="timeSeriesChart" width="200" height="100"></canvas>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">경찰청</h3>
+                    <div id="chart-uptime"></div>
+                  </div>
+                </div>
+              </div>
+           
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">경찰청</h3>
+                    <canvas id="line-chart" width="1000" height="200"></canvas>
+                  </div>
+                </div>
+              </div>
+               -->
               <div class="col-12">
                 <div class="card">
                   <div class="card-table table-responsive">
@@ -328,25 +365,25 @@
                           <th>상태코드</th>
                           <th>이미지 유사성(%)</th>
                           <th>HTML 유사성(%)</th>
-                          <th>일시</th>
+                          <th>점검</th>
+                          <th>점검일시</th>
+                          <th>사용</th>
+                          <th>수정</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {foreach $result2 as $row}
+                        {foreach $result as $row}
                         <tr>
-                          <td>{$row.mon_no}</td>
+                          <td>{$row@index+1}</td>
                           <td><a href='{$row.url_addr}' target='_blank'>{$row.url_title}</a> ({$row.url_no})</td>
-                          <td>{$row.mon_response_time}</td>
-                          <td>                           
-                            <div class="{$row.status_code_color}" data-demo-color="">{$row.status_code}</div>
-                          </td>
-                          <td>
-                            <div class="{$row.mon_img_match1_color}" data-demo-color=""><a href="/img_diff.php?url_no={$row.url_no}" target="_blank">{$row.mon_img_match1}</a></div>
-                          </td>
-                          <td>
-                            <div class="{$row.mon_html_match1_color}" data-demo-color=""><a href="/html_diff/{$row.mon_html_diff_output}" target="_blank">{$row.mon_html_match1}</a></div>
-                          </td>
-                          <td>{$row.mon_dt}</td>
+                          <td>{$row.url_response_time}</td>
+                          <td><div class="{$row.url_status_code_color}" data-demo-color="">{$row.url_status}</div></td>
+                          <td><div class="{$row.url_img_match1_color}" data-demo-color=""><a href="/img_diff.php?url_no={$row.url_no}" target="_blank">{$row.url_img_match1}</a></div></td>
+                          <td><div class="{$row.mon_html_match1_color}" data-demo-color=""><a href="/html_diff/{$row.url_html_diff_output}" target="_blank">{$row.url_html_match1}</a></div></td>
+                          <td>{$row.diff_time}분전</td>
+                          <td>{$row.url_lastest_check_dt}</td>
+                          <td>{$row.url_fg}</td>
+                          <td><a href="/dash_modified.php?url_no={$row.url_no}" class="link-muted"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="5" cy="12" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle></svg></a></td>
                         </tr>
                         {/foreach}
                       </tbody>
@@ -1200,11 +1237,86 @@
     <!-- Tabler Core -->
     <script src="./dist/js/tabler.min.js" defer></script>
     <script src="./dist/js/demo.min.js" defer></script>
+
+    <!-- Libs JS -->
+    <script>
+      // @formatter:off
+      document.addEventListener("DOMContentLoaded", function () {
+      	window.ApexCharts && (new ApexCharts(document.getElementById('chart-uptime'), {
+          
+      		chart: {            
+      			type: "area",
+      			fontFamily: 'inherit',
+      			height: 240,
+      			parentHeightOffset: 0,
+      			toolbar: {
+      				show: false,
+      			},
+      			animations: {
+      				enabled: false
+      			},
+            //setLocale('ko')
+      		},
+      		dataLabels: {
+      			enabled: false,
+      		},
+      		fill: {
+      			opacity: .16,
+      			type: 'solid'
+      		},
+      		stroke: {
+      			width: 2,
+      			lineCap: "round",
+      			curve: "smooth",
+      		},
+      		series: [{
+      			name: "응답시간",
+      			data: [
+            {foreach $graph as $row}{$row.mon_response_time}, {/foreach}
+            ]
+      		}],
+      		grid: {
+      			padding: {
+      				top: -20,
+      				right: 0,
+      				left: -4,
+      				bottom: -4
+      			},
+      			strokeDashArray: 4,
+      		},
+      		xaxis: {
+      			labels: {
+      				padding: 0,
+      			},
+      			tooltip: {
+      				enabled: false
+      			},
+      			axisBorder: {
+      				show: false,
+      			},
+      			type: 'datetime',
+      		},
+      		yaxis: {
+      			labels: {
+      				padding: 4
+      			},
+      		},
+      		labels: [ {foreach $graph as $row} '{$row.mon_dt}', {/foreach} ],
+      		colors: ["#206bc4"],
+      		legend: {
+      			show: false,
+      		},
+      	})).render();
+      });
+      // @formatter:on
+    </script>
+
     <script>
       // @formatter:off
       document.addEventListener("DOMContentLoaded", function () {
       	window.ApexCharts && (new ApexCharts(document.getElementById('chart-revenue-bg'), {
       		chart: {
+            defaultLocale: 'ko',
       			type: "area",
       			fontFamily: 'inherit',
       			height: 40.0,
@@ -1618,7 +1730,7 @@
       		},
       		series: [{
       			color: "#206bc4",
-      			data: [17, 24, 20, 10, 5, 1, 4, 18, 13]
+      			data: [17, 24, 20, 10, 5, 1, 4, 18, 13,17, 24, 20, 10, 5, 1, 4, 18, 13,]
       		}],
       	})).render();
       });
@@ -1773,6 +1885,127 @@
       	})).render();
       });
       // @formatter:on
+      
+
+      new Chart(document.getElementById("line-chart"), {
+        type: 'line',
+        data: {
+          labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+          datasets: [{ 
+              data: [86,114,106,106,107,111,133,221,783,2478],
+              label: "Africa",
+              borderColor: "#3e95cd",
+              fill: false
+            }, { 
+              data: [282,350,411,502,635,809,947,1402,3700,5267],
+              label: "Asia",
+              borderColor: "#8e5ea2",
+              fill: false
+            }, { 
+              data: [168,170,178,190,203,276,408,547,675,734],
+              label: "Europe",
+              borderColor: "#3cba9f",
+              fill: false
+            }, { 
+              data: [40,20,10,16,24,38,74,167,508,784],
+              label: "Latin America",
+              borderColor: "#e8c3b9",
+              fill: false
+            }, { 
+              data: [6,3,2,2,7,26,82,172,312,433],
+              label: "North America",
+              borderColor: "#c45850",
+              fill: false
+            }
+          ]
+        },
+        options: {
+          title: {
+            display: false,
+            text: '응답시간'
+          }
+        }
+      });
+
+      
+
     </script>
+
+    <script>
+      const ctx = document.getElementById('timeSeriesChart').getContext('2d');
+
+      /* const startDate = new Date(2020, 0, 1); */
+      const labels = [{foreach $graph as $row} '{$row.mon_dt}', {/foreach}];
+      /*
+      for (let i = 0; i < 6; i++) {
+        const date = moment(startDate).add(i, 'days').format('YYYY-MM-DD');
+        labels.push(date.toString());
+      }
+      */
+
+      const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Response Time(s)',
+            data: [ {foreach $graph as $row}{$row.mon_response_time}, {/foreach} ],
+            borderColor: '#206bc4',
+            fill: false,
+            borderWidth: 2,
+          }]
+        },
+        options: {
+          plugins: {
+            legend: {
+                labels: {
+                    // This more specific font property overrides the global property
+                    font: {
+                        size: 14,
+                        family: "sans-serif"
+                    }
+                }
+            }
+          },
+          scales: {
+            xAxes: [{
+                ticks: {
+                  display: false
+                },
+                gridLines: {
+                    display:false
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                  stepSize: 4
+                },
+                gridLines: {
+                  display:false
+                }   
+            }]
+          },
+          elements: {
+            point:{
+                radius: 0
+            }
+          },
+          tooltips: {
+            mode: 'index',
+            intersect: false,
+          },
+          legend: {
+            display: false
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true
+          },
+                   
+        }
+      });
+  
+    </script>
+
   </body>
 </html>

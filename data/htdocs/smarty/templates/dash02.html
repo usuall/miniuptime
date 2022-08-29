@@ -151,7 +151,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-table table-responsive">
-                    <table class="table">
+                    <table class="table table-vcenter card-table table-striped">
                       <thead>
                         <tr>
                           <th>NO</th>
@@ -160,7 +160,8 @@
                           <th>상태코드</th>
                           <th>이미지 유사성(%)</th>
                           <th>HTML 유사성(%)</th>
-                          <th>일시</th>
+                          <th>점검</th>
+                          <th>점검일시</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -169,15 +170,10 @@
                           <td>{$row.mon_no}</td>
                           <td><a href='{$row.url_addr}' target='_blank'>{$row.url_title}</a> ({$row.url_no})</td>
                           <td>{$row.mon_response_time}</td>
-                          <td>                           
-                            <div class="{$row.status_code_color}" data-demo-color="">{$row.status_code}</div>
-                          </td>
-                          <td>
-                            <div class="{$row.mon_img_match1_color}" data-demo-color=""><a href="/img_diff.php?url_no={$row.url_no}" target="_blank">{$row.mon_img_match1}</a></div>
-                          </td>
-                          <td>
-                            <div class="{$row.mon_html_match1_color}" data-demo-color=""><a href="/html_diff/{$row.mon_html_diff_output}" target="_blank">{$row.mon_html_match1}</a></div>
-                          </td>
+                          <td><div class="{$row.status_code_color}">{$row.status_code}</div></td>
+                          <td><div class="{$row.mon_img_match1_color}"><a href="/img_diff.php?url_no={$row.url_no}" target="_blank">{$row.mon_img_match1}</a></div></td>
+                          <td><div class="{$row.mon_html_match1_color}"><a href="/html_diff/{$row.mon_html_diff_output}" target="_blank">{$row.mon_html_match1}</a></div></td>
+                          <td>{$row.diff_time}분전</td>
                           <td>{$row.mon_dt}</td>
                         </tr>
                         {/foreach}

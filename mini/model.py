@@ -60,9 +60,10 @@ def get_grp_url_list(c, keyword):
         sql += f" and b.url_addr like '%{keyword.get('SITE_URL')}%'"
     if(keyword.get('URL_NO')):
         sql += f" and b.url_no = '{keyword.get('URL_NO')}'"
-        
+    
     if(keyword.get('RANDOM') == True):
         sql += f" order by rand()"
+        #sql += f" order by b.url_lastest_check_dt desc"
     else:
         sql += f" order by b.url_no"
     
@@ -79,8 +80,8 @@ def add_monitoring(c, tb_monitor):
     
 @with_cursor
 def update_url_monitoring(c, tb_url):
-    sql_data = ("UPDATE tb_url SET url_redirected = %s, url_status = %s, url_lastest_check_dt = now() WHERE url_no = %s ")
-    sql_val = (tb_url['url_redirected'], tb_url['url_status'], tb_url['url_no'])
+    sql_data = ("UPDATE tb_url SET url_redirected = %s, url_response_time = %s, url_status = %s, url_lastest_check_dt = now(), url_img_match1 = %s, url_html_match1 = %s, url_html_diff_output = %s  WHERE url_no = %s ")
+    sql_val = (tb_url['url_redirected'], tb_url['url_response_time'], tb_url['url_status'], tb_url['url_img_match1'], tb_url['url_html_match1'], tb_url['url_html_diff_output'], tb_url['url_no'])
     c.execute(sql_data, sql_val)
     
     

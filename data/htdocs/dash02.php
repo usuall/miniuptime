@@ -16,7 +16,7 @@ if(isset($img_level) == True){
 }
 
 //データ検索
-$mysql = $pdo->query("SELECT a.*, b.* FROM `tb_monitor` as a left outer join tb_url as b on a.url_no = b.url_no where a.mon_img_match1 <= '$img_level' order by a.mon_no desc limit 350");
+$mysql = $pdo->query("SELECT a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time FROM `tb_monitor` as a left outer join tb_url as b on a.url_no = b.url_no where a.mon_img_match1 <= '$img_level' order by a.mon_no desc limit 350");
 
 //データ割り当て
 $result = array();
@@ -65,6 +65,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         'mon_response_time' => $data['mon_response_time'],
         'status_code' => $data['status_code'],
         'status_code_color' => $status_code_color,
+        'diff_time' => $data['diff_time'],
         'html_file' => $data['html_file'],
         'mon_img_match1' => $data['mon_img_match1'],
         'mon_img_match1_color' => $mon_img_match1_color,

@@ -16,7 +16,7 @@ if(isset($img_level) == True){
 }
 
 //データ検索
-$mysql = $pdo->prepare('select * from tb_url where grp_no =:id order by url_title ');
+$mysql = $pdo->prepare('select *, timestampdiff(minute, url_lastest_check_dt, now()) as diff_time from tb_url where grp_no =:id order by url_title ');
 $mysql->bindValue(':id', $grp_no);
 $mysql->execute();
 //データ割り当て
@@ -35,7 +35,6 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         $url_fg = 'N';
     }
 
-
     $urls = array(
         'url_no'            => $data['url_no'],
         'url_title'         => $data['url_title'],
@@ -44,8 +43,10 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         'url_response_time' => $data['url_response_time'],        
         'url_status'        => $data['url_status'],
         'url_lastest_check_dt' => $data['url_lastest_check_dt'],
-        'url_img_match1'    => $data['url_img_match1'],            
-        'url_html_match1'   => $data['url_html_match1'],            
+        'diff_time' => $data['diff_time'],
+        'url_img_match1'    => $data['url_img_match1'],
+        'url_html_match1'   => $data['url_html_match1'],
+        'url_html_diff_output'   => $data['url_html_diff_output'],            
         'url_fg'            => $url_fg,
     );
 
@@ -59,7 +60,7 @@ $smarty->assign('result', $arr_urls);
 
 
 //graph01
-echo $sql = "SELECT mon_dt, mon_response_time, status_code FROM `tb_monitor` WHERE url_no = 1 order by mon_dt desc limit 40";
+$sql = "SELECT mon_dt, mon_response_time, status_code FROM `tb_monitor` WHERE url_no = 1 order by mon_dt desc limit 30";
 $mysql2 = $pdo->query($sql);
 
 //データ割り当て
@@ -71,7 +72,7 @@ while ($data = $mysql2->fetch(PDO::FETCH_ASSOC)) {
 
     #결과 출력용
     $arr = array(
-        'mon_dt'            => $data['mon_dt'],
+        'mon_dt'            => substr($data['mon_dt'], 10,6),
         'mon_response_time' => $data['mon_response_time'],
         'status_code'       => $data['status_code'],
     );
