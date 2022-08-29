@@ -355,34 +355,34 @@
                -->
               <div class="col-12">
                 <div class="card">
-                  <div class="card-table table-responsive">
+                  <div id="table-default" class="card-table table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>NO</th>
-                          <th>사이트명</th>
-                          <th>응답시간(초)</th>
-                          <th>상태코드</th>
-                          <th>이미지 유사성(%)</th>
-                          <th>HTML 유사성(%)</th>
-                          <th>점검</th>
-                          <th>점검일시</th>
-                          <th>사용</th>
+                          <th><button class="table-sort" data-sort="sort-1">NO</button></th>
+                          <th><button class="table-sort" data-sort="sort-2">사이트명</button></th>
+                          <th><button class="table-sort" data-sort="sort-3">응답시간(초)</button></th>
+                          <th><button class="table-sort" data-sort="sort-4">상태코드</button></th>
+                          <th><button class="table-sort" data-sort="sort-5">이미지 유사성(%)</button></th>
+                          <th><button class="table-sort" data-sort="sort-6">HTML 유사성(%)</button></th>
+                          <th><button class="table-sort" data-sort="sort-7">점검</button></th>
+                          <th><button class="table-sort" data-sort="sort-8">점검일시</button></th>
+                          <th><button class="table-sort" data-sort="sort-9">사용</button></th>
                           <th>수정</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody class="table-tbody">
                         {foreach $result as $row}
                         <tr>
-                          <td>{$row@index+1}</td>
-                          <td><a href='{$row.url_addr}' target='_blank'>{$row.url_title}</a> ({$row.url_no})</td>
-                          <td>{$row.url_response_time}</td>
-                          <td><div class="{$row.url_status_code_color}" data-demo-color="">{$row.url_status}</div></td>
-                          <td><div class="{$row.url_img_match1_color}" data-demo-color=""><a href="/img_diff.php?url_no={$row.url_no}" target="_blank">{$row.url_img_match1}</a></div></td>
-                          <td><div class="{$row.mon_html_match1_color}" data-demo-color=""><a href="/html_diff/{$row.url_html_diff_output}" target="_blank">{$row.url_html_match1}</a></div></td>
-                          <td>{$row.diff_time}분전</td>
-                          <td>{$row.url_lastest_check_dt}</td>
-                          <td>{$row.url_fg}</td>
+                          <td class="sort-1">{$row@index+1}</td>
+                          <td class="sort-2"><a href='{$row.url_addr}' target='_blank'>{$row.url_title}</a> ({$row.url_no})</td>
+                          <td class="sort-3">{$row.url_response_time}</td>
+                          <td class="sort-4"><div class="{$row.url_status_code_color}" data-demo-color="">{$row.url_status}</div></td>
+                          <td class="sort-5"><div class="{$row.url_img_match1_color}" data-demo-color=""><a href="/img_diff.php?url_no={$row.url_no}" target="_blank">{$row.url_img_match1}</a></div></td>
+                          <td class="sort-6"><div class="{$row.mon_html_match1_color}" data-demo-color=""><a href="/html_diff/{$row.url_html_diff_output}" target="_blank">{$row.url_html_match1}</a></div></td>
+                          <td class="sort-7">{$row.diff_time}분전</td>
+                          <td class="sort-8">{$row.url_lastest_check_dt}</td>
+                          <td class="sort-9">{$row.url_fg}</td>
                           <td><a href="/dash_modified.php?url_no={$row.url_no}" class="link-muted"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="5" cy="12" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle></svg></a></td>
                         </tr>
                         {/foreach}
@@ -2006,6 +2006,16 @@
       });
   
     </script>
-
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+      const list = new List('table-default', {
+      	sortClass: 'table-sort',
+      	listClass: 'table-tbody',
+      	valueNames: [ 'sort-1', 'sort-2', 'sort-3', 'sort-4','sort-5','sort-6','sort-7','sort-9'
+      		{ attr: 'data-date', name: 'sort-8' },
+      	]
+      });
+      })
+    </script>
   </body>
 </html>
