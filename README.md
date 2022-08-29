@@ -37,7 +37,7 @@ pip install loguru
 
 
 ### optional
-pip install opencv-python
+pip install opencv-python  
 pip install gtts  
 pip install playsound  
 
