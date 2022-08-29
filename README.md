@@ -43,5 +43,5 @@ pip install playsound
 
 
 
-ALTER TABLE `tb_url` ADD `url_html_diff_output` VARCHAR(255) NULL AFTER `url_html_match2`;
+ALTER TABLE `tb_url` ADD `url_html_diff_output` VARCHAR(255) NULL AFTER `url_html_match2`;  
 ALTER TABLE `tb_url` DROP `url_type`;
