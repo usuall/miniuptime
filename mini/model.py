@@ -61,8 +61,10 @@ def get_grp_url_list(c, keyword):
     if(keyword.get('URL_NO')):
         sql += f" and b.url_no = '{keyword.get('URL_NO')}'"
         
-    #sql += f" order by b.url_lastest_check_dt desc"
-    sql += f" order by b.url_no"
+    if(keyword.get('RANDOM') == True):
+        sql += f" order by rand()"
+    else:
+        sql += f" order by b.url_no"
     
     logger.info('SQL : ' + sql )
     c.execute(sql)

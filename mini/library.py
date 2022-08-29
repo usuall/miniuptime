@@ -45,13 +45,14 @@ html_diff_path = web_path + config_sys['HTML_DIFF_PATH'] + '\\'
 
 # 실행환경
 user_agent = 'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
+log_dt = datetime.now().strftime('%y%m%d_%H%M%S')
 
 # 각종 로그 출력 설정
 LOG_rotation = config_sys['LOG_ROTATION']
 LOG_retention = int(config_sys['LOG_RETENTION'])
 logger.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="INFO")
-logger.add(logs_path + "uptime.log", rotation=LOG_rotation, retention=LOG_retention ) # rotation='100 MB' (로그 사이즈), retantion=10 (10세대분 보유)
-logger.add(logs_path + "uptime_err.log", rotation=LOG_rotation, retention=LOG_retention, level='WARNING')  # rotation='100 MB' (로그 사이즈), retantion=10 (10세대분 보유), level=로그레벨
+logger.add(logs_path + "uptime_"+ log_dt +".log", rotation=LOG_rotation, retention=LOG_retention ) # rotation='100 MB' (로그 사이즈), retantion=10 (10세대분 보유)
+logger.add(logs_path + "uptime_err_"+ log_dt +".log", rotation=LOG_rotation, retention=LOG_retention, level='WARNING')  # rotation='100 MB' (로그 사이즈), retantion=10 (10세대분 보유), level=로그레벨
 
 logger.info('<SYSTEM> Init ------------------------- ')
 logger.info('<SYSTEM> LIBRARY PATH : ' + lib_path)
@@ -93,7 +94,7 @@ def isExist_dir(path):
 def button_activate(window, activate):
     
     # 화면 요소ID
-    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-BUTTON_START-')
+    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-BUTTON_START-', '-RANDOM-')
     #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
     
     # 버튼 활성화 전환
@@ -134,7 +135,8 @@ def getCondition(window, values):
     window['-OUTPUT-'].update(value='- 사이트명 : ' + values['-SITE_TITLE-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- URL명 : ' + values['-SITE_URL-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- 반복 점검 : ' + str(values['-REPEAT-']) + '\n', append=True)
-    window['-OUTPUT-'].update(value='- 비활성화 URL포함. : ' + str(values['-DISABLED-']) + '\n', append=True)
+    window['-OUTPUT-'].update(value='- 비활성화 URL포함 : ' + str(values['-DISABLED-']) + '\n', append=True)
+    window['-OUTPUT-'].update(value='- 랜덤수집 : ' + str(values['-RANDOM-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 백그라운드 실행 : ' + str(values['-BG_EXE-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']) + '\n', append=True)
@@ -148,6 +150,7 @@ def getCondition(window, values):
                 'SITE_URL':     values['-SITE_URL-'], 
                 'REPEAT':       values['-REPEAT-'], 
                 'DISABLED':     values['-DISABLED-'], 
+                'RANDOM':     values['-RANDOM-'], 
                 'BG_EXE':       values['-BG_EXE-'], 
                 'IMAGE_MATCH':  values['-IMAGE_MATCH-'], 
                 'HTML_MATCH':   values['-HTML_MATCH-'], 
@@ -159,7 +162,8 @@ def getCondition(window, values):
     logger.info('사이트명 : ' + values['-SITE_TITLE-'])
     logger.info('URL명 : ' + values['-SITE_URL-'])
     logger.info('반복 점검 : ' + str(values['-REPEAT-']))
-    logger.info('비활성화 URL포함. : ' + str(values['-DISABLED-']))
+    logger.info('비활성화 URL포함 : ' + str(values['-DISABLED-']))
+    logger.info('랜덤 수집 : ' + str(values['-RANDOM-']))    
     logger.info('백그라운드 실행 : ' + str(values['-BG_EXE-']))
     logger.info('이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']))
     logger.info('HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']))
