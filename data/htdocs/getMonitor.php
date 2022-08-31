@@ -11,10 +11,11 @@ if(isset($img_level) == True){
     $img_level = 100;
 }
 
+$mon_no = $_POST['mon_no'];
 //データ検索
-$mysql = $pdo->query("SELECT max(mon_no) as mon_no from tb_monitor");
-$data = $mysql->fetch(PDO::FETCH_ASSOC);
-$mon_no = $data['mon_no'] - 1;
+// $mysql = $pdo->query("SELECT max(mon_no) as mon_no from tb_monitor");
+// $data = $mysql->fetch(PDO::FETCH_ASSOC);
+// $mon_no = $data['mon_no'] - 1;
 
 
 

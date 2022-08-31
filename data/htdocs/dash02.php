@@ -75,6 +75,10 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         // 'mon_dt' => $data['mon_dt'],
     );
 
+    if($i == 1){
+        $lastest_no = $data['mon_no'];    
+    }
+    
     // array_push($arr_groups, $arr_urls);
     //array_push($result, $arr_row);
 
@@ -85,6 +89,8 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 }
 // $smarty->debugging = true;
 $smarty->assign('result', $arr_row);
+$smarty->assign('mon_no', $lastest_no);
+
 
 //template파일 설정
 $smarty->display('dash02.html');
