@@ -35,6 +35,8 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         $url_fg = 'N';
     }
 
+    $diff_time = checkPriod($data['diff_time']);
+
     $urls = array(
         'url_no'            => $data['url_no'],
         'url_title'         => $data['url_title'],
@@ -43,7 +45,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         'url_response_time' => $data['url_response_time'],        
         'url_status'        => $data['url_status'],
         'url_lastest_check_dt' => $data['url_lastest_check_dt'],
-        'diff_time' => $data['diff_time'],
+        'diff_time'         => $diff_time,
         'url_img_match1'    => $data['url_img_match1'],
         'url_html_match1'   => $data['url_html_match1'],
         'url_html_diff_output'   => $data['url_html_diff_output'],            

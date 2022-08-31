@@ -35,4 +35,6 @@ $smarty->setCacheDir(   MY_WEB_DIR. '/smarty/cache/');
 $smarty->setCacheDir(   MY_WEB_DIR. '/smarty/cache/');
 
 
+require_once(dirname(__FILE__).'/library.php');
+
 ?>

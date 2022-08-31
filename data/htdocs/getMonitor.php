@@ -2,10 +2,6 @@
 
 require_once(dirname(__FILE__).'/lib/config.php');
 
-error_reporting (E_ALL ^ E_NOTICE);
-
-//상단 메뉴
-include_once('menu.php');
 
 //이미지 유사도 표시 상한선
 $img_level = '';
@@ -16,13 +12,26 @@ if(isset($img_level) == True){
 }
 
 //データ検索
-$mysql = $pdo->query("SELECT a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time FROM `tb_monitor` as a left outer join tb_url as b on a.url_no = b.url_no where a.mon_img_match1 <= '$img_level' order by a.mon_no desc limit 3");
+$mysql = $pdo->query("SELECT max(mon_no) as mon_no from tb_monitor");
+$data = $mysql->fetch(PDO::FETCH_ASSOC);
+$mon_no = $data['mon_no'] - 1;
+
+
+
+$mysql = $pdo->query("SELECT a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
+                    FROM `tb_monitor` as a 
+                    LEFT OUTER JOIN tb_url as b on a.url_no = b.url_no 
+                    where a.mon_img_match1 <= '$img_level' 
+                    and a.mon_no > '$mon_no'
+                    ORDER BY a.mon_no desc");
 
 //データ割り当て
+// $groups = array();
 $result = array();
-$arr_row = array();
+$arr_groups = array();
+$arr_urls = array();
 
-// $result = $mysql->fetchAll(PDO::FETCH_ASSOC);
+$arr_row = array();
 
 $i = 1;
 while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
@@ -75,19 +84,25 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         // 'mon_dt' => $data['mon_dt'],
     );
 
-    // array_push($arr_groups, $arr_urls);
-    //array_push($result, $arr_row);
+    
 
 
     $i++;
 
 
 }
-// $smarty->debugging = true;
-$smarty->assign('result', $arr_row);
 
-//template파일 설정
-$smarty->display('dash02.html');
+// var_dump($result);
+
+
+header('Content-type: application/json');
+echo json_encode($arr_row);
+
+
+// $smarty->debugging = true;
+
+/**/
+
 
 //DB 접속종료
 $pdo = null;
