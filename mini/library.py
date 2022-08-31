@@ -409,7 +409,7 @@ def get_monitoring(window, keyword):
         # 응답시간 취득
         resp_time = str(round(time.time()-outtime, 2))
             
-        redirected_url = driver.current_url       
+        redirected_url = driver.current_url
         
         #팝업 레이어 
         # driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
@@ -861,10 +861,31 @@ def save_html(url_no, src_text):
 
 @logger.catch    
 def get_request_code(web_url):
+    
+    global user_agent
+    headers = {'User-Agent': user_agent}
+    
+    print(headers)
+    
     status = None
     try:
-        response = requests.get(web_url, verify=False) # verify=False (SSLerror 오류 발생 회피)
+        response = requests.get(web_url, headers=headers, verify=False) # verify=False (SSLerror 오류 발생 회피)
+        
+        
+        # 상태코드 수신 대기
+        loop_cnt = 0
+        print ('loop_cnt1-->', loop_cnt, response.status_code)
+        # while response.status_code == 'None':
+        #     if(loop_cnt < 10 ):
+        #         time.sleep(1)
+        #         loop_cnt += 1
+        #     else:
+        #         break
+            
+        #     print ('loop_cnt2-->', loop_cnt, response.status_code)
+                    
         status = response.status_code
+
     except:
         pass
 
