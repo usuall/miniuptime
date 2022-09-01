@@ -42,6 +42,8 @@ logs_path = data_path + config_sys['LOGS_PATH'] + '\\'     # 각종로그 경로
 html_origin_path = html_path + config_sys['HTML_ORIGIN_PATH'] + '\\'
 html_daily_path = html_path + config_sys['HTML_DAILY_PATH'] + '\\'
 html_diff_path = web_path + config_sys['HTML_DIFF_PATH'] + '\\'
+skip_unchanged = config_sys['HTML_DIFF_SKIP_UNCHANGED']
+
 
 # 실행환경
 user_agent = 'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
@@ -601,8 +603,9 @@ def trim_unchanged(lines:list[str]) -> list[str]:
 
     return pre + [x[1] for x in minimal_lines] + post
 
-def html_diff_output(from_file, to_file, html_diff_output_file, template_path, css_path, skip_unchanged=None):
+def html_diff_output(from_file, to_file, html_diff_output_file, template_path, css_path):
     
+    global skip_unchanged
     # import argparse
     # from pathlib import Path
     # from difflib import HtmlDiff
@@ -714,13 +717,12 @@ def diff_html(org_html, html_file, url_no):
         
         template_path = lib_path + 'diff_template.html'
         css_path = lib_path + 'diff_wrap.css'
-        skip_unchanged = False
         
         sysdate = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
         
         file_name = str('{0:04}'.format(url_no)) + '_' + str(sysdate) +'_diff.html'
         html_diff_output_file = html_diff_path + file_name
-        html_diff_output(org_html, daily_html, html_diff_output_file, template_path, css_path, skip_unchanged)
+        html_diff_output(org_html, daily_html, html_diff_output_file, template_path, css_path)
         
         html_output['mon_html_diff_output'] = file_name
         

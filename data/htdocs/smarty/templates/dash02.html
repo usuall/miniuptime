@@ -152,7 +152,6 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-table table-responsive">
-                    <button id="ajax">ボタン</button>
                     <table class="table table-vcenter card-table table-striped" id='result'>
                       <thead>
                         <tr>
@@ -234,62 +233,58 @@
     <script src="./dist/js/tabler.min.js" defer></script>
     <script src="./dist/js/demo.min.js" defer></script>
     <script>
-      $(function(){
-        setTimeout(() => {
-
-          console.log('repeat...');
-
-          $.ajax({
+      function dojQueryAjax() {
+ 
+        // jQueryのajaxメソッドを使用しajax通信
+        $.ajax({
+            
             url:'/getMonitor.php' , //送信先
             type:'POST', //送信方法
+            cache: false, // キャッシュしないで読み込み
             datatype: 'json', //受け取りデータの種類
             data:{
               'mon_no' : $('#mon_no').val()
-            }
-          })
-          // Ajax通信が成功した時
-          .done( function(data, datatype) {
-            //$('#result').html("<p>ID番号"+data[0].mon_no+"は「"+data[0].url_title+"」さんです。<br>メールアドレスは「"+data[0].mon_dt+"」です。</p>");
-            
-            // 返ってきたデータの表示
-            var $content = $('#result');
-            var last_mon_no = 0;
-            for (var i =0; i<data.length; i++) {
-              
-              str  = "<tr><td>" + data[i].mon_no + "</td>";
-              str += "<td><a href='"+ data[i].url_addr + "' target='_blank'>" + data[i].url_title + "</a> ("+data[i].url_no+")</td>";
-              str += "<td>" + data[i].mon_response_time + "</td>";
-              str += "<td><div class='" + data[i].status_code_color + "'>" + data[i].status_code + "</div></td>";
-              str += "<td><div class='" + data[i].mon_img_match1_color + "'><a href='/img_diff.php?url_no="+ data[i].url_no + " target='_blank'>" + data[i].mon_img_match1 + "</div></td>";
-              str += "<td><div class='" + data[i].mon_html_match1_color + "'><a href='/html_diff/"+ data[i].mon_html_diff_output + " target='_blank'>" + data[i].mon_html_match1 + "</div></td>";
-              str += "<td>" + data[i].diff_time + "</td>";
-              str += "<td>" + data[i].mon_dt + "</td></tr>";
+            },
+            // 通信成功時に呼び出されるコールバック
+            success: function (data) {
 
+              // 返ってきたデータの表示
+              var $content = $('#result');
+              var last_mon_no = 0;
+              for (var i =0; i<data.length; i++) {
+                
+                str  = "<tr><td>" + data[i].mon_no + "</td>";
+                str += "<td><a href='"+ data[i].url_addr + "' target='_blank'>" + data[i].url_title + "</a> ("+data[i].url_no+")</td>";
+                str += "<td>" + data[i].mon_response_time + "</td>";
+                str += "<td><div class='" + data[i].status_code_color + "'>" + data[i].status_code + "</div></td>";
+                str += "<td><div class='" + data[i].mon_img_match1_color + "'><a href='/img_diff.php?url_no="+ data[i].url_no + "' target='_blank'>" + data[i].mon_img_match1 + "</div></td>";
+                str += "<td><div class='" + data[i].mon_html_match1_color + "'><a href='/html_diff/"+ data[i].mon_html_diff_output + "' target='_blank'>" + data[i].mon_html_match1 + "</div></td>";
+                str += "<td>" + data[i].diff_time + "</td>";
+                str += "<td>" + data[i].mon_dt + "</td></tr>";
 
-              $content.prepend(str);
-              last_mon_no = data[i].mon_no;
-              
-              console.log(data[i].sql);
+                $content.prepend(str);
+                last_mon_no = data[i].mon_no;
+                
+                console.log(data[i].sql);
 
-              if(last_mon_no > $('#mon_no').val()){
-                $('#mon_no').val(last_mon_no);
+                if(last_mon_no > $('#mon_no').val()){
+                  $('#mon_no').val(last_mon_no);
+                }
               }
-            }
 
-            
-            
-            console.log('通信成功');
-            
-            
-           })
-           // Ajax通信が失敗した時
-           .fail( function(data) {
-              $('#result').html(data);
-              console.log('通信失敗');
-              console.log(data);
-           })
-        }, 1000)
-      })
+            },
+            // 通信エラー時に呼び出されるコールバック
+            error: function () {     
+              alert("Ajax Error Occured.");
+            }
+        });
+     
+      }
+
+      window.addEventListener('load', function () {
+        setInterval(dojQueryAjax, 5000);
+      });
+
     </script>
     
     
