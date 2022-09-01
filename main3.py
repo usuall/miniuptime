@@ -68,9 +68,7 @@ def main():
     ]
     
     #window = sg.Window('Uptime Manager for NIRS', layout, default_element_size=(40, 1), grab_anywhere=False, location=sg.user_settings_get_entry('-LOCATION-', (None, None)))
-    window = sg.Window('Uptime Stream for NIRS', layout, default_element_size=(40, 1), grab_anywhere=True,
-                       icon=ico
-                       )
+    window = sg.Window('Uptime Stream for NIRS', layout, default_element_size=(40, 1), grab_anywhere=False, icon=ico)
 
     stop_event = Event()
     cnt = 0

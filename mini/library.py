@@ -617,7 +617,9 @@ def html_diff_output(from_file, to_file, html_diff_output_file, template_path, c
 
     # 差分を html table に変換
     df = HtmlDiff()
+    logger.info('html_diff_output  1 (성능개선 필요, 1행에 대량의 코드가 있는 경우, mob.hometax.go.kr 5분 소요')
     markup_lines = df.make_table(f, t, fromdesc=f_path.name, todesc=t_path.name).splitlines()
+    logger.info('html_diff_output  2')
     if skip_unchanged:
         markup_lines = trim_unchanged(markup_lines)
     markup_table = "\n".join(markup_lines)
@@ -702,9 +704,9 @@ def diff_html(org_html, html_file, url_no):
     html_output['mon_html_diff_output'] = 'None'
     
     
-    if(s4 != 100):
+    if(s4 < 100):
     #if(html_output['s4'] != 100):
-
+        logger.info('Joint Similarity < 100 ...1')
         # first_file_lines = Path(org_html).read_text('utf-8').splitlines()
         # second_file_lines = Path(daily_html).read_text('utf-8').splitlines()
 
@@ -724,12 +726,13 @@ def diff_html(org_html, html_file, url_no):
         html_diff_output_file = html_diff_path + file_name
         html_diff_output(org_html, daily_html, html_diff_output_file, template_path, css_path)
         
+        logger.info('Joint Similarity < 100 ...2 ')
+        
         html_output['mon_html_diff_output'] = file_name
-        
-        logger.info('Joint Similarity not ...100')
-        
-    else:
+    elif(s4 == 100):
         logger.info('Joint Similarity is 100')
+    else:
+        logger.info('Joint Similarity > 100 !! ')
     
     # print (html_output)
     
@@ -783,6 +786,8 @@ def set_browser_option(BG_EXE):
         #options.add_argument('--window-size=1900,1080')
         options.add_argument('--window-size=1280,1000')
         options.add_argument("--headless")
+        # headless 탐지막기 
+        # https://beomi.github.io/gb-crawling/posts/2017-09-28-HowToMakeWebCrawler-Headless-Chrome.html
         # options.headless = True
 
     else:
@@ -867,7 +872,7 @@ def get_request_code(web_url):
     global user_agent
     headers = {'User-Agent': user_agent}
     
-    print(headers)
+    # print(headers)
     
     status = None
     try:
@@ -939,6 +944,24 @@ def image_match(origin_img, new_img):
         logger.info('Original image is nothing ... Image_matching skipped')
         result = -1 # 스킵(상태) = -1
         return result
+
+
+def fullpage_screenshot_test(driver, file):
+    # from selenium import webdriver
+
+    # chrome_options = webdriver.ChromeOptions()
+    # chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--no-sandbox")
+    # chrome_options.add_argument("--disable-dev-shm-usage")
+    # driver = webdriver.Chrome("/usr/local/bin/chromedriver", chrome_options=chrome_options)
+    #driver.get("http://naver.com")
+    #width = driver.execute_script("return document.body.scrollWidth") #스크롤 할 수 있는 최대 넓이
+    width = driver.execute_script("return document.body.clientWidth")
+    height = driver.execute_script("return document.body.scrollHeight") #스크롤 할 수 있는 최대 높이
+    driver.set_window_size(width, height) #스크롤 할 수 있는 모든 부분을 지정
+    driver.save_screenshot(file)
+
+
 
 @logger.catch    
 def fullpage_screenshot(driver, file):
