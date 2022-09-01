@@ -1,0 +1,1 @@
+pythonw -u main3.py > main32.log 2>&1

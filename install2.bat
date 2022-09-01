@@ -1,5 +1,3 @@
-REM ( ... install2.bat 을 실행하세요 .....  )
-
 REM ( PIP upgrading .....  )
 python -m pip install --upgrade pip
 
@@ -11,6 +9,7 @@ pip install numpy
 pip install scipy
 pip install .
 
+REM ( Image-match drectory deleting.... )
 cd ..
 rmdir /S /Q image-match
 

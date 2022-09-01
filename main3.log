@@ -1,0 +1,353 @@
+2022-08-31 16:42:22.342 | INFO     | mini.library:<module>:58 - <SYSTEM> Init ------------------------- 
+2022-08-31 16:42:22.343 | INFO     | mini.library:<module>:59 - <SYSTEM> LIBRARY PATH : D:\DevOPS\project\miniuptime\mini\
+2022-08-31 16:42:22.343 | INFO     | mini.library:<module>:60 - <SYSTEM> DATA PATH : D:\DevOPS\project\miniuptime\data\
+2022-08-31 16:42:22.343 | INFO     | mini.library:<module>:61 - <SYSTEM> IMG PATH : D:\DevOPS\project\miniuptime\data\htdocs\capture\
+2022-08-31 16:42:22.343 | INFO     | mini.library:<module>:62 - <SYSTEM> HTML PATH : D:\DevOPS\project\miniuptime\data\html\
+2022-08-31 16:42:22.344 | INFO     | mini.library:<module>:63 - <SYSTEM> LOGS PATH : D:\DevOPS\project\miniuptime\data\logs\
+2022-08-31 16:42:22.345 | INFO     | mini.library:<module>:64 - <SYSTEM> LOG_ROTATION : 2 MB
+2022-08-31 16:42:22.345 | INFO     | mini.library:<module>:65 - <SYSTEM> LOG_RETENTION : 30
+2022-08-31 16:42:28.882 | INFO     | __main__:main:88 -  --- BUTTON_START --- 
+2022-08-31 16:42:29.128 | INFO     | mini.library:getCondition:160 - --------- <모니터링 시작> ---------
+2022-08-31 16:42:29.129 | INFO     | mini.library:getCondition:161 - 카테고리 : 전 체
+2022-08-31 16:42:29.130 | INFO     | mini.library:getCondition:162 - URL번호 : 
+2022-08-31 16:42:29.130 | INFO     | mini.library:getCondition:163 - 사이트명 : 
+2022-08-31 16:42:29.130 | INFO     | mini.library:getCondition:164 - URL명 : 
+2022-08-31 16:42:29.131 | INFO     | mini.library:getCondition:165 - 반복 점검 : True
+2022-08-31 16:42:29.131 | INFO     | mini.library:getCondition:166 - 비활성화 URL포함. : False
+2022-08-31 16:42:29.131 | INFO     | mini.library:getCondition:167 - 백그라운드 실행 : True
+2022-08-31 16:42:29.131 | INFO     | mini.library:getCondition:168 - 이미지 유사도 검증 : True
+2022-08-31 16:42:29.132 | INFO     | mini.library:getCondition:169 - HTML 유사도 검증 : True
+2022-08-31 16:42:29.132 | INFO     | mini.library:getCondition:170 - 타임아웃 설정 : 10초
+2022-08-31 16:42:31.812 | INFO     | mini.model:get_grp_url_list:70 - SQL : select b.* from tb_group as a right outer join tb_url as b on a.grp_no = b.grp_no where b.url_fg=1 order by rand()
+2022-08-31 16:42:31.826 | INFO     | mini.library:get_monitoring:342 - ☞  조회결과 : 338건
+2022-08-31 16:42:31.904 | INFO     | mini.library:get_monitoring:359 - ---- URL Health Check Start [1/338] ----
+2022-08-31 16:42:31.979 | INFO     | mini.library:get_monitoring:373 - [1/8] URL_GET(1/2) http://www.cppb.go.kr (0.0s)
+2022-08-31 16:42:34.466 | INFO     | mini.library:get_monitoring:393 - NoAlertPresentException ... pass 
+2022-08-31 16:42:34.478 | INFO     | mini.library:get_monitoring:418 - [2/8] URL redirected : https://www.cppb.go.kr/cppb/index.do (2.57s)
+2022-08-31 16:42:36.557 | INFO     | mini.library:fullpage_screenshot:928 - FullpageScreenshot_Total: (1247, 1879), Viewport: (1247,863)
+2022-08-31 16:42:38.169 | INFO     | mini.library:get_monitoring:446 - [3/8] Screenshot (6.27s)
+2022-08-31 16:42:38.169 | INFO     | mini.library:image_match:898 - org_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\orign\0191_site.png
+2022-08-31 16:42:38.170 | INFO     | mini.library:image_match:899 - new_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\daily\0191_site.png
+2022-08-31 16:42:38.473 | INFO     | mini.library:get_monitoring:465 - [4/8] image_match (OK) 100.0 (6.57s)
+2022-08-31 16:42:38.649 | INFO     | mini.library:get_monitoring:482 - [5/8] HTML Save (6.74s)
+2022-08-31 16:42:38.655 | INFO     | mini.library:diff_html:650 - org_html >>>>>D:\DevOPS\project\miniuptime\data\html\orign\0191.html
+2022-08-31 16:42:38.655 | INFO     | mini.library:diff_html:651 - daily_html >>>>>D:\DevOPS\project\miniuptime\data\html\daily\0191_20220831_164238_601227.html
+2022-08-31 16:42:38.766 | INFO     | mini.library:diff_html:684 - style_similarity : 1.0
+2022-08-31 16:42:38.766 | INFO     | mini.library:diff_html:685 - structural_similarity : 1.0
+2022-08-31 16:42:38.766 | INFO     | mini.library:diff_html:686 - similarity : 1.0
+2022-08-31 16:42:38.766 | INFO     | mini.library:diff_html:687 - Joint Similarity : 1.0
+2022-08-31 16:42:38.931 | INFO     | mini.library:diff_html:727 - Joint Similarity not ...100
+2022-08-31 16:42:40.240 | INFO     | mini.library:get_monitoring:501 - [6/8] Status : 200 (8.34s)
+2022-08-31 16:42:40.254 | INFO     | mini.library:get_monitoring:521 - [7/8] New Tab Closed (8.35s)
+2022-08-31 16:42:40.416 | INFO     | mini.library:get_monitoring:359 - ---- URL Health Check Start [2/338] ----
+2022-08-31 16:42:40.431 | INFO     | mini.library:get_monitoring:373 - [1/8] URL_GET(1/2) http://www.unikorea.go.kr/cn_unikorea/ (0.0s)
+2022-08-31 16:42:41.611 | INFO     | mini.library:get_monitoring:393 - NoAlertPresentException ... pass 
+2022-08-31 16:42:41.616 | INFO     | mini.library:get_monitoring:418 - [2/8] URL redirected : https://www.unikorea.go.kr/cn_unikorea/ (1.2s)
+2022-08-31 16:42:43.667 | INFO     | mini.library:fullpage_screenshot:928 - FullpageScreenshot_Total: (1247, 978), Viewport: (1247,863)
+2022-08-31 16:42:44.404 | INFO     | mini.library:get_monitoring:446 - [3/8] Screenshot (3.99s)
+2022-08-31 16:42:44.404 | INFO     | mini.library:image_match:898 - org_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\orign\0321_site.png
+2022-08-31 16:42:44.404 | INFO     | mini.library:image_match:899 - new_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\daily\0321_site.png
+2022-08-31 16:42:44.688 | INFO     | mini.library:get_monitoring:465 - [4/8] image_match (OK) 100.0 (4.27s)
+2022-08-31 16:42:44.840 | INFO     | mini.library:get_monitoring:482 - [5/8] HTML Save (4.42s)
+2022-08-31 16:42:44.883 | INFO     | mini.library:diff_html:650 - org_html >>>>>D:\DevOPS\project\miniuptime\data\html\orign\0321.html
+2022-08-31 16:42:44.884 | INFO     | mini.library:diff_html:651 - daily_html >>>>>D:\DevOPS\project\miniuptime\data\html\daily\0321_20220831_164244_811939.html
+2022-08-31 16:42:44.925 | INFO     | mini.library:diff_html:684 - style_similarity : 1.0
+2022-08-31 16:42:44.926 | INFO     | mini.library:diff_html:685 - structural_similarity : 1.0
+2022-08-31 16:42:44.926 | INFO     | mini.library:diff_html:686 - similarity : 1.0
+2022-08-31 16:42:44.927 | INFO     | mini.library:diff_html:687 - Joint Similarity : 1.0
+2022-08-31 16:42:45.024 | INFO     | mini.library:diff_html:727 - Joint Similarity not ...100
+2022-08-31 16:42:45.140 | INFO     | mini.library:get_monitoring:501 - [6/8] Status : 200 (4.72s)
+2022-08-31 16:42:45.334 | INFO     | mini.library:get_monitoring:521 - [7/8] New Tab Closed (4.92s)
+2022-08-31 16:42:45.581 | INFO     | mini.library:get_monitoring:359 - ---- URL Health Check Start [3/338] ----
+2022-08-31 16:42:45.611 | INFO     | mini.library:get_monitoring:373 - [1/8] URL_GET(1/2) http://itcc.rda.go.kr (0.0s)
+2022-08-31 16:42:47.952 | INFO     | mini.library:get_monitoring:393 - NoAlertPresentException ... pass 
+2022-08-31 16:42:47.958 | INFO     | mini.library:get_monitoring:418 - [2/8] URL redirected : http://itcc.rda.go.kr/kopia/main/mainpage/goMainPage.do (2.38s)
+2022-08-31 16:42:50.232 | INFO     | mini.library:fullpage_screenshot:928 - FullpageScreenshot_Total: (1247, 956), Viewport: (1247,863)
+2022-08-31 16:42:51.692 | INFO     | mini.library:get_monitoring:446 - [3/8] Screenshot (6.11s)
+2022-08-31 16:42:51.693 | INFO     | mini.library:image_match:898 - org_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\orign\0149_site.png
+2022-08-31 16:42:51.693 | INFO     | mini.library:image_match:899 - new_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\daily\0149_site.png
+2022-08-31 16:42:52.036 | INFO     | mini.library:get_monitoring:465 - [4/8] image_match (OK) 88.38 (6.45s)
+2022-08-31 16:42:52.106 | INFO     | mini.library:get_monitoring:482 - [5/8] HTML Save (6.52s)
+2022-08-31 16:42:52.125 | INFO     | mini.library:diff_html:650 - org_html >>>>>D:\DevOPS\project\miniuptime\data\html\orign\0149.html
+2022-08-31 16:42:52.126 | INFO     | mini.library:diff_html:651 - daily_html >>>>>D:\DevOPS\project\miniuptime\data\html\daily\0149_20220831_164252_078242.html
+2022-08-31 16:42:52.181 | INFO     | mini.library:diff_html:684 - style_similarity : 0.9629629629629629
+2022-08-31 16:42:52.181 | INFO     | mini.library:diff_html:685 - structural_similarity : 0.9233791748526523
+2022-08-31 16:42:52.181 | INFO     | mini.library:diff_html:686 - similarity : 0.9431710689078077
+2022-08-31 16:42:52.182 | INFO     | mini.library:diff_html:687 - Joint Similarity : 0.9510878265298697
+2022-08-31 16:42:52.233 | INFO     | mini.library:diff_html:727 - Joint Similarity not ...100
+2022-08-31 16:42:52.555 | INFO     | mini.library:get_monitoring:501 - [6/8] Status : 200 (6.97s)
+2022-08-31 16:42:52.692 | INFO     | mini.library:get_monitoring:521 - [7/8] New Tab Closed (7.11s)
+2022-08-31 16:42:52.944 | INFO     | mini.library:get_monitoring:359 - ---- URL Health Check Start [4/338] ----
+2022-08-31 16:42:52.974 | INFO     | mini.library:get_monitoring:373 - [1/8] URL_GET(1/2) http://www.nhi.go.kr (0.0s)
+2022-08-31 16:42:55.385 | INFO     | mini.library:get_monitoring:393 - NoAlertPresentException ... pass 
+2022-08-31 16:42:55.451 | INFO     | mini.library:get_monitoring:418 - [2/8] URL redirected : https://www.nhi.go.kr/index.jsp (2.51s)
+2022-08-31 16:42:57.551 | INFO     | mini.library:fullpage_screenshot:928 - FullpageScreenshot_Total: (1247, 1247), Viewport: (1247,863)
+2022-08-31 16:42:58.500 | INFO     | mini.library:get_monitoring:446 - [3/8] Screenshot (5.56s)
+2022-08-31 16:42:58.500 | INFO     | mini.library:image_match:898 - org_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\orign\0303_site.png
+2022-08-31 16:42:58.500 | INFO     | mini.library:image_match:899 - new_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\daily\0303_site.png
+2022-08-31 16:42:58.763 | INFO     | mini.library:get_monitoring:465 - [4/8] image_match (OK) 77.73 (5.82s)
+2022-08-31 16:42:58.948 | INFO     | mini.library:get_monitoring:482 - [5/8] HTML Save (6.0s)
+2022-08-31 16:42:59.011 | INFO     | mini.library:diff_html:650 - org_html >>>>>D:\DevOPS\project\miniuptime\data\html\orign\0303.html
+2022-08-31 16:42:59.012 | INFO     | mini.library:diff_html:651 - daily_html >>>>>D:\DevOPS\project\miniuptime\data\html\daily\0303_20220831_164258_878133.html
+2022-08-31 16:42:59.268 | INFO     | mini.library:diff_html:684 - style_similarity : 1.0
+2022-08-31 16:42:59.270 | INFO     | mini.library:diff_html:685 - structural_similarity : 1.0
+2022-08-31 16:42:59.271 | INFO     | mini.library:diff_html:686 - similarity : 1.0
+2022-08-31 16:42:59.272 | INFO     | mini.library:diff_html:687 - Joint Similarity : 1.0
+2022-08-31 16:42:59.530 | INFO     | mini.library:diff_html:727 - Joint Similarity not ...100
+2022-08-31 16:43:00.395 | INFO     | mini.library:get_monitoring:501 - [6/8] Status : 200 (7.45s)
+2022-08-31 16:43:00.417 | INFO     | mini.library:get_monitoring:521 - [7/8] New Tab Closed (7.47s)
+2022-08-31 16:43:00.683 | INFO     | mini.library:get_monitoring:359 - ---- URL Health Check Start [5/338] ----
+2022-08-31 16:43:00.716 | INFO     | mini.library:get_monitoring:373 - [1/8] URL_GET(1/2) https://www.forest.go.kr (0.0s)
+2022-08-31 16:43:02.716 | INFO     | mini.library:get_monitoring:393 - NoAlertPresentException ... pass 
+2022-08-31 16:43:02.720 | INFO     | mini.library:get_monitoring:418 - [2/8] URL redirected : https://www.forest.go.kr/kfsweb/kfs/idx/Index.do (2.04s)
+2022-08-31 16:43:04.805 | INFO     | mini.library:fullpage_screenshot:928 - FullpageScreenshot_Total: (1247, 2603), Viewport: (1247,863)
+2022-08-31 16:43:06.385 | INFO     | mini.library:get_monitoring:446 - [3/8] Screenshot (5.7s)
+2022-08-31 16:43:06.385 | INFO     | mini.library:image_match:898 - org_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\orign\0251_site.png
+2022-08-31 16:43:06.386 | INFO     | mini.library:image_match:899 - new_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\daily\0251_site.png
+2022-08-31 16:43:06.696 | INFO     | mini.library:get_monitoring:465 - [4/8] image_match (OK) 87.32 (6.01s)
+2022-08-31 16:43:06.993 | INFO     | mini.library:get_monitoring:482 - [5/8] HTML Save (6.31s)
+2022-08-31 16:43:07.015 | INFO     | mini.library:diff_html:650 - org_html >>>>>D:\DevOPS\project\miniuptime\data\html\orign\0251.html
+2022-08-31 16:43:07.016 | INFO     | mini.library:diff_html:651 - daily_html >>>>>D:\DevOPS\project\miniuptime\data\html\daily\0251_20220831_164306_892526.html
+2022-08-31 16:43:07.183 | INFO     | mini.library:diff_html:684 - style_similarity : 1.0
+2022-08-31 16:43:07.184 | INFO     | mini.library:diff_html:685 - structural_similarity : 0.9987569919204475
+2022-08-31 16:43:07.184 | INFO     | mini.library:diff_html:686 - similarity : 0.9993784959602238
+2022-08-31 16:43:07.185 | INFO     | mini.library:diff_html:687 - Joint Similarity : 0.9996270975761342
+2022-08-31 16:43:07.576 | INFO     | mini.library:diff_html:727 - Joint Similarity not ...100
+2022-08-31 16:43:08.556 | INFO     | mini.library:get_monitoring:501 - [6/8] Status : 200 (7.87s)
+2022-08-31 16:43:08.607 | INFO     | mini.library:get_monitoring:521 - [7/8] New Tab Closed (7.92s)
+2022-08-31 16:43:08.895 | INFO     | mini.library:get_monitoring:359 - ---- URL Health Check Start [6/338] ----
+2022-08-31 16:43:08.936 | INFO     | mini.library:get_monitoring:373 - [1/8] URL_GET(1/2) https://www.nuricops.org (0.0s)
+2022-08-31 16:43:25.117 | ERROR    | mini.library:get_monitoring:402 - URL_GET / time_out exception : https://www.nuricops.org
+Traceback (most recent call last):
+
+  File "C:\Python310\lib\threading.py", line 973, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000137B13B9480>
+    └ <Thread(Thread-1 (long_function_thread), started daemon 13284)>
+
+  File "C:\Python310\lib\threading.py", line 1016, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000137B13B91B0>
+    └ <Thread(Thread-1 (long_function_thread), started daemon 13284)>
+
+  File "C:\Python310\lib\threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-1 (long_function_thread), started daemon 13284)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000137CBAF64A0>, {'-GRP_LIST-': '전 체', '-URL_NO-': '', '-SITE_TITLE-': '', '-S...
+    │    │        └ <Thread(Thread-1 (long_function_thread), started daemon 13284)>
+    │    └ <function long_function_thread at 0x00000137B06D3E20>
+    └ <Thread(Thread-1 (long_function_thread), started daemon 13284)>
+
+  File "D:\DevOPS\project\miniuptime\main3.py", line 26, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'URL_NO': '', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': False, 'RAND...
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000137CBAF64A0>
+              │    └ <function get_monitoring at 0x00000137CB9AB250>
+              └ <module 'mini.library' from 'D:\\DevOPS\\project\\miniuptime\\mini\\library.py'>
+
+> File "D:\DevOPS\project\miniuptime\mini\library.py", line 375, in get_monitoring
+    driver.get(web_url)
+    │      │   └ 'https://www.nuricops.org'
+    │      └ <function WebDriver.get at 0x00000137B1DDCB80>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="f0ea7970b9f68760be6005d1509f10dd")>
+
+  File "D:\DevOPS\project\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 440, in get
+    self.execute(Command.GET, {'url': url})
+    │    │       │       │            └ 'https://www.nuricops.org'
+    │    │       │       └ 'get'
+    │    │       └ <class 'selenium.webdriver.remote.command.Command'>
+    │    └ <function WebDriver.execute at 0x00000137B1DDCAF0>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="f0ea7970b9f68760be6005d1509f10dd")>
+
+  File "D:\DevOPS\project\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 428, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"timeout","message":"timeout: Timed out receiving message from renderer: -6.174\\...
+    │    │             └ <function ErrorHandler.check_response at 0x00000137B1C243A0>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x00000137CCEEB610>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="f0ea7970b9f68760be6005d1509f10dd")>
+
+  File "D:\DevOPS\project\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A278B3+2193587]', '\tOrdinal0 [0x009C0681+1771137]', '\tOrdinal0 [0x008D41A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ 'timeout: Timed out receiving message from renderer: -6.174\n  (Session info: chrome=104.0.5112.102)'
+          └ <class 'selenium.common.exceptions.TimeoutException'>
+
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: -6.174
+  (Session info: chrome=104.0.5112.102)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A278B3+2193587]
+	Ordinal0 [0x009C0681+1771137]
+	Ordinal0 [0x008D41A8+803240]
+	Ordinal0 [0x008C70AA+749738]
+	Ordinal0 [0x008C5E94+745108]
+	Ordinal0 [0x008C6498+746648]
+	Ordinal0 [0x008CF35F+783199]
+	Ordinal0 [0x008DA47B+828539]
+	Ordinal0 [0x008DD750+841552]
+	Ordinal0 [0x008C6766+747366]
+	Ordinal0 [0x008DA2C9+828105]
+	Ordinal0 [0x0092DE25+1170981]
+	Ordinal0 [0x0091D5C6+1103302]
+	Ordinal0 [0x008F77E0+948192]
+	Ordinal0 [0x008F86E6+952038]
+	GetHandleVerifier [0x00CD0CB2+2738370]
+	GetHandleVerifier [0x00CC21B8+2678216]
+	GetHandleVerifier [0x00AB17AA+512954]
+	GetHandleVerifier [0x00AB0856+509030]
+	Ordinal0 [0x009C743B+1799227]
+	Ordinal0 [0x009CBB68+1817448]
+	Ordinal0 [0x009CBC55+1817685]
+	Ordinal0 [0x009D5230+1856048]
+	BaseThreadInitThunk [0x7665FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x76F17A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x76F17A6E+238]
+
+2022-08-31 16:43:25.513 | INFO     | mini.library:get_monitoring:418 - [2/8] URL redirected : https://www.nuricops.org/index.do (16.62s)
+2022-08-31 16:43:27.567 | ERROR    | mini.library:get_monitoring:438 - An error has been caught in function 'get_monitoring', process 'MainProcess' (6484), thread 'Thread-1 (long_function_thread)' (13284):
+Traceback (most recent call last):
+
+  File "C:\Python310\lib\threading.py", line 973, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x00000137B13B9480>
+    └ <Thread(Thread-1 (long_function_thread), started daemon 13284)>
+
+  File "C:\Python310\lib\threading.py", line 1016, in _bootstrap_inner
+    self.run()
+    │    └ <function Thread.run at 0x00000137B13B91B0>
+    └ <Thread(Thread-1 (long_function_thread), started daemon 13284)>
+
+  File "C:\Python310\lib\threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Thread(Thread-1 (long_function_thread), started daemon 13284)>
+    │    │        │    └ (<PySimpleGUI.PySimpleGUI.Window object at 0x00000137CBAF64A0>, {'-GRP_LIST-': '전 체', '-URL_NO-': '', '-SITE_TITLE-': '', '-S...
+    │    │        └ <Thread(Thread-1 (long_function_thread), started daemon 13284)>
+    │    └ <function long_function_thread at 0x00000137B06D3E20>
+    └ <Thread(Thread-1 (long_function_thread), started daemon 13284)>
+
+  File "D:\DevOPS\project\miniuptime\main3.py", line 26, in long_function_thread
+    url_cnt = mini.get_monitoring(window, keyword)
+              │    │              │       └ {'GRP_LIST': '전 체', 'URL_NO': '', 'SITE_TITLE': '', 'SITE_URL': '', 'REPEAT': True, 'DISABLED': False, 'BG_EXE': False, 'RAND...
+              │    │              └ <PySimpleGUI.PySimpleGUI.Window object at 0x00000137CBAF64A0>
+              │    └ <function get_monitoring at 0x00000137CB9AB250>
+              └ <module 'mini.library' from 'D:\\DevOPS\\project\\miniuptime\\mini\\library.py'>
+
+> File "D:\DevOPS\project\miniuptime\mini\library.py", line 438, in get_monitoring
+    fullpage_screenshot(driver, img_daily_path + img_str)
+    │                   │       │                └ '0034_site.png'
+    │                   │       └ 'D:\\DevOPS\\project\\miniuptime\\data\\htdocs\\capture\\\\daily\\'
+    │                   └ <selenium.webdriver.chrome.webdriver.WebDriver (session="f0ea7970b9f68760be6005d1509f10dd")>
+    └ <function fullpage_screenshot at 0x00000137CB9C43A0>
+
+  File "D:\DevOPS\project\miniuptime\mini\library.py", line 924, in fullpage_screenshot
+    total_width = driver.execute_script("return document.body.offsetWidth")
+                  │      └ <function WebDriver.execute_script at 0x00000137B1DDCE50>
+                  └ <selenium.webdriver.chrome.webdriver.WebDriver (session="f0ea7970b9f68760be6005d1509f10dd")>
+
+  File "D:\DevOPS\project\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 491, in execute_script
+    return self.execute(command, {
+           │    │       └ 'w3cExecuteScript'
+           │    └ <function WebDriver.execute at 0x00000137B1DDCAF0>
+           └ <selenium.webdriver.chrome.webdriver.WebDriver (session="f0ea7970b9f68760be6005d1509f10dd")>
+
+  File "D:\DevOPS\project\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 428, in execute
+    self.error_handler.check_response(response)
+    │    │             │              └ {'status': 500, 'value': '{"value":{"error":"javascript error","message":"javascript error: Cannot read properties of null (r...
+    │    │             └ <function ErrorHandler.check_response at 0x00000137B1C243A0>
+    │    └ <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x00000137CCEEB610>
+    └ <selenium.webdriver.chrome.webdriver.WebDriver (session="f0ea7970b9f68760be6005d1509f10dd")>
+
+  File "D:\DevOPS\project\miniuptime\.venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 243, in check_response
+    raise exception_class(message, screen, stacktrace)
+          │               │        │       └ ['Backtrace:', '\tOrdinal0 [0x00A278B3+2193587]', '\tOrdinal0 [0x009C0681+1771137]', '\tOrdinal0 [0x008D41A8+803240]', '\tOrd...
+          │               │        └ None
+          │               └ "javascript error: Cannot read properties of null (reading 'offsetWidth')\n  (Session info: chrome=104.0.5112.102)"
+          └ <class 'selenium.common.exceptions.JavascriptException'>
+
+selenium.common.exceptions.JavascriptException: Message: javascript error: Cannot read properties of null (reading 'offsetWidth')
+  (Session info: chrome=104.0.5112.102)
+Stacktrace:
+Backtrace:
+	Ordinal0 [0x00A278B3+2193587]
+	Ordinal0 [0x009C0681+1771137]
+	Ordinal0 [0x008D41A8+803240]
+	Ordinal0 [0x008D6BB4+814004]
+	Ordinal0 [0x008D6A72+813682]
+	Ordinal0 [0x008D73EA+816106]
+	Ordinal0 [0x0092E519+1172761]
+	Ordinal0 [0x0091D7AC+1103788]
+	Ordinal0 [0x0092DAE2+1170146]
+	Ordinal0 [0x0091D5C6+1103302]
+	Ordinal0 [0x008F77E0+948192]
+	Ordinal0 [0x008F86E6+952038]
+	GetHandleVerifier [0x00CD0CB2+2738370]
+	GetHandleVerifier [0x00CC21B8+2678216]
+	GetHandleVerifier [0x00AB17AA+512954]
+	GetHandleVerifier [0x00AB0856+509030]
+	Ordinal0 [0x009C743B+1799227]
+	Ordinal0 [0x009CBB68+1817448]
+	Ordinal0 [0x009CBC55+1817685]
+	Ordinal0 [0x009D5230+1856048]
+	BaseThreadInitThunk [0x7665FA29+25]
+	RtlGetAppContainerNamedObjectPath [0x76F17A9E+286]
+	RtlGetAppContainerNamedObjectPath [0x76F17A6E+238]
+
+2022-08-31 16:43:27.571 | INFO     | mini.library:get_monitoring:446 - [3/8] Screenshot (18.68s)
+2022-08-31 16:43:27.571 | INFO     | mini.library:image_match:898 - org_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\orign\0034_site.png
+2022-08-31 16:43:27.571 | INFO     | mini.library:image_match:899 - new_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\daily\0034_site.png
+2022-08-31 16:43:27.690 | INFO     | mini.library:get_monitoring:465 - [4/8] image_match (OK) 100.0 (18.79s)
+2022-08-31 16:43:27.746 | INFO     | mini.library:get_monitoring:482 - [5/8] HTML Save (18.85s)
+2022-08-31 16:43:27.785 | INFO     | mini.library:diff_html:650 - org_html >>>>>D:\DevOPS\project\miniuptime\data\html\orign\0034.html
+2022-08-31 16:43:27.786 | INFO     | mini.library:diff_html:651 - daily_html >>>>>D:\DevOPS\project\miniuptime\data\html\daily\0034_20220831_164327_741027.html
+2022-08-31 16:43:27.819 | INFO     | mini.library:diff_html:684 - style_similarity : 0.0
+2022-08-31 16:43:27.820 | INFO     | mini.library:diff_html:685 - structural_similarity : 0.0525328330206379
+2022-08-31 16:43:27.820 | INFO     | mini.library:diff_html:686 - similarity : 0.02626641651031895
+2022-08-31 16:43:27.821 | INFO     | mini.library:diff_html:687 - Joint Similarity : 0.01575984990619137
+2022-08-31 16:43:27.878 | INFO     | mini.library:diff_html:727 - Joint Similarity not ...100
+2022-08-31 16:43:41.999 | INFO     | mini.library:get_monitoring:501 - [6/8] Status : 200 (33.1s)
+2022-08-31 16:43:42.284 | INFO     | mini.library:get_monitoring:521 - [7/8] New Tab Closed (33.39s)
+2022-08-31 16:43:42.535 | INFO     | mini.library:get_monitoring:359 - ---- URL Health Check Start [7/338] ----
+2022-08-31 16:43:42.564 | INFO     | mini.library:get_monitoring:373 - [1/8] URL_GET(1/2) https://www.foresttrip.go.kr (0.0s)
+2022-08-31 16:43:45.498 | INFO     | mini.library:get_monitoring:393 - NoAlertPresentException ... pass 
+2022-08-31 16:43:45.503 | INFO     | mini.library:get_monitoring:418 - [2/8] URL redirected : https://www.foresttrip.go.kr/main.do (2.97s)
+2022-08-31 16:43:47.580 | INFO     | mini.library:fullpage_screenshot:928 - FullpageScreenshot_Total: (1247, 2550), Viewport: (1247,863)
+2022-08-31 16:43:49.665 | INFO     | mini.library:get_monitoring:446 - [3/8] Screenshot (7.13s)
+2022-08-31 16:43:49.666 | INFO     | mini.library:image_match:898 - org_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\orign\0252_site.png
+2022-08-31 16:43:49.666 | INFO     | mini.library:image_match:899 - new_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\daily\0252_site.png
+2022-08-31 16:43:50.164 | INFO     | mini.library:get_monitoring:465 - [4/8] image_match (OK) 85.11 (7.63s)
+2022-08-31 16:43:50.414 | INFO     | mini.library:get_monitoring:482 - [5/8] HTML Save (7.88s)
+2022-08-31 16:43:50.455 | INFO     | mini.library:diff_html:650 - org_html >>>>>D:\DevOPS\project\miniuptime\data\html\orign\0252.html
+2022-08-31 16:43:50.456 | INFO     | mini.library:diff_html:651 - daily_html >>>>>D:\DevOPS\project\miniuptime\data\html\daily\0252_20220831_164350_249541.html
+2022-08-31 16:43:50.580 | INFO     | mini.library:diff_html:684 - style_similarity : 0.9947916666666666
+2022-08-31 16:43:50.580 | INFO     | mini.library:diff_html:685 - structural_similarity : 0.8168383340797134
+2022-08-31 16:43:50.580 | INFO     | mini.library:diff_html:686 - similarity : 0.90581500037319
+2022-08-31 16:43:50.580 | INFO     | mini.library:diff_html:687 - Joint Similarity : 0.9414056668905806
+2022-08-31 16:43:51.080 | INFO     | mini.library:diff_html:727 - Joint Similarity not ...100
+2022-08-31 16:43:52.100 | INFO     | mini.library:get_monitoring:501 - [6/8] Status : 200 (9.56s)
+2022-08-31 16:43:52.142 | INFO     | mini.library:get_monitoring:521 - [7/8] New Tab Closed (9.61s)
+2022-08-31 16:43:52.320 | INFO     | mini.library:get_monitoring:359 - ---- URL Health Check Start [8/338] ----
+2022-08-31 16:43:52.352 | INFO     | mini.library:get_monitoring:373 - [1/8] URL_GET(1/2) https://b.nts.go.kr (0.0s)
+2022-08-31 16:43:54.396 | INFO     | mini.library:get_monitoring:393 - NoAlertPresentException ... pass 
+2022-08-31 16:43:54.416 | INFO     | mini.library:get_monitoring:418 - [2/8] URL redirected : https://b.nts.go.kr/busannts/main.do (2.1s)
+2022-08-31 16:43:56.469 | INFO     | mini.library:fullpage_screenshot:928 - FullpageScreenshot_Total: (1247, 1403), Viewport: (1247,863)
+2022-08-31 16:43:57.700 | INFO     | mini.library:get_monitoring:446 - [3/8] Screenshot (5.38s)
+2022-08-31 16:43:57.701 | INFO     | mini.library:image_match:898 - org_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\orign\0068_site.png
+2022-08-31 16:43:57.701 | INFO     | mini.library:image_match:899 - new_img --> D:\DevOPS\project\miniuptime\data\htdocs\capture\\daily\0068_site.png
+2022-08-31 16:43:58.137 | INFO     | mini.library:get_monitoring:465 - [4/8] image_match (OK) 100.0 (5.82s)
+2022-08-31 16:43:58.730 | INFO     | mini.library:get_monitoring:482 - [5/8] HTML Save (6.41s)
+2022-08-31 16:43:58.791 | INFO     | mini.library:diff_html:650 - org_html >>>>>D:\DevOPS\project\miniuptime\data\html\orign\0068.html
+2022-08-31 16:43:58.792 | INFO     | mini.library:diff_html:651 - daily_html >>>>>D:\DevOPS\project\miniuptime\data\html\daily\0068_20220831_164358_642537.html
+2022-08-31 16:43:58.871 | INFO     | mini.library:diff_html:684 - style_similarity : 1.0
+2022-08-31 16:43:58.872 | INFO     | mini.library:diff_html:685 - structural_similarity : 1.0
+2022-08-31 16:43:58.872 | INFO     | mini.library:diff_html:686 - similarity : 1.0
+2022-08-31 16:43:58.872 | INFO     | mini.library:diff_html:687 - Joint Similarity : 1.0
+2022-08-31 16:43:58.941 | INFO     | mini.library:diff_html:727 - Joint Similarity not ...100
+2022-08-31 16:43:59.941 | INFO     | mini.library:get_monitoring:501 - [6/8] Status : 200 (7.62s)
+2022-08-31 16:43:59.974 | INFO     | mini.library:get_monitoring:521 - [7/8] New Tab Closed (7.65s)
+2022-08-31 16:44:00.181 | INFO     | mini.library:get_monitoring:359 - ---- URL Health Check Start [9/338] ----
+2022-08-31 16:44:00.228 | INFO     | mini.library:get_monitoring:373 - [1/8] URL_GET(1/2) https://webtv.nts.go.kr (0.0s)
+2022-08-31 16:44:02.392 | INFO     | mini.library:get_monitoring:393 - NoAlertPresentException ... pass 
+2022-08-31 16:44:02.401 | INFO     | mini.library:get_monitoring:418 - [2/8] URL redirected : https://webtv.nts.go.kr/ (2.22s)

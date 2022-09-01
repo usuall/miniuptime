@@ -17,14 +17,14 @@ $mon_no = $_POST['mon_no'];
 // $data = $mysql->fetch(PDO::FETCH_ASSOC);
 // $mon_no = $data['mon_no'] - 1;
 
+$sql = "SELECT a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
+        FROM `tb_monitor` as a 
+        LEFT OUTER JOIN tb_url as b on a.url_no = b.url_no 
+        where a.mon_img_match1 <= '$img_level' 
+        and a.mon_no > '$mon_no'
+        ORDER BY a.mon_no desc";
 
-
-$mysql = $pdo->query("SELECT a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
-                    FROM `tb_monitor` as a 
-                    LEFT OUTER JOIN tb_url as b on a.url_no = b.url_no 
-                    where a.mon_img_match1 <= '$img_level' 
-                    and a.mon_no > '$mon_no'
-                    ORDER BY a.mon_no desc");
+$mysql = $pdo->query($sql);
 
 //データ割り当て
 // $groups = array();
@@ -82,7 +82,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         'mon_html_match1' => $data['mon_html_match1'],
         'mon_html_match1_color' => $mon_html_match1_color,
         'mon_html_diff_output' => $data['mon_html_diff_output'],
-        // 'mon_dt' => $data['mon_dt'],
+        'sql' => $sql,
     );
 
     
@@ -100,7 +100,7 @@ header('Content-type: application/json');
 echo json_encode($arr_row);
 
 
-// $smarty->debugging = true;
+$smarty->debugging = true;
 
 /**/
 
