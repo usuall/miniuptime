@@ -5,21 +5,39 @@ require_once(dirname(__FILE__).'/lib/config.php');
 
 //이미지 유사도 표시 상한선
 $img_level = '';
-$img_level = $_GET['img'];
+$img_level = $_POST['img_level'];
 if(isset($img_level) == True){
 } else {
     $img_level = 100;
 }
+
+//이미지 유사도 표시 상한선
+$html_level = '';
+$html_level = $_POST['html_level'];
+if(isset($html_level) == True){
+} else {
+    $html_level = 100;
+}
+
 
 $mon_no = $_POST['mon_no'];
 //データ検索
 // $mysql = $pdo->query("SELECT max(mon_no) as mon_no from tb_monitor");
 // $data = $mysql->fetch(PDO::FETCH_ASSOC);
 // $mon_no = $data['mon_no'] - 1;
-
+/*
 $sql = "SELECT a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
         FROM `tb_monitor` as a 
         LEFT OUTER JOIN tb_url as b on a.url_no = b.url_no 
+        where a.mon_img_match1 <= '$img_level' 
+        and a.mon_no > '$mon_no'
+        ORDER BY a.mon_no desc";
+*/
+
+$sql = "SELECT c.grp_title, a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
+        FROM `tb_monitor` as a 
+        LEFT OUTER JOIN tb_url as b on a.url_no = b.url_no 
+        LEFT OUTER JOIN tb_group as c on c.grp_no = b.grp_no
         where a.mon_img_match1 <= '$img_level' 
         and a.mon_no > '$mon_no'
         ORDER BY a.mon_no desc";
@@ -67,7 +85,9 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
     #결과 출력용
     $arr_row[] = array(
+        
         'mon_no' => $data['mon_no'],
+        'grp_title' => $data['grp_title'],
         'url_title' => $data['url_title'],
         'url_addr' => $data['url_addr'],
         'url_no' => $data['url_no'],
@@ -82,7 +102,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         'mon_html_match1' => $data['mon_html_match1'],
         'mon_html_match1_color' => $mon_html_match1_color,
         'mon_html_diff_output' => $data['mon_html_diff_output'],
-        'sql' => $sql,
+        // 'sql' => $sql,
     );
 
     

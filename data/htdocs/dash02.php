@@ -16,7 +16,26 @@ if(isset($img_level) == True){
 }
 
 //データ検索
-$mysql = $pdo->query("SELECT a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time FROM `tb_monitor` as a left outer join tb_url as b on a.url_no = b.url_no where a.mon_img_match1 <= '$img_level' order by a.mon_no desc limit 3");
+/* 
+$sql = "SELECT a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
+FROM `tb_monitor` as a 
+left outer join tb_url as b 
+on a.url_no = b.url_no 
+where a.mon_img_match1 <= '$img_level' 
+order by a.mon_no 
+desc limit 10";
+*/
+
+$sql ="SELECT c.grp_title, a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
+FROM `tb_monitor` as a 
+left outer join tb_url as b 
+on a.url_no = b.url_no 
+left outer join tb_group as c 
+on c.grp_no = b.grp_no 
+where a.mon_img_match1 <= '$img_level' 
+order by a.mon_no desc limit 10";
+
+$mysql = $pdo->query($sql);
 
 //データ割り当て
 $result = array();
@@ -57,6 +76,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
     #결과 출력용
     $arr_row[] = array(
+        'grp_title' => $data['grp_title'],
         'mon_no' => $data['mon_no'],
         'url_title' => $data['url_title'],
         'url_addr' => $data['url_addr'],
@@ -92,6 +112,7 @@ $smarty->assign('result', $arr_row);
 $smarty->assign('mon_no', $lastest_no);
 
 
+$smarty->debugging = true;
 //template파일 설정
 $smarty->display('dash02.html');
 

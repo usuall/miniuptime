@@ -88,7 +88,7 @@ while ($data = $mysql2->fetch(PDO::FETCH_ASSOC)) {
 $smarty->assign('graph', array_reverse($arr_row));
 
 
-$smarty->debugging = true;
+// $smarty->debugging = true;
 $smarty->display('dash03.html');
 
 //DB 접속종료
