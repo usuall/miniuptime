@@ -63,21 +63,25 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
     $mon_img_match1_color = 'text-dark';
     if($data['mon_img_match1'] == '-1'){
         $data['mon_img_match1'] = '원본없음';
-        $mon_img_match1_color = 'strong text-pink';
+        $mon_img_match1_color = 'secondary';
     } else if($data['mon_img_match1'] < 100 && $data['mon_img_match1'] > 60){
-        $mon_img_match1_color = 'text-indigo';
+        $mon_img_match1_color = 'success';
     } else if ($data['mon_img_match1'] <= 60) {
-        $mon_img_match1_color = 'strong text-pink';
+        $mon_img_match1_color = 'danger';
+    } else {
+        $mon_img_match1_color = 'success';
     }
     
     $mon_html_match1_color = 'text-dark';
     if($data['mon_html_match1'] == '-1'){
         $data['mon_html_match1'] = '원본없음';
-        $mon_html_match1_color = 'strong text-pink';
+        $mon_html_match1_color = 'secondary';
     } else if($data['mon_html_match1'] < 100 && $data['mon_html_match1'] > 60){
-        $mon_html_match1_color = 'text-indigo';
+        $mon_html_match1_color = 'success';
     } else if ($data['mon_html_match1'] <= 60) {
-        $mon_html_match1_color = 'strong text-pink';
+        $mon_html_match1_color = 'danger';
+    } else {
+        $mon_html_match1_color = 'success';
     }
 
     

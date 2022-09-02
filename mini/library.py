@@ -821,13 +821,19 @@ def my_grp_list_combo():
     # print ('11',type(result))
     # if(type(result) == "<class 'NoneType'>"):
     #     print ('22',type(result))
-    
-    
-    for row in result:
-        #org_list.append(row['org_title']+'['+row['org_no']+']')
-        grp_list.append(row['grp_title'])
+    #if result 
+    try:
+        
+        for row in result:
+            #org_list.append(row['org_title']+'['+row['org_no']+']')
+            grp_list.append(row['grp_title'])
 
-    return grp_list
+        return grp_list
+
+    except Exception as e:
+        logger.error(e)
+        logger.exception(e)
+        raise
 
 
 @logger.catch 

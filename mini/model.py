@@ -29,6 +29,7 @@ def with_cursor(original_func):
         except Exception as e:
             code, msg = e.args
             logger.error('MYSQL Error : ' + str(code) + ' '+ msg, 1)
+            
         
     return wrapper
 

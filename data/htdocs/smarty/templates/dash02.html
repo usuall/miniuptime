@@ -160,8 +160,8 @@
                           <th>사이트명</th>
                           <th>응답시간(초)</th>
                           <th>상태코드</th>
-                          <th>이미지 유사성(%)</th>
-                          <th>HTML 유사성(%)</th>
+                          <th>이미지 유사도(%)</th>
+                          <th>HTML 유사도(%)</th>
                           <!-- <th>점검</th> -->
                           <th>점검일시</th>
                         </tr>
@@ -174,9 +174,10 @@
                           <td><a href='{$row.url_addr}' target='_blank'>{$row.url_title}</a> ({$row.url_no})</td>
                           <td>{$row.mon_response_time}</td>
                           <td><div class="{$row.status_code_color}">{$row.status_code}</div></td>
-                          <td><div class="{$row.mon_img_match1_color}"><a href="/img_diff.php?url_no={$row.url_no}" target="_blank">{$row.mon_img_match1}</a></div></td>
-                          <td><div class="{$row.mon_html_match1_color}"><a href="/html_diff/{$row.mon_html_diff_output}" target="_blank">{$row.mon_html_match1}</a></div></td>
+                          <td><span class="badge bg-{$row.mon_img_match1_color} me-1"></span> <a href="/img_diff.php?url_no={$row.url_no}" target="_blank">{$row.mon_img_match1}</a></td>
+                          <td><span class="badge bg-{$row.mon_html_match1_color} me-1"></span> <a href="/html_diff/{$row.mon_html_diff_output}" target="_blank">{$row.mon_html_match1}</a></td>
                           <!-- <td>{$row.diff_time}</td> -->
+                          
                           <td>{$row.mon_dt}</td>
                         </tr>
                         {/foreach}
@@ -262,8 +263,8 @@
                 str += "<td><a href='"+ data[i].url_addr + "' target='_blank'>" + data[i].url_title + "</a> ("+data[i].url_no+")</td>";
                 str += "<td>" + data[i].mon_response_time + "</td>";
                 str += "<td><div class='" + data[i].status_code_color + "'>" + data[i].status_code + "</div></td>";
-                str += "<td><div class='" + data[i].mon_img_match1_color + "'><a href='/img_diff.php?url_no="+ data[i].url_no + "' target='_blank'>" + data[i].mon_img_match1 + "</div></td>";
-                str += "<td><div class='" + data[i].mon_html_match1_color + "'><a href='/html_diff/"+ data[i].mon_html_diff_output + "' target='_blank'>" + data[i].mon_html_match1 + "</div></td>";
+                str += "<td><span class='badge bg-" + data[i].mon_img_match1_color + " me-1'></span> <a href='/img_diff.php?url_no="+ data[i].url_no + "' target='_blank'>" + data[i].mon_img_match1 + "</td>";
+                str += "<td><span class='badge bg-" + data[i].mon_html_match1_color + " me-1'></span> <a href='/html_diff/"+ data[i].mon_html_diff_output + "' target='_blank'>" + data[i].mon_html_match1 + "</td>";
                 /* str += "<td>" + data[i].diff_time + "</td>"; */
                 str += "<td>" + data[i].mon_dt + "</td></tr>";
 
