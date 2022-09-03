@@ -3,6 +3,7 @@
 //홈디렉토리 설정(htdocs)
 define('MY_WEB_DIR', dirname(__FILE__)."/../"); 
 define('IMG_CAPTURE_PATH', MY_WEB_DIR.'capture/'); 
+define('HTML_CAPTURE_PATH', MY_WEB_DIR.'../html/'); 
 
 //DB설정#1
 define("DBTYPE1", "mysql");

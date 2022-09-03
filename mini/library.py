@@ -652,8 +652,8 @@ def diff_html(org_html, html_file, url_no):
     org_html  = html_path + 'orign\\' +  org_html 
     daily_html = html_path + 'daily\\' + html_file
 
-    logger.info('org_html >>>>>' + org_html)
-    logger.info('daily_html >>>>>'  + daily_html)
+    logger.info('(org_html) ' + org_html)
+    logger.info('(daily_html) '  + daily_html)
     
     
     # 원본파일 로딩
@@ -662,7 +662,7 @@ def diff_html(org_html, html_file, url_no):
         reader1 = f.read()
         
     except:
-        logger.info("Origin No file: %s\n" % org_html)
+        logger.warning("Origin file not existed : %s\n" % org_html)
         html_output['s4'] = '-1'
         return html_output
 
@@ -671,7 +671,7 @@ def diff_html(org_html, html_file, url_no):
         f2 = open(daily_html, "r", encoding='utf-8')
         reader2 = f2.read()        
     except:
-        logger.info("Daily No file: %s\n" % daily_html)
+        logger.warning("Daily file not existed : %s\n" % daily_html)
         html_output['s4'] = '-1'
         return html_output
 
@@ -686,14 +686,19 @@ def diff_html(org_html, html_file, url_no):
     k = 0.3 
     s4 = k * structural_similarity(reader1, reader2) + (1 - k) * style_similarity(reader1, reader2)
     
-    logger.info ('style_similarity : ' +  str(s1))
-    logger.info ('structural_similarity : ' + str(s2))
-    logger.info ('similarity : ' + str(s3))
-    logger.info ('Joint Similarity : ' + str(s4))
+    logger.info ('(style_similarity) ' +  str(s1))
+    logger.info ('(structural_similarity) ' + str(s2))
+    logger.info ('(similarity) ' + str(s3))
+    logger.info ('(Joint Similarity) ' + str(s4))
     
-  
+    # 파일 닫기
     f.close()
     f2.close()
+    
+    
+    
+    #############################################
+    # 유사도 검사 
 
     # 100분율 환산    
     html_output['s1'] = s1 * 100
@@ -705,8 +710,7 @@ def diff_html(org_html, html_file, url_no):
     
     
     if(s4 < 100):
-    #if(html_output['s4'] != 100):
-        logger.info('Joint Similarity < 100 ...1')
+        logger.info('(Joint Similarity < 100) ')
         # first_file_lines = Path(org_html).read_text('utf-8').splitlines()
         # second_file_lines = Path(daily_html).read_text('utf-8').splitlines()
 
@@ -726,8 +730,7 @@ def diff_html(org_html, html_file, url_no):
         html_diff_output_file = html_diff_path + file_name
         html_diff_output(org_html, daily_html, html_diff_output_file, template_path, css_path)
         
-        logger.info('Joint Similarity < 100 ...2 ')
-        
+       
         html_output['mon_html_diff_output'] = file_name
     elif(s4 == 100):
         logger.info('Joint Similarity is 100')
@@ -736,9 +739,17 @@ def diff_html(org_html, html_file, url_no):
     
     # print (html_output)
     
+    # daily file 삭제
+    # time.sleep(5)
+    # del_File(file_name=daily_html)
+    
     return html_output
     
-    
+# 임시 파일 삭제용
+def del_File(file_name):
+    if os.path.exists(file_name):
+        os.remove(file_name)
+        logger.info('(Delte file) ' +  file_name)
     
 # 응답시간 취득
 def getResponseTime(driver):
@@ -857,9 +868,11 @@ def save_html(url_no, src_text):
     
     sysdate = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     # print(html_path + str(url_no)+'_'+str(sysdate)+'.html')
+
     
-    # html_file = str(url_no)+'_'+str(sysdate)+'.html'
-    html_file = str('{0:04}'.format(url_no))+'_'+str(sysdate)+'.html'
+    # html_file = str('{0:04}'.format(url_no))+'_'+str(sysdate)+'.html'
+    # URL별로 한개만 생성하도록 변경
+    html_file = str('{0:04}'.format(url_no)) + '.html'
     
     full_path_name = html_path + 'daily\\' + html_file
     # print(full_path_name)
@@ -887,7 +900,7 @@ def get_request_code(web_url):
         
         # 상태코드 수신 대기
         loop_cnt = 0
-        print ('loop_cnt1-->', loop_cnt, response.status_code)
+        # print ('loop_cnt1-->', loop_cnt, response.status_code)
         # while response.status_code == 'None':
         #     if(loop_cnt < 10 ):
         #         time.sleep(1)
@@ -929,8 +942,8 @@ def diff_time(pertime, type = 0):
 # 이미지 유사도 체크    
 def image_match(origin_img, new_img):
 
-    logger.info('org_img --> ' + img_origin_path + origin_img)
-    logger.info('new_img --> ' + img_daily_path + new_img)
+    logger.info('(org_img) ' + img_origin_path + origin_img)
+    logger.info('(new_img) ' + img_daily_path + new_img)
     file1 = img_origin_path + origin_img 
     file2 = img_daily_path + new_img
     

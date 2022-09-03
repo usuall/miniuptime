@@ -45,3 +45,48 @@ pip install playsound
 
 ALTER TABLE `tb_url` ADD `url_html_diff_output` VARCHAR(255) NULL AFTER `url_html_match2`;  
 ALTER TABLE `tb_url` DROP `url_type`;
+
+
+-- URL 이상 있는 기관
+SELECT b.grp_title, count(*) as cnt FROM `tb_url` as a
+left outer join tb_group as b
+on a.grp_no = b.grp_no
+where a.url_status <> 200
+and (a.url_img_match1 <= 60 
+	 or a.url_html_match1 <= 60)
+group by a.grp_no;
+
+
+-- 이상 있는 URL
+SELECT b.grp_title, a.url_title, a.url_addr, a.url_status, a.url_img_match1, a.url_html_match1 
+FROM `tb_url` as a
+left outer join tb_group as b
+on a.grp_no = b.grp_no
+WHERE 1=1 
+and a.url_status <> 200
+and (a.url_img_match1 <= 60 
+	 or a.url_html_match1 <= 60);
+
+-- 응답시간 5초 이상
+SELECT * FROM `tb_url` 
+where url_response_time >= 5 
+order by url_response_time 
+desc limit 100;
+
+
+-- 평균 응답시간 느린순으로 표시
+SELECT url_no, round(AVG(mon_response_time),3) as avg FROM `tb_monitor`
+group by url_no
+order by avg desc;
+
+-- 평균 응답시간 느린순으로 표시(기관, title 표시)
+SELECT c.grp_title, b.url_title, b.url_addr, a.url_no, round(AVG(mon_response_time),3) as avg 
+FROM `tb_monitor` as a
+left outer join tb_url as b
+on a.url_no = b.url_no
+left outer join tb_group as c
+on b.grp_no = c.grp_no
+group by a.url_no
+order by avg desc;
+
+
