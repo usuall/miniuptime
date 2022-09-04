@@ -59,7 +59,7 @@ group by a.grp_no;
 
 
 -- 이상 있는 URL
-SELECT b.grp_title, a.url_title, a.url_addr, a.url_status, a.url_img_match1, a.url_html_match1 
+SELECT b.grp_title, a.url_no, a.url_title, a.url_addr, a.url_status, a.url_img_match1, a.url_html_match1 
 FROM `tb_url` as a
 left outer join tb_group as b
 on a.grp_no = b.grp_no
