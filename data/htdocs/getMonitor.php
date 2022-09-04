@@ -55,9 +55,22 @@ $arr_row = array();
 $i = 1;
 while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
-    $status_code_color = 'text-dark';
-    if($data['status_code'] != 200){
-        $status_code_color = 'strong text-pink';
+    # 응답 속도
+    $mon_response_time = $data['mon_response_time'];
+    if($mon_response_time < 5 && $mon_response_time > 10){
+        $mon_response_time_color = 'success';
+    } else if ($mon_response_time >= 10) {
+        $mon_response_time_color = 'danger';
+    } else {
+        $mon_response_time_color = 'success';
+    }
+
+    # 상태 코드
+    $status_code = $data['status_code'];
+    if($status_code == 200){
+        $status_code_color = 'success';
+    } else {
+        $status_code_color = 'danger';
     }
 
     $mon_img_match1_color = 'text-dark';
@@ -97,6 +110,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         'url_no' => $data['url_no'],
         'mon_dt' => $data['mon_dt'],
         'mon_response_time' => $data['mon_response_time'],
+        'mon_response_time_color' =>  $mon_response_time_color,
         'status_code' => $data['status_code'],
         'status_code_color' => $status_code_color,
         'diff_time' => $diff_time,

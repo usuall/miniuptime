@@ -97,7 +97,7 @@ def isExist_dir(path):
 def button_activate(window, activate):
     
     # 화면 요소ID
-    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-BUTTON_START-', '-RANDOM-')
+    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-BUTTON_START-', '-RANDOM-', '-OLDEST-')
     #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
     
     # 버튼 활성화 전환
@@ -141,6 +141,7 @@ def getCondition(window, values):
     window['-OUTPUT-'].update(value='- 비활성화 URL포함. : ' + str(values['-DISABLED-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 백그라운드 실행 : ' + str(values['-BG_EXE-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 랜덤 실행 : ' + str(values['-RANDOM-']) + '\n', append=True)    
+    window['-OUTPUT-'].update(value='- OLD 체크 : ' + str(values['-OLDEST-']) + '\n', append=True)    
     window['-OUTPUT-'].update(value='- 이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 타임아웃 설정 : ' + str(timeout_term) + '초\n', append=True)
@@ -155,6 +156,7 @@ def getCondition(window, values):
                 'DISABLED':     values['-DISABLED-'], 
                 'BG_EXE':       values['-BG_EXE-'],
                 'RANDOM':       values['-RANDOM-'],
+                'OLDEST':       values['-OLDEST-'],
                 'IMAGE_MATCH':  values['-IMAGE_MATCH-'], 
                 'HTML_MATCH':   values['-HTML_MATCH-'], 
                 'TIME_OUT':     timeout_term }
@@ -167,6 +169,7 @@ def getCondition(window, values):
     logger.info('반복 점검 : ' + str(values['-REPEAT-']))
     logger.info('비활성화 URL포함. : ' + str(values['-DISABLED-']))
     logger.info('백그라운드 실행 : ' + str(values['-RANDOM-']))
+    logger.info('OLD 체크 실행 : ' + str(values['-OLDEST-']))
     logger.info('이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']))
     logger.info('HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']))
     logger.info('타임아웃 설정 : ' + str(timeout_term) + '초')
@@ -837,7 +840,7 @@ def my_grp_list_combo():
         
         for row in result:
             #org_list.append(row['org_title']+'['+row['org_no']+']')
-            grp_list.append(row['grp_title'])
+            grp_list.append(row['grp_short_title'])
 
         return grp_list
 
@@ -846,6 +849,31 @@ def my_grp_list_combo():
         logger.exception(e)
         raise
 
+def my_grp_list_checkbox():
+    
+    grp_list = ['전 체']
+    result = model.get_grp_list()
+    
+    # # DB조회결과 없는 경우
+    # if( type(result) != 'list'):
+    #     return False
+    # print ('11',type(result))
+    # if(type(result) == "<class 'NoneType'>"):
+    #     print ('22',type(result))
+    #if result 
+    try:
+        
+        for row in result:
+            #org_list.append(row['org_title']+'['+row['org_no']+']')
+            grp_list[row['grp_no']] = row['grp_title']
+
+        return grp_list
+
+    except Exception as e:
+        logger.error(e)
+        logger.exception(e)
+        raise
+    
 
 @logger.catch 
 def save_org_html(url_no, src_text):
@@ -1100,4 +1128,7 @@ def image_diff_opencv(src, dest):
     
     
     
-    
+def CBtn(sg, BoxText):
+    strlen = len(BoxText)
+    strlen = strlen + 3
+    return sg.Checkbox(BoxText, size=(strlen, 1), default=False)

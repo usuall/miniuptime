@@ -39,13 +39,27 @@ def main():
     #카테고리 취득
     grp_list = mini.my_grp_list_combo()    
     
+    
+    # grp_list_checkbox = mini.my_grp_list_checkbox()    
+    # grp_list_checkbox.items()
+    
+    
     # GUI 실행
     sg.theme('TanBlue')
+    
+    
+    '''
+    category_box = [
+        mini.CBtn(sg, grp_list[i]) for i in range(len(grp_list))
+    ] 
+    '''       
+        
     layout = [
         [sg.Image(filename=logo, key='key1', pad=((5, 0), (10, 10)))],
         # [sg.Text('(Uptime Mini) Health Check Agent', size=(30, 1), font=("Helvetica", 25))],
         # [sg.Text('Uptime Stream is URL Health Check Manager')],
         # [sg.InputText('', key='in1')],
+        # [category_box],
         [sg.Text('카테고리'), sg.Combo(values=(grp_list), default_value='전 체', size=(30, 1), key='-GRP_LIST-', enable_events=False, tooltip='카테고리를 선택해주세요.'),
          sg.Text('URL번호'), sg.InputText('', key='-URL_NO-', size=(10, 1), tooltip='URL 번호')],
         # [sg.Listbox(values=(org_list), size=(30, 1), key='-ORG_LIST-', enable_events=True)],
@@ -53,9 +67,10 @@ def main():
          sg.Text('  URL명'), sg.InputText('', key='-SITE_URL-', size=(30, 1), tooltip='도메인(URL)을 입력하세요.')],
         [sg.CBox('반복 점검', key='-REPEAT-', default=True, tooltip='체크 대상을 반복하여 점검합니다.'),
          sg.CBox('비활성화 URL 포함', key='-DISABLED-'), sg.CBox('백그라운드 실행', key='-BG_EXE-', default=False, tooltip='크롬 브라우져의 실행화면이 표시되지 않음'),
-         sg.CBox('랜덤 실행', key='-RANDOM-')],
+         # sg.CBox('랜덤 실행', key='-RANDOM-'),
+         sg.Radio('랜덤 실행', group_id="RADIO2", default=True, key='-RANDOM-'), sg.Radio('OLD 체크', group_id="RADIO2", default=False, key='-OLDEST-')],
         [sg.CBox('이미지 유사도 검증', key='-IMAGE_MATCH-', default=True), sg.CBox('HTML 유사도 검증', key='-HTML_MATCH-', default=True)],
-        [sg.Text('타임아웃'), sg.Radio('5초',  group_id="RADIO1", key='-TIMEOUT1-'),
+        [sg.Text('타임아웃'), sg.Radio('5초', group_id="RADIO1", key='-TIMEOUT1-'),
                             sg.Radio('10초', group_id="RADIO1", default=True, key='-TIMEOUT2-'),
                             sg.Radio('15초', group_id="RADIO1", key='-TIMEOUT3-'),
                             sg.Radio('20초', group_id="RADIO1", key='-TIMEOUT4-'),

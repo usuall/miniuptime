@@ -16,8 +16,8 @@ if(isset($url_no) && $url_no > 0){
 
     # 이미지 파일
     $filename = $url_no."_site.png";
-    echo "<br>".$daily_file = IMG_CAPTURE_PATH."daily/".$filename;
-    echo "<br>".$origin_file = IMG_CAPTURE_PATH."orign/".$filename;
+    $daily_file = IMG_CAPTURE_PATH."daily/".$filename;
+    $origin_file = IMG_CAPTURE_PATH."orign/".$filename;
     if(file_exists($daily_file)){
         if(copy($daily_file, $origin_file)){
             #unlink($daily_file);
@@ -27,8 +27,8 @@ if(isset($url_no) && $url_no > 0){
 
     # HTML 파일
     $filename = $url_no.".html";
-    echo "<br>".$daily_file = HTML_CAPTURE_PATH."daily/".$filename;
-    echo "<br>".$origin_file = HTML_CAPTURE_PATH."orign/".$filename;
+    $daily_file = HTML_CAPTURE_PATH."daily/".$filename;
+    $origin_file = HTML_CAPTURE_PATH."orign/".$filename;
     if(file_exists($daily_file)){
         if(copy($daily_file, $origin_file)){
             unlink($daily_file); 

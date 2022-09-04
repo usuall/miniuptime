@@ -65,8 +65,12 @@ def get_grp_url_list(c, keyword):
     if(keyword.get('RANDOM') == True):
         sql += f" order by rand()"
         #sql += f" order by b.url_lastest_check_dt desc"
-    else:
+    elif(keyword.get('OLDEST') == True):
+        sql += f" order by url_lastest_check_dt limit 1"
+        # 가장 체크 오래된 것 5개(반복)        
+    else:    
         sql += f" order by b.url_no"
+            
     
     logger.info('SQL : ' + sql )
     c.execute(sql)
