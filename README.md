@@ -45,6 +45,7 @@ pip install playsound
 
 ALTER TABLE `tb_url` ADD `url_html_diff_output` VARCHAR(255) NULL AFTER `url_html_match2`;  
 ALTER TABLE `tb_url` DROP `url_type`;
+ALTER TABLE `tb_monitor` ADD `mon_html_diff_time` FLOAT NOT NULL COMMENT 'html 비교 소요시간' AFTER `mon_html_diff_output`;
 
 
 -- URL 이상 있는 기관
@@ -63,9 +64,8 @@ FROM `tb_url` as a
 left outer join tb_group as b
 on a.grp_no = b.grp_no
 WHERE 1=1 
-and a.url_status <> 200
-and (a.url_img_match1 <= 60 
-	 or a.url_html_match1 <= 60);
+and (a.url_status <> 200 or a.url_status is NULL)
+and (a.url_img_match1 <= 60 or a.url_html_match1 <= 60);
 
 -- 응답시간 5초 이상
 SELECT * FROM `tb_url` 
@@ -89,4 +89,12 @@ on b.grp_no = c.grp_no
 group by a.url_no
 order by avg desc;
 
-
+-- HTML 비교 느린 것 찾기
+SELECT c.grp_short_title, b.url_title, a.url_no, mon_response_time, status_code, mon_html_diff_time 
+FROM `tb_monitor` as a
+left outer join tb_url as b
+on a.url_no = b.url_no
+left outer join tb_group as c
+on b.grp_no = c.grp_no
+ORDER BY a.mon_html_diff_time DESC
+limit 30;

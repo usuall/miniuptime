@@ -34,7 +34,7 @@ $sql = "SELECT a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as
         ORDER BY a.mon_no desc";
 */
 
-$sql = "SELECT c.grp_title, a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
+$sql = "SELECT c.grp_short_title, a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
         FROM `tb_monitor` as a 
         LEFT OUTER JOIN tb_url as b on a.url_no = b.url_no 
         LEFT OUTER JOIN tb_group as c on c.grp_no = b.grp_no
@@ -57,7 +57,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
     # 응답 속도
     $mon_response_time = $data['mon_response_time'];
-    if($mon_response_time < 5 && $mon_response_time > 10){
+    if($mon_response_time > 5 && $mon_response_time < 10){
         $mon_response_time_color = 'success';
     } else if ($mon_response_time >= 10) {
         $mon_response_time_color = 'danger';
@@ -73,7 +73,6 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         $status_code_color = 'danger';
     }
 
-    $mon_img_match1_color = 'text-dark';
     if($data['mon_img_match1'] == '-1'){
         $data['mon_img_match1'] = '원본없음';
         $mon_img_match1_color = 'secondary';
@@ -85,7 +84,6 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         $mon_img_match1_color = 'success';
     }
     
-    $mon_html_match1_color = 'text-dark';
     if($data['mon_html_match1'] == '-1'){
         $data['mon_html_match1'] = '원본없음';
         $mon_html_match1_color = 'secondary';
@@ -104,7 +102,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
     $arr_row[] = array(
         
         'mon_no' => $data['mon_no'],
-        'grp_title' => $data['grp_title'],
+        'grp_title' => $data['grp_short_title'],
         'url_title' => $data['url_title'],
         'url_addr' => $data['url_addr'],
         'url_no' => $data['url_no'],

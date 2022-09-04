@@ -26,7 +26,7 @@ order by a.mon_no
 desc limit 10";
 */
 
-$sql ="SELECT c.grp_title, a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
+$sql ="SELECT c.grp_short_title, a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
 FROM `tb_monitor` as a 
 left outer join tb_url as b 
 on a.url_no = b.url_no 
@@ -48,8 +48,8 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
     # 응답 속도
     $mon_response_time = $data['mon_response_time'];
-    if($mon_response_time < 5 && $mon_response_time > 10){
-        $mon_response_time_color = 'success';
+    if($mon_response_time > 5 && $mon_response_time < 10){
+        $mon_response_time_color = 'warning';
     } else if ($mon_response_time >= 10) {
         $mon_response_time_color = 'danger';
     } else {
@@ -93,7 +93,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
     #결과 출력용
     $arr_row[] = array(
-        'grp_title' => $data['grp_title'],
+        'grp_title' => $data['grp_short_title'],
         'mon_no' => $data['mon_no'],
         'url_title' => $data['url_title'],
         'url_addr' => $data['url_addr'],

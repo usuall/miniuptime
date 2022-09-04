@@ -493,8 +493,11 @@ def get_monitoring(window, keyword):
         html_output = {}
         org_html = str('{0:04}'.format(row['url_no'])) + '.html'
         # html_rate, html_diff_output = diff_html(org_html, html_file, row['url_no'])
+        diff_st_time = time.time()
         html_output = diff_html(org_html, html_file, row['url_no'])
-        
+        # HTML 비교 소요시간
+        mon_html_diff_time = str(round(time.time()-diff_st_time, 2))
+        logger.info('HTML Diff During Time'+ mon_html_diff_time)
         # print(html_output)
         
         # logger.info('HTML 유사도 : ' + str(html_output['s4']) )
@@ -541,6 +544,7 @@ def get_monitoring(window, keyword):
         tb_monitor['mon_img_match1'] = img_matching_point
         tb_monitor['mon_html_match1'] = mon_html_match1
         tb_monitor['mon_html_diff_output'] = mon_html_diff_output
+        tb_monitor['mon_html_diff_time'] = mon_html_diff_time
         # tb_monitor['mon_html_match1'] = 
 
         tb_url['url_no'] = row['url_no']
