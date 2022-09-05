@@ -27,7 +27,4 @@ pip install urllib3
 pip install BeautifulSoup4
 pip install loguru
 
-REM ( Install project ....  )
-git clone https://github.com/usuall/miniuptime.git
-
 REM ---- Installation Completed ----

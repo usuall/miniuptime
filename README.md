@@ -44,8 +44,10 @@ pip install playsound
 
 
 ALTER TABLE `tb_url` ADD `url_html_diff_output` VARCHAR(255) NULL AFTER `url_html_match2`;  
-ALTER TABLE `tb_url` DROP `url_type`;
-ALTER TABLE `tb_monitor` ADD `mon_html_diff_time` FLOAT NOT NULL COMMENT 'html 비교 소요시간' AFTER `mon_html_diff_output`;
+ALTER TABLE `tb_url` DROP `url_type`;  
+ALTER TABLE `tb_monitor` ADD `mon_html_diff_time` FLOAT NOT NULL COMMENT 'html 비교 소요시간' AFTER `mon_html_diff_output`;  
+ALTER TABLE `tb_monitor` CHANGE `mon_html_diff_output` `mon_html_diff_output` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;
+
 
 
 -- URL 이상 있는 기관
