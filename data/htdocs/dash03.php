@@ -74,7 +74,7 @@ while ($data = $mysql2->fetch(PDO::FETCH_ASSOC)) {
 
     #결과 출력용
     $arr = array(
-        'mon_dt'            => substr($data['mon_dt'], 10,6),
+        'mon_dt'            => substr($data['mon_dt'], 5,11),
         'mon_response_time' => $data['mon_response_time'],
         'status_code'       => $data['status_code'],
     );

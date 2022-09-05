@@ -97,7 +97,7 @@ def isExist_dir(path):
 def button_activate(window, activate):
     
     # 화면 요소ID
-    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-BUTTON_START-', '-RANDOM-', '-OLDEST-')
+    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-BUTTON_START-', '-RANDOM-')
     #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
     
     # 버튼 활성화 전환
@@ -141,7 +141,7 @@ def getCondition(window, values):
     window['-OUTPUT-'].update(value='- 비활성화 URL포함. : ' + str(values['-DISABLED-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 백그라운드 실행 : ' + str(values['-BG_EXE-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 랜덤 실행 : ' + str(values['-RANDOM-']) + '\n', append=True)    
-    window['-OUTPUT-'].update(value='- OLD 체크 : ' + str(values['-OLDEST-']) + '\n', append=True)    
+    #window['-OUTPUT-'].update(value='- OLD 체크 : ' + str(values['-OLDEST-']) + '\n', append=True)    
     window['-OUTPUT-'].update(value='- 이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 타임아웃 설정 : ' + str(timeout_term) + '초\n', append=True)
@@ -156,7 +156,7 @@ def getCondition(window, values):
                 'DISABLED':     values['-DISABLED-'], 
                 'BG_EXE':       values['-BG_EXE-'],
                 'RANDOM':       values['-RANDOM-'],
-                'OLDEST':       values['-OLDEST-'],
+                #'OLDEST':       values['-OLDEST-'],
                 'IMAGE_MATCH':  values['-IMAGE_MATCH-'], 
                 'HTML_MATCH':   values['-HTML_MATCH-'], 
                 'TIME_OUT':     timeout_term }
@@ -169,7 +169,7 @@ def getCondition(window, values):
     logger.info('반복 점검 : ' + str(values['-REPEAT-']))
     logger.info('비활성화 URL포함. : ' + str(values['-DISABLED-']))
     logger.info('백그라운드 실행 : ' + str(values['-RANDOM-']))
-    logger.info('OLD 체크 실행 : ' + str(values['-OLDEST-']))
+    #logger.info('OLD 체크 실행 : ' + str(values['-OLDEST-']))
     logger.info('이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']))
     logger.info('HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']))
     logger.info('타임아웃 설정 : ' + str(timeout_term) + '초')
@@ -362,8 +362,8 @@ def get_monitoring(window, keyword):
         pertime = time.time() # 개별작업시간
         # 작업시간 출력
         logger.info('---- URL Health Check Start' + ' ['+ str(cnt) + '/' + str(total_cnt) + '] ----')
-        str1 = '[' + get_sysdate() + '] ['+ str(cnt) + '/' + str(total_cnt) + '] ' + row['url_addr'] + ' (NO:' + str(row['url_no'])  +')\n'
-        window['-OUTPUT-'].update(value=str1, append=True)
+        str1 = '[' + get_sysdate() + ']\n['+ str(cnt) + '/' + str(total_cnt) + '] ' + row['url_addr'] + ' (NO:' + str(row['url_no'])  +')'
+        window['-OUTPUT-'].update(value=str1+'\n', append=True)
         window.refresh() 
 
         # 브라우져 URL 탐색
@@ -421,7 +421,7 @@ def get_monitoring(window, keyword):
         
         
         logger.info(step_add(total_step) + 'URL redirected : '+ redirected_url + diff_time(pertime))
-        window['-OUTPUT-'].update(value=' Redirected → '+redirected_url + diff_time(pertime), append=True)
+        window['-OUTPUT-'].update(value='→ (redirected) '+redirected_url + diff_time(pertime)+'\n', append=True)
         window.refresh() # 작업내용 출력 반영
         
         # 이미지 캡쳐 (브라우져 크기 설정후 캡쳐 사이즈 지정 필요)
@@ -449,7 +449,7 @@ def get_monitoring(window, keyword):
             break
         
         logger.info(step_add(total_step) + 'Screenshot' + diff_time(pertime))
-
+        window['-OUTPUT-'].update(value='→ Screenshot'+ diff_time(pertime)+'\n', append=True)
         # origin_img = img_origin_path + img_str
         # new_img = img_daily_path + img_str
         
@@ -471,8 +471,12 @@ def get_monitoring(window, keyword):
         else:
             logger.info(step_add(total_step) + 'image_match skipped(search option) ' + diff_time(pertime))
         
+        window['-OUTPUT-'].update(value='→ Image Simlarity', append=True)
+        window['-OUTPUT-'].update(value=diff_time(pertime), append=True)        
+        window['-OUTPUT-'].update(value='\n', append=True)
+                
 
-        window['-OUTPUT-'].update(value=' → captured'+ diff_time(pertime), append=True)
+        
         window.refresh() 
 
         # HTML 저장 및 검증 ----------------------------------- #
@@ -485,7 +489,7 @@ def get_monitoring(window, keyword):
         # HTML 저장 ------------------------------------------- #
         html_file = save_html(row['url_no'], html_source)
         logger.info(step_add(total_step) + 'HTML Save'+ diff_time(pertime))
-        window['-OUTPUT-'].update(value=' → html' + diff_time(pertime), append=True)
+        window['-OUTPUT-'].update(value='→ HTML Save' + diff_time(pertime)+'\n', append=True)
         window.refresh()
         
         
@@ -497,7 +501,10 @@ def get_monitoring(window, keyword):
         html_output = diff_html(org_html, html_file, row['url_no'])
         # HTML 비교 소요시간
         mon_html_diff_time = str(round(time.time()-diff_st_time, 2))
-        logger.info('HTML Diff During Time'+ mon_html_diff_time)
+        logger.info('HTML Simlarity '+ mon_html_diff_time)
+        window['-OUTPUT-'].update(value='→ HTML Simlarity', append=True)
+        window['-OUTPUT-'].update(value=' ('+ mon_html_diff_time + 's)', append=True)        
+        window['-OUTPUT-'].update(value='\n', append=True)
         # print(html_output)
         
         # logger.info('HTML 유사도 : ' + str(html_output['s4']) )
@@ -516,7 +523,7 @@ def get_monitoring(window, keyword):
         if(req_code != 200):
             t_color='Red'
         # http Status code 
-        window['-OUTPUT-'].update(value='→ Status ' + str(req_code) + diff_time(pertime), append=True, text_color_for_value=t_color)
+        window['-OUTPUT-'].update(value='→ Status ' + str(req_code) + diff_time(pertime)+'\n' , append=True, text_color_for_value=t_color)
         window.refresh()
 
         # HTML 유사도 검증 ------------------------------------- #
@@ -527,7 +534,7 @@ def get_monitoring(window, keyword):
         
         close_new_tabs(driver)
         logger.info(step_add(total_step) + 'New Tab Closed' + diff_time(pertime))
-        window['-OUTPUT-'].update(value=' → Tab', append=True)
+        window['-OUTPUT-'].update(value='→ New Tab Closed', append=True)
         window['-OUTPUT-'].update(value=' ('+str(round(time.time()-pertime, 2)) + 's)', append=True)        
         window['-OUTPUT-'].update(value='\n', append=True)
         window.refresh() # 작업내용 출력 반영
@@ -801,15 +808,15 @@ def set_browser_option(BG_EXE):
     # 브라우져 창 최소화 유무
     if (BG_EXE == True):
         # 백그라운드 실행
-        #options.add_argument('--window-size=1900,1080')
-        options.add_argument('--window-size=1280,1000')
+        # headless 실행시 윈도우 사이즈 줄여야함(width: -16, height : -137)
+        options.add_argument('--window-size=1264,863')
         options.add_argument("--headless")
         # headless 탐지막기 
         # https://beomi.github.io/gb-crawling/posts/2017-09-28-HowToMakeWebCrawler-Headless-Chrome.html
         # options.headless = True
 
     else:
-        # driver.set_window_size(1920, 1080)
+        # 사이즈 변경하지 말것
         options.add_argument('--window-size=1280,1000')
 
         #options.add_argument("--start-maximized")

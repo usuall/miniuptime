@@ -233,7 +233,7 @@
     <script src="./dist/libs/apexcharts/dist/apexcharts.min.js" defer></script>
     -->
     <!-- Tabler Core -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="./dist/js/jquery-3.6.1.min.js"></script>
     <script src="./dist/js/tabler.min.js" defer></script>
     <script src="./dist/js/demo.min.js" defer></script>
     <script>
@@ -270,7 +270,7 @@
                 $content.prepend(str);
                 last_mon_no = data[i].mon_no;
                 
-                console.log(data[i].sql);
+                //console.log(data[i].sql);
 
                 if(last_mon_no > $('#mon_no').val()){
                   $('#mon_no').val(last_mon_no);
@@ -287,7 +287,7 @@
       }
 
       window.addEventListener('load', function () {
-        setInterval(dojQueryAjax, 2000);
+        setInterval(dojQueryAjax, 5000);
       });
 
     </script>

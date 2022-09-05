@@ -20,7 +20,7 @@ def with_cursor(original_func):
         # conn.row_factory = sqlite3.Row
         # c = conn.cursor()
         try:
-            conn = pymysql.connect(host=host, user=username, password=password, db=database, use_unicode=True, charset='utf8')
+            conn = pymysql.connect(host=host, port=int(port), user=username, password=password, db=database, use_unicode=True, charset='utf8')
             c = conn.cursor(pymysql.cursors.DictCursor)
             rv = original_func(c, *args, **kwargs)
             conn.commit()
@@ -65,8 +65,8 @@ def get_grp_url_list(c, keyword):
     if(keyword.get('RANDOM') == True):
         sql += f" order by rand()"
         #sql += f" order by b.url_lastest_check_dt desc"
-    elif(keyword.get('OLDEST') == True):
-        sql += f" order by url_lastest_check_dt limit 1"
+    # elif(keyword.get('OLDEST') == True):
+    #     sql += f" order by url_lastest_check_dt limit 1"
         # 가장 체크 오래된 것 5개(반복)        
     else:    
         sql += f" order by b.url_no"
