@@ -41,8 +41,6 @@ $mysql = $pdo->query($sql);
 $result = array();
 $arr_row = array();
 
-// $result = $mysql->fetchAll(PDO::FETCH_ASSOC);
-
 $i = 1;
 while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
@@ -68,6 +66,9 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
     if($data['mon_img_match1'] == '-1'){
         $data['mon_img_match1'] = '원본없음';
         $mon_img_match1_color = 'secondary';
+    } else if($data['mon_img_match1'] == '-2'){
+        $data['mon_img_match1'] = '캡쳐안됨';
+        $mon_img_match1_color = 'secondary';
     } else if($data['mon_img_match1'] < 100 && $data['mon_img_match1'] > 60){
         $mon_img_match1_color = 'success';
     } else if ($data['mon_img_match1'] <= 60) {
@@ -80,6 +81,9 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
     if($data['mon_html_match1'] == '-1'){
         $data['mon_html_match1'] = '원본없음';
         $mon_html_match1_color = 'secondary';
+    // } else if($data['mon_html_match1'] == '-2'){
+    //     $data['mon_html_match1'] = '캡쳐안됨';
+    //     $mon_html_match1_color = 'secondary';
     } else if($data['mon_html_match1'] < 100 && $data['mon_html_match1'] > 60){
         $mon_html_match1_color = 'success';
     } else if ($data['mon_html_match1'] <= 60) {

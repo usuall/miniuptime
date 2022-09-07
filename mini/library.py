@@ -453,14 +453,19 @@ def get_monitoring(window, keyword):
             existDailyImage = os.path.isfile(img_daily_path + img_str)
             if(existDailyImage == True):
                 os.remove(img_daily_path + img_str)
-                print ('delete.... ',img_daily_path + img_str)
-                time.sleep(5)
+                logger.info('delete ===> ' + img_daily_path + img_str)
+                # time.sleep(5)
 
             # Full 스크린 저장
             fullpage_screenshot(driver, img_daily_path + img_str)
+            
+            existDailyImage = os.path.isfile(img_daily_path + img_str)
+            if(existDailyImage == False):
+                logger.warning('화면캡쳐 생성 에러 : ' + img_daily_path + img_str)
+            
         except TimeoutException as e:
             logger.warning('Screenshot Timout')
-            pass    
+            pass
         except Exception as e:  # 기타 오류 발생시 처리 정지
             logger.critical('SCREENSHOT Exception Occured : '+ str(e))
             break
@@ -1033,8 +1038,13 @@ def image_match(origin_img, new_img):
         result = round((100-(result * 100)),2)
         return result
     else:
-        logger.info('Original image is nothing ... Image_matching skipped')
-        result = -1 # 스킵(상태) = -1
+        if(os.path.isfile(file1) == False):
+            logger.info('Original image is nothing ... Image_matching skipped')
+            result = -1 # 스킵(상태) = -1
+        elif(os.path.isfile(file2) == False):
+            logger.info('Daily image is nothing ... Image_matching skipped')
+            result = -2 # 스킵(상태) = -1
+            
         return result
 
 
