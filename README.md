@@ -100,3 +100,7 @@ left outer join tb_group as c
 on b.grp_no = c.grp_no
 ORDER BY a.mon_html_diff_time DESC
 limit 30;
+
+
+# (Selenium) Bypass “Your connection is not private” Message
+https://stackoverflow.com/questions/60247155/how-to-bypass-the-message-your-connection-is-not-private-on-non-secure-page-us

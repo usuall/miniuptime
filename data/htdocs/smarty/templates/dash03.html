@@ -1408,7 +1408,7 @@
     
 
     <script>
-      const ctx = document.getElementById('timeSeriesChart').getContext('2d');
+      const ctx2 = document.getElementById('timeSeriesChart').getContext('2d');
 
       /* const startDate = new Date(2020, 0, 1); */
       const labels = [{foreach $graph as $row} '{$row.mon_dt}', {/foreach}];
@@ -1419,7 +1419,7 @@
       }
       */
 
-      const chart = new Chart(ctx, {
+      const chart = new Chart(ctx2, {
         type: 'line',
         data: {
           labels,

@@ -1,4 +1,4 @@
-import mini.library as mini
+import mini.library_tester as mini
 import mini.model as model
 import PySimpleGUI as sg
 from pickle import TRUE
@@ -23,7 +23,9 @@ def long_function_thread(window, values):
     global keyword
     # 조회조건 출력
     keyword = mini.getCondition(window, values)
-    url_cnt = mini.get_monitoring(window, keyword)    
+    url_cnt = mini.set_Monitoring(window, keyword)    
+    # url_cnt = mini.get_monitoring(window, keyword)   
+    
     logger.info('GET_MONITORING WORK_CNT : ' + str(url_cnt)) 
     window.write_event_value('-THREAD DONE-', '') # Thread 종료 후 이벤트(반복 작업을 위해 사용)    
     
@@ -55,8 +57,8 @@ def main():
     '''       
         
     layout = [
-        [sg.Image(filename=logo, key='key1', pad=((5, 0), (10, 10)))],
-        # [sg.Text('(Uptime Mini) Health Check Agent', size=(30, 1), font=("Helvetica", 25))],
+        [sg.Image(filename=logo, key='key1', pad=((5, 0), (10, 10))), 
+         sg.Text('Testing Agent', size=(12, 1), font=("Helvetica", 20))],
         # [sg.Text('Uptime Stream is URL Health Check Manager')],
         # [sg.InputText('', key='in1')],
         # [category_box],
@@ -65,17 +67,17 @@ def main():
         # [sg.Listbox(values=(org_list), size=(30, 1), key='-ORG_LIST-', enable_events=True)],
         [sg.Text('사이트명'), sg.InputText('', key='-SITE_TITLE-', size=(30, 1), tooltip='사이트명을 입력하세요.'),
          sg.Text('URL주소'), sg.InputText('', key='-SITE_URL-', size=(20, 1), tooltip='도메인(URL)을 입력하세요.')],
-        [sg.CBox('반복 점검', key='-REPEAT-', default=True, tooltip='체크 대상을 반복하여 점검합니다.'),
-         sg.CBox('비활성화 URL 포함', key='-DISABLED-'), sg.CBox('백그라운드 실행', key='-BG_EXE-', default=True, tooltip='크롬 브라우져의 실행화면이 표시되지 않음'),
+        [sg.CBox('반복 점검', key='-REPEAT-', default=False, tooltip='체크 대상을 반복하여 점검합니다.'),
+         sg.CBox('비활성화 URL 포함', key='-DISABLED-'), sg.CBox('백그라운드 실행', key='-BG_EXE-', default=False, tooltip='크롬 브라우져의 실행화면이 표시되지 않음'),
          sg.CBox('랜덤 실행', key='-RANDOM-')],
          #sg.Radio('랜덤 실행', group_id="RADIO2", default=True, key='-RANDOM-'), sg.Radio('OLD 체크', group_id="RADIO2", default=False, key='-OLDEST-')],
-        [sg.CBox('이미지 유사도 검증', key='-IMAGE_MATCH-', default=True), sg.CBox('HTML 유사도 검증', key='-HTML_MATCH-', default=True)],
+        [sg.CBox('이미지 유사도 검증', key='-IMAGE_MATCH-', default=True, disabled=True), sg.CBox('HTML 유사도 검증', key='-HTML_MATCH-', default=True, disabled=True)],
         [sg.Text('타임아웃'), sg.Radio('5초', group_id="RADIO1", key='-TIMEOUT1-'),
-                            sg.Radio('10초', group_id="RADIO1", default=True, key='-TIMEOUT2-'),
+                            sg.Radio('10초', group_id="RADIO1", key='-TIMEOUT2-'),
                             sg.Radio('15초', group_id="RADIO1", key='-TIMEOUT3-'),
                             sg.Radio('20초', group_id="RADIO1", key='-TIMEOUT4-'),
                             sg.Radio('25초', group_id="RADIO1", key='-TIMEOUT5-'),
-                            sg.Radio('30초', group_id="RADIO1", key='-TIMEOUT6-')],
+                            sg.Radio('30초', group_id="RADIO1", default=True, key='-TIMEOUT6-')],
         [sg.MLine(default_text='', font=('Dotum',11), size=(60, 15), key='-OUTPUT-', autoscroll=True, disabled=True)],        
         [sg.Button('종 료', key='-BUTTON_EXIT-', button_color=('white', 'firebrick3')),
          sg.Button('도움말', key='-BUTTON_HELP-', button_color=('white', 'firebrick3')),
@@ -112,7 +114,7 @@ def main():
             if (keyword.get('REPEAT') == True):
                 cnt += 1
                 logger.info('--- THREAD REPEAT (' + str(cnt)+  ' times) ---')
-                long_function(window, values)
+                long_function(window, values)                
                 
         elif event == '-BUTTON_EXIT-':
             mini.after_main()
@@ -125,21 +127,15 @@ def main():
             # break
 
         elif event == '-BUTTON_HELP-':
-            help_text = '''Uptime Stream is URL Health Check Manager.
+            help_text = '''URL 초기설정 기능 
             
 ■ 기능설명
-- 시뮬레이션 방식으로 브라우져가 URL을 접속하여 확인
-- 최종 URL(redirect)의 이미지 캡쳐
- (정상 상태의 이미지와 비교하여 유사도 체크)
-- 최종 URL의 상태코드를 확인
- (200 정상, 404 페이지 찾을수 없음 등..)
-- 최종 URL의 html 소스코드를 저장
- (정상 상태의 html과 비교하여 유사도 체크)
+- 원본 이미지가 없는 경우, 원본이미지에 해당하는 원본 HTML을 원본 디렉토리에 저장.
 
 ■ 검색조건 : 카테고리, 사이트명, URL명 등 설정
 
 ■ 동작 방법
-- 반복 점검 : 전체 검색결과를 반복해서 점검
+- 반복 점검 : 전체 검색결과를 반복
 - 비활성화 URL 점검 : 일시적으로 비활성화된 URL도 점검함
 - 백그라운드 실행 : 브라우져가 화면에서 실행되지 않음
 - 타임아웃 : 브라우져로 URL이 열리기까지의 타임아웃 시간(초)

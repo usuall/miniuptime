@@ -178,7 +178,7 @@ def getCondition(window, values):
     #     print('>>>',k)
 
     return keyword
-'''
+
 # 초기 URL 설정 (Scrrentshot, html 저장)
 def set_Monitoring(window, keyword):
     
@@ -213,9 +213,9 @@ def set_Monitoring(window, keyword):
         
         # 원본이미지 존재 확인
         img_str = str('{0:04}'.format(row['url_no']))+ "_site.png"
-        existFile = os.path.isfile(img_origin_path + img_str)
-        logger.info("파일 존재 유무 : " + img_origin_path + img_str)
-        window['-OUTPUT-'].update(value="IMG 파일 존재 유무 "+ img_origin_path + img_str  +' \n', append=True)
+        existFile = os.path.isfile(img_daily_path + img_str)
+        logger.info("파일 존재 유무 : " + img_daily_path + img_str)        
+        window['-OUTPUT-'].update(value="IMG 파일 존재 유무 "+ img_daily_path + img_str  +' \n', append=True)
         window.refresh() 
         
         # 원본 HTML 존재 확인
@@ -226,8 +226,6 @@ def set_Monitoring(window, keyword):
         window.refresh() 
         
         
-            
-        # 이미지 존재 확인    
         if(existFile != True or existFile2 != True):
             if( existFile != True ):
                 logger.info ('이미지 파일 미존재')
@@ -327,7 +325,7 @@ def set_Monitoring(window, keyword):
 
     # 작업종료후 브라우져 닫기
     driver.close()
-'''
+    
 
 # 검색결과 모니터링
 def get_monitoring(window, keyword):    
@@ -440,14 +438,6 @@ def get_monitoring(window, keyword):
         try:
             # 특정 사이즈 저장
             # driver.save_screenshot(img_daily_path + img_str)
-            
-            
-            # 이미지 캡쳐 전 daily 파일삭제
-            existDailyImage = os.path.isfile(img_daily_path + img_str)
-            if(existDailyImage == True):
-                os.remove(img_daily_path + img_str)
-                print ('delete.... ',img_daily_path + img_str)
-                time.sleep(5)
 
             # Full 스크린 저장
             fullpage_screenshot(driver, img_daily_path + img_str)
@@ -594,8 +584,7 @@ def get_monitoring(window, keyword):
     button_activate(window, 1)
 
     # 작업종료후 브라우져 닫기
-    driver.close() 
-    driver.quit() # Headless 실행시 chromedriver.exe 실행되고 작업종료 후 prompt창 닫기
+    driver.close()
 
     #처리건수 리턴
     return cnt

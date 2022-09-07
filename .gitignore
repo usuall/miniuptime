@@ -16,6 +16,5 @@ data/htdocs/smarty/templates_c/
 data/htdocs/html_diff/
 .idea
 build
-dist
 *.exe
 *.spec
