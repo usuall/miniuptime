@@ -108,11 +108,15 @@ def main():
                 
         elif event == '-THREAD DONE-':
             logger.info(' --- THREAD DONE --- ')
+            
             # 반복 점검
             if (keyword.get('REPEAT') == True):
                 cnt += 1
                 logger.info('--- THREAD REPEAT (' + str(cnt)+  ' times) ---')
                 long_function(window, values)
+            else:
+                # 버튼 활성화
+                mini.button_activate(window, 1)
                 
         elif event == '-BUTTON_EXIT-':
             mini.after_main()
@@ -121,8 +125,13 @@ def main():
 
         elif event == '-BUTTON_STOP-':
             logger.info (' --- BUTTON_STOP --- ')
-            stop_event.set()
-            # break
+              
+            # 종료시 작업 반복되지 않도록 수정
+            mini.stop_Signal()
+            keyword.update({'REPEAT': 'False'})
+            
+           
+
 
         elif event == '-BUTTON_HELP-':
             help_text = '''Uptime Stream is URL Health Check Manager.

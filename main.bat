@@ -11,3 +11,5 @@ set CUR_MS=%time:~9,2%
 
 set SUBFILENAME=%CUR_YYYY%%CUR_MM%%CUR_DD%-%CUR_HH%%CUR_NN%%CUR_SS%
 pythonw -u run.py > data/logs/run_%SUBFILENAME%.log 2>&1
+
+# cmd /c pythonw run.pyw 1>stdout.txt 2>stderr.txt

@@ -50,7 +50,7 @@ def main():
         
     layout = [
         [sg.Image(filename=logo, key='key1', pad=((5, 0), (10, 10)))],
-        # [sg.Text('(Uptime Mini) Health Check Agent', size=(30, 1), font=("Helvetica", 25))],
+        [sg.Text('Setting Agent', size=(30, 1), font=("Helvetica", 25))],
         # [sg.Text('Uptime Stream is URL Health Check Manager')],
         # [sg.InputText('', key='in1')],
         # [category_box],
@@ -117,9 +117,9 @@ def main():
                 if(yes_no == 'OK'):                
                     # 원본이미지 존재 확인
                     img_str = str('{0:04}'.format(row['url_no']))+ "_site.png"
-                    existFile = os.path.isfile(img_daily_path + img_str)
-                    logger.info("파일 존재 유무 : " + img_daily_path + img_str)        
-                    window['-OUTPUT-'].update(value="IMG 파일 존재 유무 "+ img_daily_path + img_str  +' \n', append=True)
+                    existFile = os.path.isfile(img_origin_path + img_str)
+                    logger.info("파일 존재 유무 : " + img_origin_path + img_str)        
+                    window['-OUTPUT-'].update(value="IMG 파일 존재 유무 "+ img_origin_path + img_str  +' \n', append=True)
                     window.refresh() 
                 
                     # 원본 HTML 존재 확인
@@ -187,7 +187,7 @@ def main():
                             # driver.save_screenshot(img_daily_path + img_str)
 
                             # Full 스크린 저장
-                            yes_no = sg.popup_ok_cancel("이미지 캡쳐할까요? OK or NO", title="Next Step")
+                            yes_no = sg.popup_ok_cancel("이미지 캡쳐할까요?", title="Next Step")
                             if(yes_no == 'OK'):   
                                 mini.fullpage_screenshot(driver, img_origin_path + img_str)
                         except TimeoutException as e:

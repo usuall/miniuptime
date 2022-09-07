@@ -1,3 +1,4 @@
+from tabnanny import process_tokens
 from mini.config import get_Config
 import mini.model as model
 from datetime import datetime
@@ -335,6 +336,7 @@ def get_monitoring(window, keyword):
     global driver
     global _step_
     global html_output
+    global process_stop
     
     
     stime = time.time()
@@ -351,7 +353,12 @@ def get_monitoring(window, keyword):
     window['-OUTPUT-'].update(value='------------------------------\n', append=True)
     
     total_step = 8
+    process_stop = False
     for row in result:
+        
+        if(process_stop == True):
+            return 
+        
         cnt += 1
         _step_ = 0
         
@@ -600,6 +607,17 @@ def get_monitoring(window, keyword):
     #처리건수 리턴
     return cnt
 
+def stop_Signal():
+    # 정지 신호
+    global process_stop
+    process_stop = True
+    
+   
+    
+def browser_Close():
+    global driver
+    driver.close() 
+    driver.quit()
 
 # 소스파일 비교용(변경되지 않은 행을 제외)
 def trim_unchanged(lines:list[str]) -> list[str]:
@@ -1109,7 +1127,8 @@ def after_main():
     try:
         # 작업종료후 브라우져 닫기
         driver.close()
-        print("작업 종료 ..  =>",type(driver))
+        driver.quit()
+        # print("작업 종료 ..  =>",type(driver))
         logger.info("Chrome Browser Closed")
     except:
         # 시작하지 않고 종료시 driver 변수 에러 방지(NameError: name 'driver' is not defined)

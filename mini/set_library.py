@@ -332,7 +332,7 @@ def set_Monitoring(window, keyword):
 
     # 작업종료후 브라우져 닫기
     driver.close()
-    
+    driver.quit()
 
 # 검색결과 모니터링
 def get_monitoring(window, keyword):    
@@ -858,7 +858,7 @@ def my_grp_list_combo():
         
         for row in result:
             #org_list.append(row['org_title']+'['+row['org_no']+']')
-            grp_list.append(row['grp_short_title'])
+            grp_list.append(row['grp_title'])
 
         return grp_list
 
