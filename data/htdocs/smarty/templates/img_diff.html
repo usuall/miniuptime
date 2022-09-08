@@ -43,7 +43,7 @@
                 <div class="card card-md">
                   <div class="card-body text-center">
                     <div class="display-6 fw-bold my-3">원본</div>
-                    <img src="/capture/orign/{$result.url_no|string_format:"%04d"}_site.png?nocache={rand()}">
+                    <img src="/capture/orign/{$result.url_no|string_format:"%04d"}_site.png?nocache={rand()}" onerror="this.src='./images/x.svg'">
                     <div class="text-center mt-4">
                       <a href="#" onclick="closeTabClick()" class="btn w-100">창 닫기</a>
                     </div>
