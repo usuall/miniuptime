@@ -104,3 +104,39 @@ limit 30;
 
 # (Selenium) Bypass “Your connection is not private” Message
 https://stackoverflow.com/questions/60247155/how-to-bypass-the-message-your-connection-is-not-private-on-non-secure-page-us
+
+
+ALTER TABLE `tb_url` ADD `url_ssl_start_dt` DATETIME NULL AFTER `url_redirected`, ADD `url_ssl_end_dt` DATETIME NULL AFTER `ssl_start_dt`;
+
+
+CREATE TABLE `tb_domain` (
+  `url_no` int(10) NOT NULL,
+  `check_date` datetime DEFAULT NULL,
+  `host` varchar(255) DEFAULT NULL,
+  `issued_to` varchar(255) DEFAULT NULL,
+  `issued_o` varchar(255) DEFAULT NULL,
+  `issuer_c` varchar(100) DEFAULT NULL,
+  `issuer_o` varchar(255) DEFAULT NULL,
+  `issuer_ou` varchar(200) DEFAULT NULL,
+  `issuer_cn` varchar(255) DEFAULT NULL,
+  `cert_sn` varchar(255) DEFAULT NULL,
+  `cert_sha1` varchar(255) DEFAULT NULL,
+  `cert_alg` int(255) DEFAULT NULL,
+  `cert_ver` int(255) DEFAULT NULL,
+  `cert_sans` varchar(255) DEFAULT NULL,
+  `cert_exp` varchar(255) DEFAULT NULL,
+  `cert_valid` int(255) DEFAULT NULL,
+  `valid_from` date DEFAULT NULL,
+  `valid_till` date DEFAULT NULL,
+  `validity_days` int(4) DEFAULT NULL,
+  `days_left` int(4) DEFAULT NULL,
+  `valid_days_to_expire` int(4) DEFAULT NULL,
+  `tcp_port` int(4) DEFAULT NULL,
+  `domain_name` varchar(255) DEFAULT NULL COMMENT '도메인 정보',
+  `creation_date` datetime DEFAULT NULL COMMENT '도메인 생성일',
+  `updated_date` datetime DEFAULT NULL COMMENT '도메인 갱신일',
+  `expiration_date` datetime DEFAULT NULL COMMENT '도메인 만료일',
+  `name_servers` varchar(255) DEFAULT NULL COMMENT 'dns 서버'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `tb_domain` ADD PRIMARY KEY (`url_no`); 
