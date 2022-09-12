@@ -104,3 +104,6 @@ limit 30;
 
 # (Selenium) Bypass “Your connection is not private” Message
 https://stackoverflow.com/questions/60247155/how-to-bypass-the-message-your-connection-is-not-private-on-non-secure-page-us
+
+
+ALTER TABLE `tb_url` ADD `url_ssl_start_dt` DATETIME NULL AFTER `url_redirected`, ADD `url_ssl_end_dt` DATETIME NULL AFTER `ssl_start_dt`;

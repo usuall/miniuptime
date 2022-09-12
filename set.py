@@ -83,14 +83,14 @@ def main():
     cnt = 0
 
     while True:
-        event, values = window.read()
-        print('while loop...', event, values)
+        event, value = window.read()
+        print('while loop...', event, value)
         
         if event == '-BUTTON_START-':
             logger.info(' --- BUTTON_START --- ')
 
             # 조건 저장
-            keyword = mini.getCondition(window, values)
+            keyword = mini.getCondition(window, value)
             
             # 검색
             result = model.get_grp_url_list(keyword)
