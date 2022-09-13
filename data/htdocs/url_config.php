@@ -44,7 +44,7 @@ if($result['url_fg'] == 1){
 
 $smarty->assign('url_fg', $url_fg);
 
-$smarty->debugging = true;
+// $smarty->debugging = true;
 $smarty->display('url_config.html');
 
 //DB 접속종료
