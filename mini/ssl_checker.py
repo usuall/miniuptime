@@ -13,7 +13,7 @@ try:
     from OpenSSL import SSL
     from json2html import *
 except ImportError:
-    print('Please install required modules: pip install -r requirements.txt')
+    print('Please install required modules: pip install pyopenssl, json2html')
     sys.exit(1)
 
 

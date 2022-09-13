@@ -8,7 +8,14 @@ import json
 import whois
 
 
-
+try:
+    from OpenSSL import SSL
+    from json2html import *
+except ImportError:
+    print('Please install required modules.')
+    print('pip install pyopenssl, json2html, python-whois')
+    sys.exit(1)
+    
 SSLChecker = SSLChecker()
 
 def main():
