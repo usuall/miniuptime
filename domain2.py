@@ -20,24 +20,28 @@ SSLChecker = SSLChecker()
 
 def main():
     
-    result = model.get_ssl_url_list()
+    result = model.get_ssl_url_list_all()
     # print('resutl ',type(result), len(result))
     total_cnt = len(result) # 조회 건수
     now_dt = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+    
     for row in result:
         
-
-        url_addr = get_url(row['url_addr'])
-
+        # print(row['url_addr'])
+        
+        # url_addr = get_url(row['url_addr'])
+        url_addr = row['url_addr']
+        # print (url_addr)
         # ssl 인증서 정보 취득
         ssl_info = get_SSL_info(url_addr)
         #print(ssl_info)
         #print (type(ssl_info))   # str
-        
-        print ('>>>> ', type(ssl_info))
+
         if(type(ssl_info) is not str):
             continue
         
+        # if(type(ssl_info) is list):
+            
         # str -> dict 형식으로 변경
         ssl_info = json.loads(ssl_info)
         #print (type(ssl_info))
@@ -62,7 +66,7 @@ def main():
             # print(tb_domain)
             
             # SSL 인증서 정보 갱신
-            model.insert_ssl_info(tb_domain)
+            model.insert_ssl_info_all(tb_domain)
             
         
         # 도메인 정보 취득
@@ -94,7 +98,7 @@ def get_whois(url_addr, url_no):
     tb_domain['expiration_date'] = domain.expiration_date
     tb_domain['name_servers'] = domain.name_servers
     
-    model.insert_domain_info(tb_domain)
+    model.insert_domain_info_all(tb_domain)
     
 def get_url(url_addr):
     
@@ -120,7 +124,7 @@ def get_SSL_info(url_addr):
     }
 
     ssl_info = {}
-    
+
     try:
         ssl_info = SSLChecker.show_result(SSLChecker.get_args(json_args=args))
         
