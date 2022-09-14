@@ -18,3 +18,5 @@ data/htdocs/html_diff/
 build
 *.exe
 *.spec
+stdout.txt
+stderr.txt
