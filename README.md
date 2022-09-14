@@ -146,4 +146,5 @@ ALTER TABLE `tb_domain` ADD PRIMARY KEY (`url_no`);
 - selenium full screenshot 이미지 깨짐 현상 개선
 - url 점검시 매번 해당 url의 특성에 따라 selenium 실행(옵션 기능)
 - url 점검시 javacript 비활성화 옵션으로 접속
-- 
+- selenium driver 창 안뜨게 하기
+  https://sijoo.tistory.com/409
