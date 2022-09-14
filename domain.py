@@ -34,7 +34,7 @@ def main():
         #print(ssl_info)
         #print (type(ssl_info))   # str
         
-        print ('>>>> ', type(ssl_info))
+        # 정상적으로 취득하지 못할경우 다음 loop로 패스
         if(type(ssl_info) is not str):
             continue
         

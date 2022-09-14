@@ -101,11 +101,8 @@ def get_ssl_url_list(c):
 # 도메인 SSL 인증서 만료일 체크
 @with_cursor
 def insert_ssl_info(c, tb_domain):
-    
     sql_data = ("INSERT INTO tb_domain SET url_no = %s /* primary/unique key */ , check_date = %s, host= %s, issued_to= %s, issued_o= %s, issuer_c= %s, issuer_o= %s, issuer_ou= %s, issuer_cn= %s, cert_sn= %s, cert_sha1= %s, cert_alg= %s, cert_ver= %s, cert_sans= %s, cert_exp= %s, cert_valid= %s, valid_from= %s, valid_till= %s, validity_days= %s, days_left= %s, valid_days_to_expire= %s, tcp_port= %s ON DUPLICATE KEY UPDATE check_date = %s, host= %s, issued_to= %s, issued_o= %s, issuer_c= %s, issuer_o= %s, issuer_ou= %s, issuer_cn= %s, cert_sn= %s, cert_sha1= %s, cert_alg= %s, cert_ver= %s, cert_sans= %s, cert_exp= %s, cert_valid= %s, valid_from= %s, valid_till= %s, validity_days= %s, days_left= %s, valid_days_to_expire= %s, tcp_port= %s ")
-    
     sql_val = (tb_domain['url_no'], tb_domain['check_date'], tb_domain['host'], tb_domain['issued_to'], tb_domain['issued_o'], tb_domain['issuer_c'], tb_domain['issuer_o'], tb_domain['issuer_ou'], tb_domain['issuer_cn'], tb_domain['cert_sn'], tb_domain['cert_sha1'], tb_domain['cert_alg'], tb_domain['cert_ver'], tb_domain['cert_sans'], tb_domain['cert_exp'], tb_domain['cert_valid'], tb_domain['valid_from'], tb_domain['valid_till'], tb_domain['validity_days'], tb_domain['days_left'], tb_domain['valid_days_to_expire'], tb_domain['tcp_port'], tb_domain['check_date'], tb_domain['host'], tb_domain['issued_to'], tb_domain['issued_o'], tb_domain['issuer_c'], tb_domain['issuer_o'], tb_domain['issuer_ou'], tb_domain['issuer_cn'], tb_domain['cert_sn'], tb_domain['cert_sha1'], tb_domain['cert_alg'], tb_domain['cert_ver'], tb_domain['cert_sans'], tb_domain['cert_exp'], tb_domain['cert_valid'], tb_domain['valid_from'], tb_domain['valid_till'], tb_domain['validity_days'], tb_domain['days_left'], tb_domain['valid_days_to_expire'], tb_domain['tcp_port'])
-    
     c.execute(sql_data, sql_val)
     
 # 도메인 만료일 체크
