@@ -16,11 +16,12 @@ if(isset($img_level) == True){
 }
 
 //データ検索
-$mysql = $pdo->prepare('SELECT a.url_no, c.grp_short_title, b.url_title, b.url_addr, a.check_date, a.valid_from, a.valid_till, a.days_left, a.creation_date, a.expiration_date, a.domain_name 
+$mysql = $pdo->prepare('SELECT a.url_no, c.grp_short_title, b.url_title, b.url_addr, a.check_date, a.valid_from, a.valid_till, 
+                        ifnull(a.days_left, "인증서없음") as days_left, a.creation_date, a.expiration_date, ifnull(a.domain_name, "도메인없음") as domain_name 
                         FROM `tb_domain` as a
                         left outer join tb_url as b on a.url_no = b.url_no 
                         left outer join tb_group as c on b.grp_no = c.grp_no
-                        order by a.days_left');
+                        order by a.days_left asc');
 $mysql->execute();
 
 //データ割り当て
@@ -48,7 +49,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         'url_addr'          => $data['url_addr'],
         'valid_from'        => $data['valid_from'],        
         'valid_till'        => $data['valid_till'],
-        'days_left'         => isNull($data['days_left']),
+        'days_left'         => $data['days_left'],
         'creation_date'     => substr($data['creation_date'],0, 10),
         'expiration_date'   => substr($data['expiration_date'],0, 10),
         'domain_name'       => $data['domain_name'],            
@@ -57,7 +58,16 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
 function isNull($str){
     if($str == ''){
-        return '-';
+        return '인증서없음';
+    } else {
+        return $str;
+    }
+        
+}
+
+function isNull2($str){
+    if($str == ''){
+        return '도메인없음';
     } else {
         return $str;
     }

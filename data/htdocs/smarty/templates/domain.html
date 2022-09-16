@@ -109,12 +109,12 @@
                       <thead>
                         <tr>
                           <th><button class="table-sort" data-sort="sort-1">NO</button></th>
-                          <th><button class="table-sort" data-sort="sort-1">그룹</button></th>
-                          <th><button class="table-sort" data-sort="sort-2">사이트명</button></th>
-                          <th><button class="table-sort" data-sort="sort-4">인증서 만료일</button></th>
-                          <th><button class="table-sort" data-sort="sort-5">D-Day(일)</button></th>
-                          <th><button class="table-sort" data-sort="sort-9">대표도메인</button></th>
-                          <th><button class="table-sort" data-sort="sort-7">도메인 생성일</button></th>
+                          <th><button class="table-sort" data-sort="sort-2">그룹</button></th>
+                          <th><button class="table-sort" data-sort="sort-3">사이트명</button></th>
+                          <!-- <th><button class="table-sort" data-sort="sort-4">URL</button></th> -->
+                          <th><button class="table-sort" data-sort="sort-5">인증서 만료일</button></th>
+                          <th><button class="table-sort" data-sort="sort-6">D-Day(일)</button></th>
+                          <th><button class="table-sort" data-sort="sort-7">대표도메인</button></th>
                           <th><button class="table-sort" data-sort="sort-8">만료일</button></th>                          
                         </tr>
                       </thead>
@@ -122,17 +122,17 @@
                         {foreach $result as $row}
                         <tr>
                           <td class="sort-1">{$row@index+1}</td>
-                          <td class="sort-1">{$row.grp_short_title}</td>
-                          <td class="sort-2">{$row.url_title} ({$row.url_no})
+                          <td class="sort-2">{$row.grp_short_title}</td>
+                          <td class="sort-3">{$row.url_title} ({$row.url_no})
                             <a href="{$row.url_addr}"  target='_blank' class="ms-1" aria-label="Open website">
                               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>
                             </a>
                           </td>
-                          <td class="sort-5"><div class="{$row.url_img_match1_color}" data-demo-color="">{$row.valid_till}</div></td>
-                          <td class="sort-6"><div class="{$row.mon_html_match1_color}" data-demo-color="">{$row.days_left}</div></td>
-                          <td class="sort-9">{$row.domain_name}</td>
-                          <td class="sort-7">{$row.creation_date}</td>
-                          <td class="sort-8">{$row.expiration_date}</td>                          
+                          <!-- <td class="sort-4"><div class="{$row.url_img_match1_color}" data-demo-color="">{$row.url_addr}</div></td> -->
+                          <td class="sort-5"><div class="{$row.mon_html_match1_color}" data-demo-color="">{$row.valid_till}</div></td>
+                          <td class="sort-6">{$row.days_left}</td>
+                          <td class="sort-7">{$row.domain_name}</td>
+                          <td class="sort-8">{$row.expiration_date}</td>
                         </tr>
                         {/foreach}                            
                       </tbody>

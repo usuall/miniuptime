@@ -840,7 +840,26 @@ def set_browser_option(BG_EXE):
     # Bypass to "Your connection is not private"
     options.add_argument('--ignore-ssl-errors=yes')
     options.add_argument('--ignore-certificate-errors')
+
+    # windows의 경우, command prompt 뜨지 않게
+    args = ["--hide_console--", ]
+
+    '''
+    service.py : 72 line 
+    path = .venv\Lib\site-packages\selenium\webdriver\common\service.py
     
+    if any("--hide_console--" in arg for arg in self.command_line_args()):
+                print ('invisible prompt ... chromedriver.exe')
+                self.process = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE, creationflags=0x08000000)
+            else:
+                print ('(default) visible prompt ... chromedriver.exe')
+                self.process = subprocess.Popen(cmd, env=self.env, 
+                                                close_fds=system() != 'Windows', 
+                                                stdout=self.log_file, 
+                                                stderr=self.log_file, 
+                                                stdin=PIPE)
+    '''
+
     # 자바스크립트 비활성화
     # options.add_experimental_option( "prefs",{'profile.managed_default_content_settings.javascript': 2})
 
@@ -861,8 +880,8 @@ def set_browser_option(BG_EXE):
         #options.add_argument("--start-maximized")
     
     # 브라우져 옵션 설정
-    driver = webdriver.Chrome(lib_path + 'chromedriver.exe', options=options) # deprecated option
-    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(lib_path + 'chromedriver.exe', options=options, service_args=args) 
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) # deprecated option
 
     # 명시적으로 대기(10초) 
     driver.implicitly_wait(time_to_wait=10)
