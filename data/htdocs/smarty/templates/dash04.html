@@ -1,0 +1,322 @@
+<!doctype html>
+<!--
+* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
+* @version 1.0.0-beta11
+* @link https://tabler.io
+* Copyright 2018-2022 The Tabler Authors
+* Copyright 2018-2022 codecalm.net Paweł Kuna
+* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Issue URL list</title>
+    <!-- CSS files -->
+    <link href="./dist/css/tabler.min.css" rel="stylesheet"/>
+    <link href="./dist/css/tabler-flags.min.css" rel="stylesheet"/>
+    <link href="./dist/css/tabler-payments.min.css" rel="stylesheet"/>
+    <link href="./dist/css/tabler-vendors.min.css" rel="stylesheet"/>
+    <link href="./dist/css/demo.min.css" rel="stylesheet"/>
+  </head>
+  <body >
+    <div class="page">
+      {include file='header.html'}
+      <div class="navbar-expand-md">
+        <div class="collapse navbar-collapse" id="navbar-menu">
+          <div class="navbar navbar-light">
+            <div class="container-xl">
+              {include file='navi.html'}
+              <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
+                <form action="." method="get">
+                  <div class="input-icon">
+                    <span class="input-icon-addon">
+                      <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="10" cy="10" r="7" /><line x1="21" y1="21" x2="15" y2="15" /></svg>
+                    </span>
+                    <input type="text" value="" class="form-control" placeholder="사이트명" aria-label="Search in website">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page-wrapper">
+        <div class="container-xl">
+          <div class="page-header d-print-none">
+            <div class="row g-3 align-items-center">
+              <div class="col-auto">
+                <span class="status-indicator status-green status-indicator-animated">
+                  <span class="status-indicator-circle"></span>
+                  <span class="status-indicator-circle"></span>
+                  <span class="status-indicator-circle"></span>
+                </span>
+              </div>
+              <div class="col">
+                <h2 class="page-title">
+                  국가정보자원관리원 URL 모니터링 
+                </h2>
+                <div class="text-muted">
+                  <ul class="list-inline list-inline-dots mb-0">
+                    <li class="list-inline-item"><span class="text-green">Up</span></li>
+                    <li class="list-inline-item">Checked every 3 minutes</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-auto ms-auto d-print-none">
+                <div class="btn-list">
+                  
+                  <a href="/dash02.php?img=60" class="btn">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/settings -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><circle cx="12" cy="12" r="3" /></svg>
+                    60%
+                  </a>
+                  <a href="/dash02.php?img=70" class="btn">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/settings -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><circle cx="12" cy="12" r="3" /></svg>
+                    70%
+                  </a>
+                  <a href="/dash02.php?img=80" class="btn">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/settings -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><circle cx="12" cy="12" r="3" /></svg>
+                    80%
+                  </a>
+                  <a href="/dash02.php?img=90" class="btn">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/settings -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><circle cx="12" cy="12" r="3" /></svg>
+                    90%
+                  </a>
+                  <a href="/dash02.php?img=100" class="btn">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/settings -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><circle cx="12" cy="12" r="3" /></svg>
+                    100%
+                  </a>
+                  <a href="#" class="btn btn-primary">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/player-pause -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg>
+                    Pause this monitor
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="row row-cards">
+              <div class="col-md-2">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="h4">접속불가</div>
+                    <div class="h3 m-0 text-danger">{$response_cnt.cnt}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="h4">서비스 지연</div>
+                    <div class="h3 m-0 text-danger">{$response_cnt.cnt}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="h4">상태코드 이상</div>
+                    <div class="h3 m-0 text-danger">{$status_cnt.cnt}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="h4">이미지 유사도 이상</div>
+                    <div class="h3 m-0 text-warning">{$response_cnt.cnt}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="h4">HTML 유사도 이상</div>
+                    <div class="h3 m-0 text-warning">{$response_cnt.cnt}</div>
+                  </div>
+                </div>
+              </div> 
+              <div class="col-md-2">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="h4">원본 미설정</div>
+                    <div class="h3 m-0 text-warning">{$origin_not_cnt.cnt}</div>
+                  </div>
+                </div>
+              </div>              
+              <!-- 
+              <div class="col-md-8">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Response times across regions in the last day</h3>
+                    <div id="chart-uptime"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Uptime incidents per day</h3>
+                    <div id="chart-uptime-incidents"></div>
+                  </div>
+                </div>
+              </div>
+              -->
+
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-table table-responsive">
+                    <table class="table table-vcenter card-table table-striped" id='result'>
+                      <thead>
+                        <tr>
+                          <th>NO</th>
+                          <th>기관명</th>
+                          <th>사이트명</th>
+                          <th>응답시간(초)</th>
+                          <th>상태코드</th>
+                          <th>이미지 유사도(%)</th>
+                          <th>HTML 유사도(%)</th>
+                          <!-- <th>점검</th> -->
+                          <th>점검일시</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {foreach $result as $row}
+                        <tr>
+                          <td>{$row@index+1}</td>
+                          <td>{$row.grp_title}</td>
+                          <td><a href='{$row.url_addr}' target='_blank'>{$row.url_title}</a> ({$row.url_no})</td>
+                          <td><span class="badge bg-{$row.url_response_time_color} me-1"></span> {$row.url_response_time}</td>
+                          <td><div class="{$row.status_code_color}"><span class="badge bg-{$row.status_code_color} me-1"></span> {$row.status_code}</div></td>
+                          <td><span class="badge bg-{$row.url_img_match1_color} me-1"></span> <a href="/img_diff.php?url_no={$row.url_no}" target="_blank">{$row.url_img_match1}</a></td>
+                          <td><span class="badge bg-{$row.url_html_match1_color} me-1"></span> <a href="/html_diff/{$row.url_html_diff_output}" target="_blank">{$row.url_html_match1}</a></td>
+                          <!-- <td>{$row.diff_time}</td> -->
+                          <td>{$row.url_dt}</td>
+                        </tr>
+                        {/foreach}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form name='monitor'>
+        <input type='hidden' name='mon_no' id='mon_no' value='{$mon_no}'>
+        <input type='hidden' name='img_level' id='img_level' value='{$img_level}'>
+        <input type='hidden' name='html_level' id='html_level' value='{$html_level}'>
+        </form>
+        <footer class="footer footer-transparent d-print-none">
+          <div class="container-xl">
+            <div class="row text-center align-items-center flex-row-reverse">
+              <div class="col-lg-auto ms-lg-auto">
+                <ul class="list-inline list-inline-dots mb-0">
+                  <li class="list-inline-item"><a href="./docs/index.html" class="link-secondary">Documentation</a></li>
+                  <li class="list-inline-item"><a href="./license.html" class="link-secondary">License</a></li>
+                  <li class="list-inline-item"><a href="https://github.com/tabler/tabler" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
+                  <li class="list-inline-item">
+                    <a href="https://github.com/sponsors/codecalm" target="_blank" class="link-secondary" rel="noopener">
+                      <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon text-pink icon-filled icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /></svg>
+                      Sponsor
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                <ul class="list-inline list-inline-dots mb-0">
+                  <li class="list-inline-item">
+                    Copyright &copy; 2022
+                    <a href="." class="link-secondary">Tabler</a>.
+                    All rights reserved.
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="./changelog.html" class="link-secondary" rel="noopener">
+                      v1.0.0-beta11
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <!-- Libs JS 
+    <script src="./dist/libs/apexcharts/dist/apexcharts.min.js" defer></script>
+    -->
+    <!-- Tabler Core -->
+    <script src="./dist/js/jquery-3.6.1.min.js"></script>
+    <script src="./dist/js/tabler.min.js" defer></script>
+    <script src="./dist/js/demo.min.js" defer></script>
+    <script>
+      /*
+      function dojQueryAjax() {
+ 
+        // jQueryのajaxメソッドを使用しajax通信
+        $.ajax({
+            
+            url:'/getMonitor.php' , //送信先
+            type:'POST', //送信方法
+            cache: false, // キャッシュしないで読み込み
+            datatype: 'json', //受け取りデータの種類
+            data:{
+              'mon_no' : $('#mon_no').val()
+            },
+            // 通信成功時に呼び出されるコールバック
+            success: function (data) {
+
+              // 返ってきたデータの表示
+              var $content = $('#result');
+              var last_mon_no = 0;
+              for (var i =0; i<data.length; i++) {
+                
+                str  = "<tr><td>" + data[i].mon_no + "</td>";
+                str += "<td>" + data[i].grp_title + "</td>";
+                str += "<td><a href='"+ data[i].url_addr + "' target='_blank'>" + data[i].url_title + "</a> ("+data[i].url_no+")</td>";
+                str += "<td><span class='badge bg-" + data[i].url_response_time_color + " me-1'></span> " + data[i].url_response_time + "</td>";
+                str += "<td><div class='" + data[i].status_code_color + "'><span class='badge bg-" + data[i].status_code_color + " me-1'></span> " + data[i].status_code + "</div></td>";
+                str += "<td><span class='badge bg-" + data[i].mon_img_match1_color + " me-1'></span> <a href='/img_diff.php?url_no="+ data[i].url_no + "' target='_blank'>" + data[i].mon_img_match1 + "</td>";
+                str += "<td><span class='badge bg-" + data[i].mon_html_match1_color + " me-1'></span> <a href='/html_diff/"+ data[i].mon_html_diff_output + "' target='_blank'>" + data[i].mon_html_match1 + "</td>";
+                // str += "<td>" + data[i].diff_time + "</td>"; 
+                str += "<td>" + data[i].mon_dt + "</td></tr>";
+
+                $content.prepend(str);
+                last_mon_no = data[i].mon_no;
+                
+                //console.log(data[i].sql);
+
+                if(last_mon_no > $('#mon_no').val()){
+                  $('#mon_no').val(last_mon_no);
+                }
+              }
+
+            },
+            // 通信エラー時に呼び出されるコールバック
+            error: function () {     
+              alert("Ajax Error Occured.");
+            }
+        });
+     
+      }
+
+      window.addEventListener('load', function () {
+        setInterval(dojQueryAjax, 5000);
+      });
+      */
+    </script>
+    
+    
+  </body>
+</html>

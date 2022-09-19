@@ -139,12 +139,17 @@ CREATE TABLE `tb_domain` (
   `name_servers` varchar(255) DEFAULT NULL COMMENT 'dns 서버'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE `tb_domain` ADD PRIMARY KEY (`url_no`); 
+ALTER TABLE `tb_domain` ADD PRIMARY KEY (`url_no`);
 
 
 # todo list
 - selenium full screenshot 이미지 깨짐 현상 개선
 - url 점검시 매번 해당 url의 특성에 따라 selenium 실행(옵션 기능)
-- url 점검시 javacript 비활성화 옵션으로 접속
-- selenium driver 창 안뜨게 하기
+- url 점검시 javacript 비활성화 옵션으로 접속 
+- selenium driver 창 안뜨게 하기 (22.09.16 완료)
   https://sijoo.tistory.com/409
+
+# 개별 URL 테스트
+- 숲나들e (252) backgroud 실행시 404로 처리됨. foreground 실행시 정상관제
+
+
