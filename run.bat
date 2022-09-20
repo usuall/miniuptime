@@ -16,5 +16,5 @@ set CUR_MS=%time:~9,2%
 
 set SUBFILENAME=%CUR_YYYY%%CUR_MM%%CUR_DD%-%CUR_HH%%CUR_NN%%CUR_SS%
 
-D:\DevOPS\project\miniuptime\.venv\Scripts\activate.bat && pythonw -u run.py > data/logs/run_%SUBFILENAME%.log 2>&1
+.venv\Scripts\activate.bat && pythonw -u run.py > data/logs/run_%SUBFILENAME%.log 2>&1
 

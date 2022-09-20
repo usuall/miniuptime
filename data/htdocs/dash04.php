@@ -166,7 +166,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         'url_html_match1' => $data['url_html_match1'],
         'url_html_match1_color' => $url_html_match1_color,
         'url_html_diff_output' => $data['url_html_diff_output'],
-        'url_dt' => $data['url_dt'],
+        'url_lastest_check_dt' => $data['url_lastest_check_dt'],
     );
 
     if($i == 1){

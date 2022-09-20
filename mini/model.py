@@ -67,10 +67,19 @@ def get_grp_url_list(c, keyword):
         #sql += f" order by b.url_lastest_check_dt desc"
     # elif(keyword.get('OLDEST') == True):
     #     sql += f" order by url_lastest_check_dt limit 1"
-        # 가장 체크 오래된 것 5개(반복)        
+    #     가장 체크 오래된 것 5개(반복)
+
     else:    
         sql += f" order by b.url_no"
-            
+    
+    # ERROR 상태의 URL만 점검시 
+    if(keyword.get('ERROR_URL') == True):
+        sql = 'select /* ERROR 상태의 URL만 점검시 */ b.* from tb_group as a right outer join tb_url as b on a.grp_no = b.grp_no where url_fg = 1 and ( '
+        sql += f" (b.url_status <> 200 or b.url_status is NULL) OR "
+        sql += f" (b.url_img_match1 <= 40 or b.url_html_match1 <= 40) OR "
+        sql += f" (b.url_img_match1 = -1 or b.url_html_match1 = -1) OR "
+        sql += f" (b.url_response_time >= 10)"
+        sql += f" ) order by url_lastest_check_dt "
     
     logger.info('SQL : ' + sql )
     c.execute(sql)

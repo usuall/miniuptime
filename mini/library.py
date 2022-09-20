@@ -111,7 +111,7 @@ def isExist_dir(path):
 def button_activate(window, activate):
     
     # 화면 요소ID
-    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-BUTTON_START-', '-RANDOM-')
+    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-ERROR_URL-', '-BUTTON_START-', '-RANDOM-')
     #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
     
     # 버튼 활성화 전환
@@ -158,6 +158,7 @@ def getCondition(window, values):
     #window['-OUTPUT-'].update(value='- OLD 체크 : ' + str(values['-OLDEST-']) + '\n', append=True)    
     window['-OUTPUT-'].update(value='- 이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']) + '\n', append=True)
+    window['-OUTPUT-'].update(value='- ERROR URL 검사 : ' + str(values['-ERROR_URL-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 타임아웃 설정 : ' + str(timeout_term) + '초\n', append=True)
     # window['-OUTPUT-'].update(value='-------------------------------------------\n', append=True)
 
@@ -173,6 +174,7 @@ def getCondition(window, values):
                 #'OLDEST':       values['-OLDEST-'],
                 'IMAGE_MATCH':  values['-IMAGE_MATCH-'], 
                 'HTML_MATCH':   values['-HTML_MATCH-'], 
+                'ERROR_URL':   values['-ERROR_URL-'], 
                 'TIME_OUT':     timeout_term }
     
     logger.info('--------- <모니터링 시작> ---------')
@@ -186,6 +188,7 @@ def getCondition(window, values):
     #logger.info('OLD 체크 실행 : ' + str(values['-OLDEST-']))
     logger.info('이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']))
     logger.info('HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']))
+    logger.info('ERROR URL 검사 : ' + str(values['-ERROR_URL-']))
     logger.info('타임아웃 설정 : ' + str(timeout_term) + '초')
 
     # for k in keyword.values():
@@ -587,7 +590,6 @@ def get_monitoring(window, keyword):
         tb_monitor['mon_html_match1'] = mon_html_match1
         tb_monitor['mon_html_diff_output'] = mon_html_diff_output
         tb_monitor['mon_html_diff_time'] = mon_html_diff_time
-        # tb_monitor['mon_html_match1'] = 
 
         tb_url['url_no'] = row['url_no']
         tb_url['url_redirected'] = redirected_url
@@ -766,6 +768,9 @@ def diff_html(org_html, html_file, url_no):
     html_output['s2'] = s2 * 100
     html_output['s3'] = s3 * 100
     html_output['s4'] = s4 * 100
+
+    # 소수점 2자리까지 절삭
+    html_output['s4'] = round(html_output['s4'], 2)
     # diff_save_html()
     html_output['mon_html_diff_output'] = 'None'
     
