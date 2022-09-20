@@ -8,11 +8,11 @@ error_reporting (E_ALL ^ E_NOTICE);
 include_once('menu.php');
 
 //이미지 유사도 표시 상한선
-$img_level = '';
-$img_level = $_GET['img'];
-if(isset($img_level) == True){
+$code_status = '';
+$code_status = $_GET['code'];
+if(isset($code_status) == True){
 } else {
-    $img_level = 100;
+    $code_status = '';
 }
 
 //データ検索
@@ -27,35 +27,65 @@ desc limit 10";
 */
 
 //서비스 지연 건수
-$sql = "SELECT count(*) as cnt FROM `tb_url` WHERE 1=1 and url_response_time >= 10";
+$sql = "SELECT count(*) as cnt FROM `tb_url` WHERE 1=1 and url_fg = 1 and url_response_time >= 10";
 $mysql = $pdo->query($sql);
 $response_cnt = $mysql->fetch(PDO::FETCH_ASSOC);
 $smarty->assign('response_cnt', $response_cnt);
 
 //상태 코드 이상 건수
-$sql = "SELECT count(*) as cnt FROM `tb_url` where 1=1 and (url_status <> 200 or url_status is null)";
+$sql = "SELECT count(*) as cnt FROM `tb_url` where 1=1 and url_fg = 1 and (url_status <> 200 or url_status is null)";
 $mysql = $pdo->query($sql);
 $status_cnt = $mysql->fetch(PDO::FETCH_ASSOC);
 $smarty->assign('status_cnt', $status_cnt);
 
+//HTML 유사도 이상 건수
+$sql = "SELECT count(*) as cnt FROM `tb_url` where 1=1 and url_fg = 1 and (url_html_match1 BETWEEN 0 AND 60)";
+$mysql = $pdo->query($sql);
+$status_cnt = $mysql->fetch(PDO::FETCH_ASSOC);
+$smarty->assign('html_cnt', $status_cnt);
+
 //원본 미설정 건수
 $sql = "SELECT count(*) as cnt FROM `tb_url` WHERE 1=1
-and (url_img_match1 = -1 or url_html_match1 = -1)";
+and url_fg = 1 and (url_img_match1 = -1 or url_html_match1 = -1)";
 $mysql = $pdo->query($sql);
 $origin_not_cnt = $mysql->fetch(PDO::FETCH_ASSOC);
 $smarty->assign('origin_not_cnt', $origin_not_cnt);
 
 
-
-
 $sql ="SELECT b.*, c.grp_short_title
-FROM tb_url as b
-left outer join tb_group as c
-on b.grp_no = c.grp_no
-where 1=1 
-and (b.url_status <> 200 or b.url_status is NULL)
-OR (b.url_img_match1 <= 40 or b.url_html_match1 <= 40)
-AND(b.url_img_match1 = -1 or b.url_html_match1 = -1)";
+        FROM tb_url as b
+        left outer join tb_group as c
+        on b.grp_no = c.grp_no
+        where 1=1 
+        and url_fg = 1
+        and ";
+
+if($code_status == ''){
+    $sql .= "( 
+            (b.url_status <> 200 or b.url_status is NULL) OR 
+            (b.url_img_match1 <= 40 or b.url_html_match1 <= 40) OR 
+            (b.url_img_match1 = -1 or b.url_html_match1 = -1) OR
+            (b.url_response_time >= 10)
+            )
+        ";
+} else if($code_status == 'delay'){
+    $sql .= " (b.url_response_time >= 10) ";
+} else if($code_status == 'status'){
+    $sql .= " (b.url_status <> 200 or b.url_status is NULL) ";
+} else if($code_status == 'img'){
+    $sql .= " (b.url_img_match1 <= 40 or b.url_html_match1 <= 40) ";
+} else if($code_status == 'origin'){
+    $sql .= " (b.url_img_match1 = -1 or b.url_html_match1 = -1) ";
+}
+
+
+
+
+
+
+
+
+
 
 $mysql = $pdo->query($sql);
 

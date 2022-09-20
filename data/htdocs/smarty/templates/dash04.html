@@ -106,6 +106,7 @@
         <div class="page-body">
           <div class="container-xl">
             <div class="row row-cards">
+              <!-- 
               <div class="col-md-2">
                 <div class="card">
                   <div class="card-body">
@@ -114,18 +115,19 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-2">
+              -->
+              <div class="col-md-3">
                 <div class="card">
                   <div class="card-body">
-                    <div class="h4">서비스 지연</div>
+                    <div class="h4"><a href="/dash04.php?code=delay" class="">서비스 지연</a></div>
                     <div class="h3 m-0 text-danger">{$response_cnt.cnt}</div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <div class="card">
                   <div class="card-body">
-                    <div class="h4">상태코드 이상</div>
+                    <div class="h4"><a href="/dash04.php?code=status" class="">상태코드 이상</a></div>
                     <div class="h3 m-0 text-danger">{$status_cnt.cnt}</div>
                   </div>
                 </div>
@@ -133,7 +135,7 @@
               <div class="col-md-2">
                 <div class="card">
                   <div class="card-body">
-                    <div class="h4">이미지 유사도 이상</div>
+                    <div class="h4"><a href="/dash04.php?code=img" class="">이미지 유사도 이상</a></div>
                     <div class="h3 m-0 text-warning">{$response_cnt.cnt}</div>
                   </div>
                 </div>
@@ -141,15 +143,15 @@
               <div class="col-md-2">
                 <div class="card">
                   <div class="card-body">
-                    <div class="h4">HTML 유사도 이상</div>
-                    <div class="h3 m-0 text-warning">{$response_cnt.cnt}</div>
+                    <div class="h4"><a href="/dash04.php?code=html" class="">HTML 유사도 이상</a></div>
+                    <div class="h3 m-0 text-warning">{$html_cnt.cnt}</div>
                   </div>
                 </div>
               </div> 
               <div class="col-md-2">
                 <div class="card">
                   <div class="card-body">
-                    <div class="h4">원본 미설정</div>
+                    <div class="h4"><a href="/dash04.php?code=origin" class="">원본 미설정</a></div>
                     <div class="h3 m-0 text-warning">{$origin_not_cnt.cnt}</div>
                   </div>
                 </div>
@@ -315,6 +317,10 @@
         setInterval(dojQueryAjax, 5000);
       });
       */
+
+      setTimeout(() => {
+        location.reload();
+      }, 5000)
     </script>
     
     

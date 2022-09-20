@@ -54,18 +54,18 @@ at_now = datetime.now().strftime('%y%m%d_%H%M%S')
 # 각종 로그 출력 설정
 LOG_rotation = config_sys['LOG_ROTATION']
 LOG_retention = int(config_sys['LOG_RETENTION'])
-logger.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="INFO")
-logger.add(logs_path + "uptime_" + at_now + ".log", rotation=LOG_rotation, retention=LOG_retention ) # rotation='100 MB' (로그 사이즈), retantion=10 (10세대분 보유)
-logger.add(logs_path + "uptime_err_" + at_now + ".log", rotation=LOG_rotation, retention=LOG_retention, level='WARNING')  # rotation='100 MB' (로그 사이즈), retantion=10 (10세대분 보유), level=로그레벨
+# logger.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="INFO")
+# logger.add(logs_path + "uptime_" + at_now + ".log", rotation=LOG_rotation, retention=LOG_retention ) # rotation='100 MB' (로그 사이즈), retantion=10 (10세대분 보유)
+# logger.add(logs_path + "uptime_err_" + at_now + ".log", rotation=LOG_rotation, retention=LOG_retention, level='WARNING')  # rotation='100 MB' (로그 사이즈), retantion=10 (10세대분 보유), level=로그레벨
 
-logger.info('<SYSTEM> Init ------------------------- ')
-logger.info('<SYSTEM> LIBRARY PATH : ' + lib_path)
-logger.info('<SYSTEM> DATA PATH : ' + data_path)
-logger.info('<SYSTEM> IMG PATH : ' + img_path)
-logger.info('<SYSTEM> HTML PATH : ' + html_path)
-logger.info('<SYSTEM> LOGS PATH : ' + logs_path)
-logger.info('<SYSTEM> LOG_ROTATION : ' + config_sys['LOG_ROTATION'])
-logger.info('<SYSTEM> LOG_RETENTION : ' + config_sys['LOG_RETENTION'])
+# logger.info('<SYSTEM> Init ------------------------- ')
+# logger.info('<SYSTEM> LIBRARY PATH : ' + lib_path)
+# logger.info('<SYSTEM> DATA PATH : ' + data_path)
+# logger.info('<SYSTEM> IMG PATH : ' + img_path)
+# logger.info('<SYSTEM> HTML PATH : ' + html_path)
+# logger.info('<SYSTEM> LOGS PATH : ' + logs_path)
+# logger.info('<SYSTEM> LOG_ROTATION : ' + config_sys['LOG_ROTATION'])
+# logger.info('<SYSTEM> LOG_RETENTION : ' + config_sys['LOG_RETENTION'])
 
 #현재시각
 def get_sysdate():
@@ -87,6 +87,19 @@ def before_main():
     isExist_dir(html_daily_path)
     isExist_dir(html_diff_path)
     isExist_dir(logs_path)
+    
+    logger.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="INFO")
+    logger.add(logs_path + "uptime_" + at_now + ".log", rotation=LOG_rotation, retention=LOG_retention ) # rotation='100 MB' (로그 사이즈), retantion=10 (10세대분 보유)
+    logger.add(logs_path + "uptime_err_" + at_now + ".log", rotation=LOG_rotation, retention=LOG_retention, level='WARNING')  # rotation='100 MB' (로그 사이즈), retantion=10 (10세대분 보유), level=로그레벨
+
+    logger.info('<SYSTEM> Init ------------------------- ')
+    logger.info('<SYSTEM> LIBRARY PATH : ' + lib_path)
+    logger.info('<SYSTEM> DATA PATH : ' + data_path)
+    logger.info('<SYSTEM> IMG PATH : ' + img_path)
+    logger.info('<SYSTEM> HTML PATH : ' + html_path)
+    logger.info('<SYSTEM> LOGS PATH : ' + logs_path)
+    logger.info('<SYSTEM> LOG_ROTATION : ' + config_sys['LOG_ROTATION'])
+    logger.info('<SYSTEM> LOG_RETENTION : ' + config_sys['LOG_RETENTION'])
     
 
     
