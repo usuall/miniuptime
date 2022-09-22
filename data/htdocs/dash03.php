@@ -15,6 +15,10 @@ if(isset($img_level) == True){
     $img_level = 100;
 }
 
+$grp_title = getGRP_title($grp_no);
+$smarty->assign('grp_title', $grp_title);
+
+
 //データ検索
 $mysql = $pdo->prepare('select *, timestampdiff(minute, url_lastest_check_dt, now()) as diff_time from tb_url where grp_no =:id order by url_title ');
 $mysql->bindValue(':id', $grp_no);

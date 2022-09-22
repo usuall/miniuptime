@@ -188,4 +188,16 @@ function utf8_strcut( $str, $size, $suffix='...' )
     return $str;
 }
 
+function getGRP_title($grp_no){
+    global $pdo;
+    
+    //データ検索
+    $mysql = $pdo->prepare('select grp_title from tb_group where grp_no =:id limit 1');
+    $mysql->bindValue(':id', $grp_no);
+    $mysql->execute();
+    $result = $mysql->fetch(PDO::FETCH_ASSOC);
+
+    return $result['grp_title'];
+}
+
 ?>
