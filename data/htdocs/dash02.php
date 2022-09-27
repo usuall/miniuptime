@@ -24,7 +24,7 @@ on a.url_no = b.url_no
 where a.mon_img_match1 <= '$img_level' 
 order by a.mon_no 
 desc limit 10";
-*/
+
 
 $sql ="SELECT c.grp_short_title, a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
 FROM `tb_monitor` as a 
@@ -34,7 +34,11 @@ left outer join tb_group as c
 on c.grp_no = b.grp_no 
 where a.mon_img_match1 <= '$img_level' 
 order by a.mon_no desc limit 10";
+*/
 
+$sql = "select * from tb_monitor where mon_img_match1 <= '$img_level' order by mon_no desc limit 10";
+
+// echo $sql ;
 $mysql = $pdo->query($sql);
 
 //データ割り当て
@@ -43,6 +47,10 @@ $arr_row = array();
 
 $i = 1;
 while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
+
+    // getGRP_title($data[''])
+
+    $arr_url = getUrlinfo($data['url_no']);
 
     # 응답 속도
     $mon_response_time = $data['mon_response_time'];
@@ -97,11 +105,11 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
     #결과 출력용
     $arr_row[] = array(
-        'grp_title' => $data['grp_short_title'],
+        'grp_title' => $arr_url['grp_short_title'],
         'mon_no' => $data['mon_no'],
-        'url_title' => $data['url_title'],
-        'url_addr' => $data['url_addr'],
-        'url_no' => $data['url_no'],
+        'url_title' => $arr_url['url_title'],
+        'url_addr' => $arr_url['url_addr'],
+        'url_no' => $arr_url['url_no'],
         'mon_dt' => $data['mon_dt'],
         'mon_response_time' => $data['mon_response_time'],
         'mon_response_time_color' =>  $mon_response_time_color,

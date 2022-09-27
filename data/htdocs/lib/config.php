@@ -39,4 +39,7 @@ $smarty->setCacheDir(   MY_WEB_DIR. '/smarty/cache/');
 
 require_once(dirname(__FILE__).'/library.php');
 
+//메뉴 색 설정
+getActiveMenu();
+
 ?>

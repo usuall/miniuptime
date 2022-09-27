@@ -200,4 +200,64 @@ function getGRP_title($grp_no){
     return $result['grp_title'];
 }
 
+
+function getActiveMenu(){
+
+    global $smarty;
+
+    $basename = basename($_SERVER["PHP_SELF"]);
+
+    $active = 'active';    
+    if($basename == 'dash01.php'){
+        $home_active = $active;
+    } else if ($basename == 'dash03.php'){
+        $group_active = $active;
+    } else if ($basename == 'dash02.php' || $basename == 'url_config.php' || $basename == 'domain.php'){
+        $monitor_active = $active;
+    } else if ($basename == 'dash04.php'){
+        $issue_active = $active;
+    }
+    
+    $smarty->assign('home_active', $home_active);
+    $smarty->assign('group_active', $group_active);
+    $smarty->assign('monitor_active', $monitor_active);
+    $smarty->assign('issue_active', $issue_active);
+    
+}
+
+function getUrlinfo($url_no){
+    global $pdo;
+    
+    //データ検索
+    $mysql = $pdo->prepare('SELECT a.*, b.grp_short_title FROM `tb_url` as a left outer join tb_group as b on a.grp_no = b.grp_no WHERE a.url_no =:id');
+    $mysql->bindValue(':id', $url_no);
+    $mysql->execute();
+    $result = $mysql->fetch(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+function getMonInfo($mon_no){
+    global $pdo;
+    
+    //データ検索
+    $mysql = $pdo->prepare('SELECT * FROM `tb_monitor` WHERE mon_no =:id');
+    $mysql->bindValue(':id', $mon_no);
+    $mysql->execute();
+    $result = $mysql->fetch(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+function getLastMonInfo($url_no){
+    global $pdo;
+    
+    //データ検索
+    $mysql = $pdo->prepare('SELECT * FROM `tb_monitor` WHERE url_no =:id ORDER BY mon_no DESC LIMIT 1');
+    $mysql->bindValue(':id', $url_no);
+    $mysql->execute();
+    $result = $mysql->fetch(PDO::FETCH_ASSOC);
+
+    return $result;
+}
 ?>

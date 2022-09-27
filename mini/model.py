@@ -74,12 +74,13 @@ def get_grp_url_list(c, keyword):
     
     # ERROR 상태의 URL만 점검시 
     if(keyword.get('ERROR_URL') == True):
-        sql = 'select /* ERROR 상태의 URL만 점검시 */ b.* from tb_group as a right outer join tb_url as b on a.grp_no = b.grp_no where url_fg = 1 and ( '
-        sql += f" (b.url_status <> 200 or b.url_status is NULL) OR "
-        sql += f" (b.url_img_match1 <= 40 or b.url_html_match1 <= 40) OR "
-        sql += f" (b.url_img_match1 = -1 or b.url_html_match1 = -1) OR "
-        sql += f" (b.url_response_time >= 10)"
-        sql += f" ) order by url_lastest_check_dt "
+        sql = 'SELECT /* ERROR 상태의 URL만 점검시 */ b.* from tb_group as a right outer join tb_url as b on a.grp_no = b.grp_no '
+        sql += ' WHERE url_fg = 1 and url_lastest_check_dt <= DATE_ADD(NOW(), INTERVAL -1 MINUTE) /* 체크한지 1분 이상된것만 다시 점검 */ '
+        sql += f" and ( (b.url_status <> 200 or b.url_status is NULL) /* 상태코드 200 아닌것 */ OR "
+        sql += f" (b.url_img_match1 <= 50 or b.url_html_match1 <= 50) /* 이미지, html 유사도 낮은 경우(50%) */ OR "
+        sql += f" (b.url_img_match1 = -1 or b.url_html_match1 = -1) /* 원본이미지 또는 원본소스가 없는 경우 */ OR "
+        sql += f" (b.url_response_time >= 12) /* 응답시간이 12초 이상 소요된 것 */ "
+        sql += f" ) ORDER BY url_lastest_check_dt "
     
     logger.info('SQL : ' + sql )
     c.execute(sql)

@@ -30,7 +30,7 @@
             <div class="row g-2 align-items-center">
               <div class="col">
                 <h2 class="page-title">이미지 유사도 비교</h2>
-                <h3 class="card-title">(<a href='{$result.url_addr}' target='_blank'>{$result.url_title})</a></h3>
+                <h3 class="card-title">(<a href='{$result.url_addr}' target='_blank'>{$arr_url.url_title})</a></h3>
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@
                 <div class="card card-md">
                   <div class="card-body text-center">
                     <div class="display-6 fw-bold my-3">원본</div>
-                    <img src="/capture/orign/{$result.url_no|string_format:"%04d"}_site.png?nocache={rand()}" onerror="this.src='./images/x.svg'">
+                    <img src="/capture/orign/{$arr_url.url_no|string_format:"%04d"}_site.png?nocache={rand()}" onerror="this.src='./images/x.svg'">
                     <div class="text-center mt-4">
                       <a href="#" onclick="closeTabClick()" class="btn w-100">창 닫기</a>
                     </div>
@@ -54,9 +54,9 @@
                 <div class="card card-md">
                   <div class="card-body text-center">
                     <div class="display-6 fw-bold my-3">현재</div>
-                    <img src="/capture/daily/{$result.url_no|string_format:"%04d"}_site.png?nocache={rand()}" onerror="this.src='./images/x.svg'">
+                    <img src="/capture/daily/{$monitor.mon_image}?nocache={rand()}" onerror="this.src='./images/x.svg'">
                     <div class="text-center mt-4">
-                      <a href="img_change.php?url_no={$result.url_no}" class="btn btn-primary w-100">원본으로 설정</a>
+                      <a href="img_change.php?mon_no={$monitor.mon_no}" class="btn btn-primary w-100">원본으로 설정</a>
                     </div>
                   </div>
                 </div>

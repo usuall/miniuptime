@@ -44,6 +44,8 @@ html_origin_path = html_path + config_sys['HTML_ORIGIN_PATH'] + '\\'
 html_daily_path = html_path + config_sys['HTML_DAILY_PATH'] + '\\'
 html_diff_path = web_path + config_sys['HTML_DIFF_PATH'] + '\\'
 skip_unchanged = config_sys['HTML_DIFF_SKIP_UNCHANGED']
+set_delete_days = config_sys['SET_DELETE_DAYS']
+remain_file_cnt = config_sys['REMAIN_FILE_CNT']
 
 
 # 실행환경
@@ -174,7 +176,7 @@ def getCondition(window, values):
                 #'OLDEST':       values['-OLDEST-'],
                 'IMAGE_MATCH':  values['-IMAGE_MATCH-'], 
                 'HTML_MATCH':   values['-HTML_MATCH-'], 
-                'ERROR_URL':   values['-ERROR_URL-'], 
+                'ERROR_URL':    values['-ERROR_URL-'], 
                 'TIME_OUT':     timeout_term }
     
     logger.info('--------- <모니터링 시작> ---------')
@@ -353,12 +355,8 @@ def get_monitoring(window, keyword):
     global _step_
     global html_output
     global process_stop
-    
-    
+     
     stime = time.time()
-    # 브라우저 환경 설정 취득
-    BG_EXE = keyword.get('BG_EXE') # 백그라운드 실행
-    driver = set_browser_option(BG_EXE)
         
     cnt = 0    
     result = model.get_grp_url_list(keyword)
@@ -367,6 +365,12 @@ def get_monitoring(window, keyword):
     logger.info('☞  조회결과 : '+ str(total_cnt) + '건')
     window['-OUTPUT-'].update(value='☞ 조회결과 : '+ str(total_cnt) +'건\n', append=True)
     window['-OUTPUT-'].update(value='------------------------------\n', append=True)
+    
+    # 조회결과가 있을때만 브라우져 기동
+    if(total_cnt > 0):
+        # 브라우저 환경 설정 취득
+        BG_EXE = keyword.get('BG_EXE') # 백그라운드 실행
+        driver = set_browser_option(BG_EXE)
     
     total_step = 8
     process_stop = False
@@ -459,6 +463,8 @@ def get_monitoring(window, keyword):
         time.sleep(2) # 화면캡쳐 전 2초대기
         
         
+        
+        
         # 화면 캡쳐
         try:
             # 특정 사이즈 저장
@@ -466,18 +472,28 @@ def get_monitoring(window, keyword):
             
             
             # 이미지 캡쳐 전 daily 파일삭제
+            '''
             existDailyImage = os.path.isfile(img_daily_path + img_str)
             if(existDailyImage == True):
                 os.remove(img_daily_path + img_str)
                 logger.info('delete ===> ' + img_daily_path + img_str)
+            '''
                 # time.sleep(5)
-
-            # Full 스크린 저장
-            fullpage_screenshot(driver, img_daily_path + img_str)
+            # 작업중...
+            now_time = datetime.now().strftime('%Y%m%d%H%M%S%f')
+            new_img = str('{0:04}'.format(row['url_no'])) + "_" + str(now_time) + "_site.png"
             
-            existDailyImage = os.path.isfile(img_daily_path + img_str)
+            # 오래된 이미지 자료 삭제
+            remove_old_screenshot(row['url_no'])
+            
+            # Full 스크린 저장
+            fullpage_screenshot(driver, img_daily_path + new_img)
+            
+            # Daily 이미지 생성 체크
+            existDailyImage = os.path.isfile(img_daily_path + new_img)
             if(existDailyImage == False):
-                logger.warning('화면캡쳐 생성 에러 : ' + img_daily_path + img_str)
+                logger.warning('화면캡쳐 생성 에러 : ' + img_daily_path + new_img)
+            
             
         except TimeoutException as e:
             logger.warning('Screenshot Timout')
@@ -495,7 +511,7 @@ def get_monitoring(window, keyword):
         IMAGE_MATCH = keyword.get('IMAGE_MATCH')
         if(IMAGE_MATCH == True):
             origin_img = img_str
-            new_img = img_str
+            # new_img = img_str
             
             img_matching_point = image_match(origin_img, new_img)
             if(img_matching_point == -99.99):
@@ -585,7 +601,7 @@ def get_monitoring(window, keyword):
         tb_monitor['mon_response_time'] = resp_time
         tb_monitor['status_code'] = req_code
         tb_monitor['html_file'] = html_file
-        tb_monitor['mon_image'] = img_str   # img_daily_path + img_str
+        tb_monitor['mon_image'] = new_img   # img_daily_path + img_str
         tb_monitor['mon_img_match1'] = img_matching_point
         tb_monitor['mon_html_match1'] = mon_html_match1
         tb_monitor['mon_html_diff_output'] = mon_html_diff_output
@@ -621,9 +637,14 @@ def get_monitoring(window, keyword):
     button_activate(window, 1)
 
     # 작업종료후 브라우져 닫기
-    driver.close() 
+    if(total_cnt > 0):
+        driver.close() 
     driver.quit() # Headless 실행시 chromedriver.exe 실행되고 작업종료 후 prompt창 닫기
 
+
+    deleted_cnt = delete_Old_HTML_File(html_diff_path)
+    print (deleted_cnt)
+    
     #처리건수 리턴
     return cnt
 
@@ -632,7 +653,7 @@ def stop_Signal():
     global process_stop
     process_stop = True
     
-   
+  
     
 def browser_Close():
     global driver
@@ -1218,10 +1239,84 @@ def image_diff_opencv(src, dest):
     cv2.imshow('dest', dest_img)
     cv2.imshow('diff', diff_img)
     
-    
-    
-    
 def CBtn(sg, BoxText):
     strlen = len(BoxText)
     strlen = strlen + 3
     return sg.Checkbox(BoxText, size=(strlen, 1), default=False)
+
+def delete_Old_HTML_File(path):
+    
+    global set_delete_days
+    
+    import datetime
+
+    file_names = os.listdir(path)
+    cnt = 0
+    for file in file_names:
+        
+        today = datetime.datetime.now() # 오늘
+        delete_days = today - datetime.timedelta(days = int(set_delete_days)) # 삭제 기준일
+        delete_days = delete_days.strftime('%Y%m%d') # yyyymmdd 형식으로 변환
+        
+        # print(today.strftime('%y%m%d'), before_1week.strftime('%y%m%d'))
+        
+        
+        # print (file_array[1] )
+        
+        # 파일명에서 년월일 추출 ( 0340_20220919_103234_044251_diff.html )
+        file_array = file.split('_')
+        file_yyyymmdd = file_array[1] # 20220919
+        
+        
+        if(file_yyyymmdd < delete_days):
+
+            if os.path.isfile(path + '/' + file):
+                os.remove(path + '/' + file)
+                print(file_yyyymmdd , delete_days)
+                print ('deleted.', cnt)
+                cnt += 1
+            else:
+                print ('not deleted.')
+        
+        
+        # 100개만 삭제하고 중지 (수행시간 단축위해)
+        if(cnt == 100):
+            print ('Old File deleted CNT ... ', cnt )
+            return cnt
+            break
+                
+        
+    print ('Old File deleted CNT ... ', cnt )
+    
+    return cnt
+
+def remove_old_screenshot(url_no):
+    
+    import glob
+    
+    #print (img_daily_path + str('{0:04}'.format(url_no)) + '_*.png')
+    files = glob.glob(img_daily_path + str('{0:04}'.format(url_no)) + '_*.png')
+    # print (files)
+    
+    # 역순으로 sort
+    files.sort(reverse=True)
+    
+    
+    cnt = 0
+    deleted = 0
+    
+    for file in files:
+        base = os.path.basename(file)
+        file_name = img_daily_path + os.path.splitext(base)[0] + '.png'
+        # print(file_name)
+        
+        # 10개 이상 삭제
+        if(cnt >= 10):
+            if os.path.isfile(file_name):
+                os.remove(file_name)
+                deleted += 1
+        
+        cnt += 1
+        
+        # print(os.path.splitext(base)[0])
+    logger.info('이미지 삭제된 파일 : ' + str(deleted))

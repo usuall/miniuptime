@@ -111,6 +111,10 @@ def main():
             
             # 반복 점검
             if (keyword.get('REPEAT') == True):
+                
+                # 버튼 비활성화 전환
+                mini.button_activate(window, 0)
+            
                 cnt += 1
                 logger.info('--- THREAD REPEAT (' + str(cnt)+  ' times) ---')
                 long_function(window, values)

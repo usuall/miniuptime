@@ -32,7 +32,7 @@ $sql = "SELECT a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as
         where a.mon_img_match1 <= '$img_level' 
         and a.mon_no > '$mon_no'
         ORDER BY a.mon_no desc";
-*/
+
 
 $sql = "SELECT c.grp_short_title, a.*, b.*, timestampdiff(minute, b.url_lastest_check_dt, now()) as diff_time 
         FROM `tb_monitor` as a 
@@ -41,6 +41,9 @@ $sql = "SELECT c.grp_short_title, a.*, b.*, timestampdiff(minute, b.url_lastest_
         where a.mon_img_match1 <= '$img_level' 
         and a.mon_no > '$mon_no'
         ORDER BY a.mon_no desc";
+*/
+
+$sql = "select /* get monitoring */ * from tb_monitor where mon_img_match1 <= '$img_level' and mon_no > '$mon_no' ORDER BY mon_no desc";
 
 $mysql = $pdo->query($sql);
 
@@ -54,6 +57,8 @@ $arr_row = array();
 
 $i = 1;
 while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
+
+    $arr_url = getUrlinfo($data['url_no']);
 
     # 응답 속도
     $mon_response_time = $data['mon_response_time'];
@@ -104,12 +109,19 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
     #결과 출력용
     $arr_row[] = array(
         
+        'grp_title' => $arr_url['grp_short_title'],
         'mon_no' => $data['mon_no'],
-        'grp_title' => $data['grp_short_title'],
-        'url_title' => $data['url_title'],
-        'url_addr' => $data['url_addr'],
-        'url_no' => $data['url_no'],
+        'url_title' => $arr_url['url_title'],
+        'url_addr' => $arr_url['url_addr'],
+        'url_no' => $arr_url['url_no'],
         'mon_dt' => $data['mon_dt'],
+
+        // 'mon_no' => $data['mon_no'],
+        // 'grp_title' => $data['grp_short_title'],
+        // 'url_title' => $data['url_title'],
+        // 'url_addr' => $data['url_addr'],
+        // 'url_no' => $data['url_no'],
+        // 'mon_dt' => $data['mon_dt'],
         'mon_response_time' => $data['mon_response_time'],
         'mon_response_time_color' =>  $mon_response_time_color,
         'status_code' => $data['status_code'],

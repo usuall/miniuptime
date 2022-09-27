@@ -27,7 +27,7 @@ desc limit 10";
 */
 
 //서비스 지연 건수
-$sql = "SELECT count(*) as cnt FROM `tb_url` WHERE 1=1 and url_fg = 1 and url_response_time >= 10";
+$sql = "SELECT count(*) as cnt FROM `tb_url` WHERE 1=1 and url_fg = 1 and url_response_time >= 12";
 $mysql = $pdo->query($sql);
 $response_cnt = $mysql->fetch(PDO::FETCH_ASSOC);
 $smarty->assign('response_cnt', $response_cnt);
@@ -38,8 +38,14 @@ $mysql = $pdo->query($sql);
 $status_cnt = $mysql->fetch(PDO::FETCH_ASSOC);
 $smarty->assign('status_cnt', $status_cnt);
 
+//이미지 유사도 이상 건수
+$sql = "SELECT count(*) as cnt FROM `tb_url` where 1=1 and url_fg = 1 and (url_img_match1 BETWEEN 0 AND 50)";
+$mysql = $pdo->query($sql);
+$status_cnt = $mysql->fetch(PDO::FETCH_ASSOC);
+$smarty->assign('img_cnt', $status_cnt);
+
 //HTML 유사도 이상 건수
-$sql = "SELECT count(*) as cnt FROM `tb_url` where 1=1 and url_fg = 1 and (url_html_match1 BETWEEN 0 AND 60)";
+$sql = "SELECT count(*) as cnt FROM `tb_url` where 1=1 and url_fg = 1 and (url_html_match1 BETWEEN 0 AND 50)";
 $mysql = $pdo->query($sql);
 $status_cnt = $mysql->fetch(PDO::FETCH_ASSOC);
 $smarty->assign('html_cnt', $status_cnt);
@@ -63,29 +69,23 @@ $sql ="SELECT b.*, c.grp_short_title
 if($code_status == ''){
     $sql .= "( 
             (b.url_status <> 200 or b.url_status is NULL) OR 
-            (b.url_img_match1 <= 40 or b.url_html_match1 <= 40) OR 
+            (b.url_img_match1 <= 50 or b.url_html_match1 <= 50) OR 
             (b.url_img_match1 = -1 or b.url_html_match1 = -1) OR
-            (b.url_response_time >= 10)
-            )
-        ";
+            (b.url_response_time >= 12)
+            ) ";
 } else if($code_status == 'delay'){
-    $sql .= " (b.url_response_time >= 10) ";
+    $sql .= " (b.url_response_time >= 12) ";
 } else if($code_status == 'status'){
     $sql .= " (b.url_status <> 200 or b.url_status is NULL) ";
 } else if($code_status == 'img'){
-    $sql .= " (b.url_img_match1 <= 40 or b.url_html_match1 <= 40) ";
+    $sql .= " (b.url_img_match1 <= 50) ";
+} else if($code_status == 'html'){
+    $sql .= " (b.url_html_match1 <= 50) ";
 } else if($code_status == 'origin'){
     $sql .= " (b.url_img_match1 = -1 or b.url_html_match1 = -1) ";
 }
 
-
-
-
-
-
-
-
-
+$sql .= " order by url_lastest_check_dt ";
 
 $mysql = $pdo->query($sql);
 
@@ -96,11 +96,13 @@ $arr_row = array();
 $i = 1;
 while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
+    $arr_mon = getLastMonInfo($data['url_no']);
+    // var_dump($arr_mon);
     # 응답 속도
     $url_response_time = $data['url_response_time'];
     if($url_response_time > 5 && $url_response_time < 10){
         $url_response_time_color = 'warning';
-    } else if ($url_response_time >= 10) {
+    } else if ($url_response_time >= 12) {
         $url_response_time_color = 'danger';
     } else {
         $url_response_time_color = 'success';
@@ -146,11 +148,11 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
     
     $diff_time = checkPriod($data['diff_time']);
-
+    
     #결과 출력용
     $arr_row[] = array(
         'grp_title' => $data['grp_short_title'],
-        'url_no' => $data['url_no'],
+        'mon_no' => $arr_mon['mon_no'],
         'url_title' => $data['url_title'],
         'url_addr' => $data['url_addr'],
         'url_no' => $data['url_no'],
