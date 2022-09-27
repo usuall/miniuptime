@@ -155,7 +155,7 @@
                     <table class="table table-vcenter card-table table-striped" id='result'>
                       <thead>
                         <tr>
-                          <th>NO</th>
+                          <!-- <th>NO</th> -->
                           <th>기관명</th>
                           <th>사이트명</th>
                           <th>응답시간(초)</th>
@@ -169,7 +169,7 @@
                       <tbody>
                         {foreach $result as $row}
                         <tr>
-                          <td>{$row.mon_no}</td>
+                          <!-- <td>{$row.mon_no}</td> -->
                           <td>{$row.grp_title}</td>
                           <td><a href='{$row.url_addr}' target='_blank'>{$row.url_title}</a> ({$row.url_no})</td>
                           <td><span class="badge bg-{$row.mon_response_time_color} me-1"></span> {$row.mon_response_time}</td>
@@ -256,8 +256,8 @@
               var $content = $('#result');
               var last_mon_no = 0;
               for (var i =0; i<data.length; i++) {
-                
-                str  = "<tr><td>" + data[i].mon_no + "</td>";
+                str = "<tr>"
+                //str += "<td>" + data[i].mon_no + "</td>";
                 str += "<td>" + data[i].grp_title + "</td>";
                 str += "<td><a href='"+ data[i].url_addr + "' target='_blank'>" + data[i].url_title + "</a> ("+data[i].url_no+")</td>";
                 str += "<td><span class='badge bg-" + data[i].mon_response_time_color + " me-1'></span> " + data[i].mon_response_time + "</td>";

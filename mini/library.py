@@ -197,156 +197,7 @@ def getCondition(window, values):
     #     print('>>>',k)
 
     return keyword
-'''
-# 초기 URL 설정 (Scrrentshot, html 저장)
-def set_Monitoring(window, keyword):
-    
-    global driver
-    global _step_
-    
-    stime = time.time()
-    # 브라우저 환경 설정 취득
-    BG_EXE = keyword.get('BG_EXE') # 백그라운드 실행
-    driver = set_browser_option(BG_EXE)
-        
-    cnt = 0    
-    result = model.get_grp_url_list(keyword)
-    # print('resutl ',type(result), len(result))
-    total_cnt = len(result) # 조회 건수
-    logger.info('☞  조회결과 : '+ str(total_cnt) + '건')
-    window['-OUTPUT-'].update(value='☞ 조회결과 : '+ str(total_cnt) +'건\n', append=True)
-    window['-OUTPUT-'].update(value='------------------------------\n', append=True)
-    
-    total_step = 8
-    for row in result:
-        cnt += 1
-        _step_ = 0
-        
-        tb_url = {}
-        tb_monitor = {}
-        
-        window['-OUTPUT-'].update(value=' ---------------- URL NO : ' + str(row['url_no']) + '\n', append=True)
-        window.refresh() 
-        
-        
-        
-        # 원본이미지 존재 확인
-        img_str = str('{0:04}'.format(row['url_no']))+ "_site.png"
-        existFile = os.path.isfile(img_origin_path + img_str)
-        logger.info("파일 존재 유무 : " + img_origin_path + img_str)
-        window['-OUTPUT-'].update(value="IMG 파일 존재 유무 "+ img_origin_path + img_str  +' \n', append=True)
-        window.refresh() 
-        
-        # 원본 HTML 존재 확인
-        org_html = str('{0:04}'.format(row['url_no']))+ ".html"
-        existFile2 = os.path.isfile(html_origin_path + org_html)
-        logger.info("파일 존재 유무 : " + html_origin_path + org_html +' \n')
-        window['-OUTPUT-'].update(value="HTML 파일 존재 유무 "+ html_origin_path + org_html  +' \n', append=True)
-        window.refresh() 
-        
-        
-            
-        # 이미지 존재 확인    
-        if(existFile != True or existFile2 != True):
-            if( existFile != True ):
-                logger.info ('이미지 파일 미존재')
-                window['-OUTPUT-'].update(value="이미지 파일 미존재 \n", append=True)
-                
-            if( existFile2 != True ):
-                logger.info ('HTML 파일 미존재')
-                window['-OUTPUT-'].update(value="HTML 파일 미존재 \n", append=True)
 
-            window.refresh() 
-            
-            pertime = time.time() # 개별작업시간
-            
-            web_url = row['url_addr']
-            
-            # 브라우져 무한로딩시 timeout 회피(jnpolice.go.kr 사례) / 해결하는데 5일 걸림
-            TIME_OUT = keyword.get('TIME_OUT')
-            driver.set_page_load_timeout(TIME_OUT)
-            outtime = time.time()
-            
-            logger.info(step_add(total_step) + 'URL_GET(1/2) ' + web_url + diff_time(outtime))
-            try:
-                driver.get(web_url)
-                
-                try:
-                    driver.switch_to.alert.accept()
-                except NoAlertPresentException:
-                    logger.info('NoAlertPresentException ... pass ')
-                    pass
-                
-                # # 응답시간 취득
-                # resp_time = str(round(time.time()-outtime, 2))
-                
-                # logger.info(step_add(total_step) + 'URL_GET(2/2) '+ 'URL Loading'+ resp_time)
-                
-            except TimeoutException:
-                logger.exception('URL_GET / time_out exception : '+ web_url)
-                pass
-            except Exception:  # 기타 오류 발생시 처리 정지
-                logger.exception('URL_GET Exception Occured ')
-                #break
-                pass
-            
-            # 응답시간 취득
-            resp_time = str(round(time.time()-outtime, 2))
-                
-            redirected_url = driver.current_url       
-                    
-            time.sleep(2) # 화면캡쳐 전 2초대기
-            
-            
-            # 화면 캡쳐
-            try:
-                # 특정 사이즈 저장
-                # driver.save_screenshot(img_daily_path + img_str)
-
-                # Full 스크린 저장
-                fullpage_screenshot(driver, img_origin_path + img_str)
-            except TimeoutException as e:
-                logger.warning('Screenshot Timout')
-                pass    
-            except Exception as e:  # 기타 오류 발생시 처리 정지
-                logger.critical('SCREENSHOT Exception Occured : '+ str(e))
-                break
-            
-            # logger.info(step_add(total_step) + 'Screenshot' + diff_time(pertime))
-
-            # HTML 저장 및 검증 ----------------------------------- #
-            # HTML 소스코드 취득
-            html_source = driver.page_source # redirected 최종 URL의 소스를 취득
-            
-            # 로그를 보기좋게 정리(prettfy)
-            html_source = BeautifulSoup(html_source, 'html.parser').prettify
-            
-            # HTML 저장 ------------------------------------------- #
-            html_file = save_org_html(row['url_no'], html_source)
-
-        else:
-            logger.info ('이미지, HTML 파일 존재')
-        
-        
-                
-        # 새창 닫기        
-        close_new_tabs(driver)
-
-        
-        
-    if(cnt > 0):
-        endtime = time.time()
-        window['-OUTPUT-'].update(value='-------------------------------------------\n', append=True)
-        window['-OUTPUT-'].update(value='▶ (처리 URL) ' + str(cnt) +'건, (처리시간) '+ str(round(endtime-stime, 2)) + '초, (평균처리 시간) '+ str(round((endtime-stime)/cnt,2)) +'초 \n', append=True)
-    else:
-        window['-OUTPUT-'].update(value='▶ 검색 결과 없음', append=True)
-    
-    # 작업 종료후 버튼 활성화
-    button_activate(window, 1)
-
-    # 작업종료후 브라우져 닫기
-    driver.close()
-'''
 
 # 검색결과 모니터링
 def get_monitoring(window, keyword):    
@@ -370,11 +221,14 @@ def get_monitoring(window, keyword):
     if(total_cnt > 0):
         # 브라우저 환경 설정 취득
         BG_EXE = keyword.get('BG_EXE') # 백그라운드 실행
-        driver = set_browser_option(BG_EXE)
+        # driver = set_browser_option(BG_EXE)
     
     total_step = 8
     process_stop = False
     for row in result:
+        
+        # 사이트별 브라우져 설정 읽기
+        driver = set_browser_option_url(browser_option=row)
         
         if(process_stop == True):
             return 
@@ -864,6 +718,94 @@ def getResponseTime(driver):
     
     return resp_time
 
+
+def set_browser_option_url(browser_option):
+    
+    # 크롬 브라우저 오픈
+    options = webdriver.ChromeOptions()
+    # USER_Agent 지정
+    options.add_argument(user_agent)
+    options.add_argument("disable-gpu")
+
+    #자바스크립트 disable
+    if(browser_option['option_javascript_disabled'] == True):
+        logger.info('option_javascript_disabled .....')
+        options.add_experimental_option( "prefs",{'profile.managed_default_content_settings.javascript': 2})
+    
+    # '시스템에 부착된 장치가 작동하지 않습니다' 오류 제거
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    
+    # Bypass to "Your connection is not private"
+    options.add_argument('--ignore-ssl-errors=yes')
+    options.add_argument('--ignore-certificate-errors')
+
+    # windows의 경우, command prompt 뜨지 않게
+    args = ["--hide_console--", ]
+
+    '''
+    service.py : 72 line 
+    path = .venv\Lib\site-packages\selenium\webdriver\common\service.py
+    
+    if any("--hide_console--" in arg for arg in self.command_line_args()):
+                print ('invisible prompt ... chromedriver.exe')
+                self.process = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE, creationflags=0x08000000)
+            else:
+                print ('(default) visible prompt ... chromedriver.exe')
+                self.process = subprocess.Popen(cmd, env=self.env, 
+                                                close_fds=system() != 'Windows', 
+                                                stdout=self.log_file, 
+                                                stderr=self.log_file, 
+                                                stdin=PIPE)
+    '''
+
+    if (browser_option['option_browser_width'] > 0) and (browser_option['option_browser_height'] > 0):
+        # 사용자 지정 사이즈
+        option_browser_width = browser_option['option_browser_width']
+        option_browser_height = browser_option['option_browser_height']
+    else:
+        # 디폴트 사이즈
+        option_browser_width = 1280
+        option_browser_height = 1000
+    
+    # 자바스크립트 비활성화
+    # options.add_experimental_option( "prefs",{'profile.managed_default_content_settings.javascript': 2})
+
+    # 브라우져 창 최소화 유무
+    if (browser_option['option_browser_bg_execute'] == True):
+        logger.info('headless.....')
+        # 백그라운드 실행
+        options.add_argument("--headless")
+        
+        # headless 실행시 윈도우 사이즈 줄여야함(width: -16, height : -137)
+        browser_size = '--window-size='+ str(option_browser_width - 16)+','+str(option_browser_height - 137)
+        options.add_argument(browser_size)
+        
+        # headless 탐지막기 
+        # https://beomi.github.io/gb-crawling/posts/2017-09-28-HowToMakeWebCrawler-Headless-Chrome.html
+        # options.headless = True
+
+    else:
+        
+        logger.info('foreground .....')
+        # 디폴트 사이즈
+        browser_size = '--window-size='+ str(option_browser_width)+','+str(option_browser_height)
+        options.add_argument(browser_size)
+        #options.add_argument("--start-maximized")
+    
+    # 브라우져 옵션 설정
+    driver = webdriver.Chrome(lib_path + 'chromedriver.exe', options=options, service_args=args) 
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) # deprecated option
+
+    # 명시적으로 대기(10초) 
+    driver.implicitly_wait(time_to_wait=10)    
+    
+    # InsecureRequestWarning  메시지 제거
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    
+    return driver
+    
+    
+    
 # 브라우저 기본 설정
 def set_browser_option(BG_EXE):
     
@@ -872,6 +814,11 @@ def set_browser_option(BG_EXE):
     # USER_Agent 지정
     options.add_argument(user_agent)
     options.add_argument("disable-gpu")
+
+    #자바스크립트 disable
+    options.add_experimental_option( "prefs",{'profile.managed_default_content_settings.javascript': 2})
+
+
     
     # '시스템에 부착된 장치가 작동하지 않습니다' 오류 제거
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
@@ -923,9 +870,7 @@ def set_browser_option(BG_EXE):
     #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) # deprecated option
 
     # 명시적으로 대기(10초) 
-    driver.implicitly_wait(time_to_wait=10)
-    
-    
+    driver.implicitly_wait(time_to_wait=10)    
     
     # InsecureRequestWarning  메시지 제거
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)

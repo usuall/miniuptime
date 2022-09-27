@@ -5,12 +5,12 @@ from loguru import logger
 from datetime import datetime
 from urllib.parse import urlparse
 import json
-import whois
 import time
 
 try:
     from OpenSSL import SSL
     from json2html import *
+    import whois        
 except ImportError:
     print('Please install required modules.')
     print('pip install pyopenssl, json2html, python-whois')
