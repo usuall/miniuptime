@@ -142,6 +142,33 @@ CREATE TABLE `tb_domain` (
 ALTER TABLE `tb_domain` ADD PRIMARY KEY (`url_no`);
 
 
+CREATE TABLE `tb_url` (
+  `url_no` int(12) NOT NULL COMMENT 'url 번호',
+  `grp_no` int(4) NOT NULL COMMENT '그룹_번호',
+  `url_title` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT 'URL 제목',
+  `url_addr` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT 'URL 주소',
+  `url_redirected` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '최종 URL 주소',
+  `url_response_time` float DEFAULT NULL COMMENT 'url 길이',
+  `url_status` int(1) DEFAULT 0 COMMENT '사이트 최종 상태(online=1, offline=0)',
+  `url_lastest_check_dt` datetime DEFAULT NULL COMMENT '최종 점검일시',
+  `url_img_match1` float DEFAULT NULL COMMENT '이미지 유사도 허용치',
+  `url_img_match2` float DEFAULT NULL COMMENT '이미지 유사도 허용치2',
+  `url_html_match1` float DEFAULT NULL COMMENT 'html 유사도 허용치',
+  `url_html_match2` float DEFAULT NULL COMMENT 'html 유사도 허용치2',
+  `url_html_diff_output` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `option_delay_seconds` int(1) NOT NULL DEFAULT 2,
+  `option_javascript_disabled` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'javascript disable',
+  `option_browser_bg_execute` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'browser background execute',
+  `option_browser_width` int(2) DEFAULT 0 COMMENT 'browser width size',
+  `option_browser_height` int(2) DEFAULT 0 COMMENT 'browser height size',
+  `url_fg` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'url 사용유무(0=미사용, 1=사용)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `tb_url` ADD PRIMARY KEY (`url_no`);
+ALTER TABLE `tb_url` MODIFY `url_no` int(12) NOT NULL AUTO_INCREMENT COMMENT 'url 번호', AUTO_INCREMENT=1;
+
+
+
 # todo list
 - selenium full screenshot 이미지 깨짐 현상 개선
 - url 점검시 매번 해당 url의 특성에 따라 selenium 실행(옵션 기능)
