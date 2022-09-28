@@ -30,6 +30,22 @@ $mysql->execute();
 $result = $mysql->fetch(PDO::FETCH_ASSOC);
 $smarty->assign('result', $result);
 
+
+if($result['option_javascript_disabled'] == 1){
+    $option_javascript_disabled = 'checked="checked"';
+} else {
+    $option_javascript_disabled = "";
+}
+
+if($result['option_browser_bg_execute'] == 1){
+    $option_browser_bg_execute = 'checked="checked"';    
+} else {
+    $option_browser_bg_execute = "";  
+}
+
+$smarty->assign('option_javascript_disabled', $option_javascript_disabled);
+$smarty->assign('option_browser_bg_execute', $option_browser_bg_execute);
+
 //셀렉트 박스 선택된 상태로
 $smarty->assign('mySelect', $result['grp_no']);
 
@@ -44,7 +60,7 @@ if($result['url_fg'] == 1){
 
 $smarty->assign('url_fg', $url_fg);
 
-// $smarty->debugging = true;
+$smarty->debugging = true;
 $smarty->display('url_config.html');
 
 //DB 접속종료

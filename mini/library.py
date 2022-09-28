@@ -314,7 +314,7 @@ def get_monitoring(window, keyword):
         #img_str = str(row['url_no'])+ "_site.png"        
         img_str = str('{0:04}'.format(row['url_no']))+ "_site.png"
         
-        time.sleep(2) # 화면캡쳐 전 2초대기
+        #time.sleep(2) # 화면캡쳐 전 2초대기
         
         
         
@@ -332,7 +332,13 @@ def get_monitoring(window, keyword):
                 os.remove(img_daily_path + img_str)
                 logger.info('delete ===> ' + img_daily_path + img_str)
             '''
-                # time.sleep(5)
+            
+            # 화면캡쳐 전 대기시간(default=2초)
+            if(row['option_delay_seconds'] > 0):
+                time.sleep(row['option_delay_seconds'])
+            else:
+                time.sleep(2)
+            
             # 작업중...
             now_time = datetime.now().strftime('%Y%m%d%H%M%S%f')
             new_img = str('{0:04}'.format(row['url_no'])) + "_" + str(now_time) + "_site.png"
@@ -1110,8 +1116,11 @@ def fullpage_screenshot(driver, file):
                 #print("Scrolled To ({0},{1})".format(rectangle[0], rectangle[1]))
                 time.sleep(0.2)
 
-            file_name = "part_{0}.png".format(part)
-            #print("Capturing {0} ...".format(file_name))
+            #file_name = "part_{0}.png".format(part)
+            nowdt = datetime.now().strftime('%y%m%d_%H%M%S%f')
+            file_name = nowdt+".png"
+            
+            print("full screenshot... {0} {1} ..." + str(file_name))
 
             driver.get_screenshot_as_file(file_name)
             screenshot = Image.open(file_name)
