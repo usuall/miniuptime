@@ -188,6 +188,7 @@ function utf8_strcut( $str, $size, $suffix='...' )
     return $str;
 }
 
+
 function getGRP_title($grp_no){
     global $pdo;
     
@@ -200,6 +201,18 @@ function getGRP_title($grp_no){
     return $result['grp_title'];
 }
 
+function getGRP_short_title($grp_no){
+    global $pdo;
+    
+    //データ検索
+    $mysql = $pdo->prepare('select grp_short_title from tb_group where grp_no =:id limit 1');
+    $mysql->bindValue(':id', $grp_no);
+    $mysql->execute();
+    $result = $mysql->fetch(PDO::FETCH_ASSOC);
+
+    return $result['grp_short_title'];
+}
+
 
 function getActiveMenu(){
 
@@ -210,15 +223,18 @@ function getActiveMenu(){
     $active = 'active';    
     if($basename == 'dash01.php'){
         $home_active = $active;
+    } else if ($basename == 'dash02.php'){
+        $realtime_active = $active;
     } else if ($basename == 'dash03.php'){
         $group_active = $active;
-    } else if ($basename == 'dash02.php' || $basename == 'url_config.php' || $basename == 'domain.php'){
+    } else if ($basename == 'dash05.php' || $basename == 'url_config.php' || $basename == 'domain.php'){
         $monitor_active = $active;
     } else if ($basename == 'dash04.php'){
         $issue_active = $active;
     }
     
     $smarty->assign('home_active', $home_active);
+    $smarty->assign('realtime_active', $realtime_active);    
     $smarty->assign('group_active', $group_active);
     $smarty->assign('monitor_active', $monitor_active);
     $smarty->assign('issue_active', $issue_active);

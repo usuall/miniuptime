@@ -171,9 +171,9 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
         'url_lastest_check_dt' => $data['url_lastest_check_dt'],
     );
 
-    if($i == 1){
-        $lastest_no = $data['url_no'];    
-    }
+    // if($i == 1){
+    //     $lastest_no = $data['url_no'];    
+    // }
     
     // array_push($arr_groups, $arr_urls);
     //array_push($result, $arr_row);
@@ -185,7 +185,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 }
 // $smarty->debugging = true;
 $smarty->assign('result', $arr_row);
-$smarty->assign('url_no', $lastest_no);
+// $smarty->assign('url_no', $url_no);
 
 
 // $smarty->debugging = true;

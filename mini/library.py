@@ -113,7 +113,7 @@ def isExist_dir(path):
 def button_activate(window, activate):
     
     # 화면 요소ID
-    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-ERROR_URL-', '-BUTTON_START-', '-RANDOM-')
+    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-ERROR_URL-', '-BUTTON_START-', '-RANDOM-')
     #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
     
     # 버튼 활성화 전환
@@ -155,7 +155,7 @@ def getCondition(window, values):
     window['-OUTPUT-'].update(value='- URL명 : ' + values['-SITE_URL-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- 반복 점검 : ' + str(values['-REPEAT-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 비활성화 URL포함. : ' + str(values['-DISABLED-']) + '\n', append=True)
-    window['-OUTPUT-'].update(value='- 백그라운드 실행 : ' + str(values['-BG_EXE-']) + '\n', append=True)
+    #window['-OUTPUT-'].update(value='- 백그라운드 실행 : ' + str(values['-BG_EXE-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 랜덤 실행 : ' + str(values['-RANDOM-']) + '\n', append=True)    
     #window['-OUTPUT-'].update(value='- OLD 체크 : ' + str(values['-OLDEST-']) + '\n', append=True)    
     window['-OUTPUT-'].update(value='- 이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']) + '\n', append=True)
@@ -171,7 +171,7 @@ def getCondition(window, values):
                 'SITE_URL':     values['-SITE_URL-'], 
                 'REPEAT':       values['-REPEAT-'], 
                 'DISABLED':     values['-DISABLED-'], 
-                'BG_EXE':       values['-BG_EXE-'],
+                #'BG_EXE':       values['-BG_EXE-'],
                 'RANDOM':       values['-RANDOM-'],
                 #'OLDEST':       values['-OLDEST-'],
                 'IMAGE_MATCH':  values['-IMAGE_MATCH-'], 
@@ -335,9 +335,13 @@ def get_monitoring(window, keyword):
             
             # 화면캡쳐 전 대기시간(default=2초)
             if(row['option_delay_seconds'] > 0):
-                time.sleep(row['option_delay_seconds'])
+                delay_time = row['option_delay_seconds']
             else:
-                time.sleep(2)
+                delay_time = 2
+                
+            time.sleep(delay_time)
+            
+            logger.info('option_delay_seconds : '+ str(delay_time))
             
             # 작업중...
             now_time = datetime.now().strftime('%Y%m%d%H%M%S%f')

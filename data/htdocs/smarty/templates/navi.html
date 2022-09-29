@@ -32,18 +32,16 @@
         </div>
       </div>
     </li>
-    <!-- 
-    <li class="nav-item">
-      <a class="nav-link" href="./form-elements.html" >
+    <li class="nav-item {$realtime_active}">
+      <a class="nav-link" href="./dash02.php" >
         <span class="nav-link-icon d-md-none d-lg-inline-block">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="9 11 12 14 20 6" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
         </span>
         <span class="nav-link-title">
-          Form elements
+          실시간 모니터링
         </span>
       </a>
     </li>
-    -->
     <li class="nav-item dropdown {$monitor_active}">
       <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
         <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/star -->
@@ -59,11 +57,11 @@
             <a class="dropdown-item" href="./dash01.php">
               기관별 상태
             </a>
-            <a class="dropdown-item" href="./dash02.php">
-              실시간 모니터링
+            <a class="dropdown-item" href="./dash05.php">
+              점검 현황
             </a>
             <a class="dropdown-item" href="./url_config.php">
-              신규 등록
+              신규 도메인 등록
             </a>
             <a class="dropdown-item" href="./domain.php">
               도메인, SSL 인증서
@@ -179,7 +177,7 @@
         <span class="nav-link-title">
           이슈 현황          
         </span>
-        <span class="badge badge-sm bg-red">12</span>
+        <span class="badge badge-sm bg-red" id="url_alert_cnt">{$url_alert_cnt}</span>
       </a>
     </li>
     <li class="nav-item dropdown">
@@ -209,3 +207,33 @@
       </div>
     </li>
   </ul>
+  <script src="./dist/js/jquery-3.6.1.min.js"></script>
+  <script>
+    function doAlertCNT() {
+
+      // jQueryのajaxメソッドを使用しajax通信
+      $.ajax({
+          
+          url:'/getAlert.php' , //送信先
+          type:'POST', //送信方法
+          cache: false, // キャッシュしないで読み込み
+          datatype: 'json', //受け取りデータの種類
+          data:{},
+          // 通信成功時に呼び出されるコールバック
+          success: function (data) {
+            console.log(data);
+            $("#url_alert_cnt").text(data); 
+          },
+          // 通信エラー時に呼び出されるコールバック
+          error: function () {     
+            alert("Ajax Error Occured.");
+          }
+      });
+   
+    }
+
+    window.addEventListener('load', function () {
+      setInterval(doAlertCNT, 5000);
+    });
+
+  </script>

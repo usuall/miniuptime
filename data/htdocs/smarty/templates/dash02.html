@@ -164,6 +164,7 @@
                           <th>HTML 유사도(%)</th>
                           <!-- <th>점검</th> -->
                           <th>점검일시</th>
+                          <th>설정</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -178,6 +179,7 @@
                           <td><span class="badge bg-{$row.mon_html_match1_color} me-1"></span> <a href="/html_diff/{$row.mon_html_diff_output}" target="_blank">{$row.mon_html_match1}</a></td>
                           <!-- <td>{$row.diff_time}</td> -->
                           <td>{$row.mon_dt}</td>
+                          <td><a href="/url_config.php?url_no={$row.url_no}" class="link-muted"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="5" cy="12" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle></svg></a></td>
                         </tr>
                         {/foreach}
                       </tbody>
@@ -265,7 +267,9 @@
                 str += "<td><span class='badge bg-" + data[i].mon_img_match1_color + " me-1'></span> <a href='/img_diff.php?mon_no="+ data[i].mon_no + "' target='_blank'>" + data[i].mon_img_match1 + "</td>";
                 str += "<td><span class='badge bg-" + data[i].mon_html_match1_color + " me-1'></span> <a href='/html_diff/"+ data[i].mon_html_diff_output + "' target='_blank'>" + data[i].mon_html_match1 + "</td>";
                 /* str += "<td>" + data[i].diff_time + "</td>"; */
-                str += "<td>" + data[i].mon_dt + "</td></tr>";
+                str += "<td>" + data[i].mon_dt + "</td>";
+                //{$row.url_no}" class="link-muted"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="5" cy="12" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle></svg></a>
+                str += "<td><a href='/url_config.php?url_no=" + data[i].url_no + "' class='link-muted'><svg xmlns='http://www.w3.org/2000/svg' class='icon' width='24' height='24' viewBox='0 0 24 24' stroke-width='2' stroke='currentColor' fill='none' stroke-linecap='round' stroke-linejoin='round'><path stroke='none' d='M0 0h24v24H0z' fill='none'></path><circle cx='5' cy='12' r='1'></circle><circle cx='12' cy='12' r='1'></circle><circle cx='19' cy='12' r='1'></circle></svg></a></td></tr>";
 
                 $content.prepend(str);
                 last_mon_no = data[i].mon_no;

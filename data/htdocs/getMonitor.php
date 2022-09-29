@@ -151,7 +151,7 @@ header('Content-type: application/json');
 echo json_encode($arr_row);
 
 
-$smarty->debugging = true;
+// $smarty->debugging = true;
 
 /**/
 
