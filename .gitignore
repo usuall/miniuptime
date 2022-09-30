@@ -20,3 +20,4 @@ build
 *.spec
 stdout.txt
 stderr.txt
+22*_*.png
