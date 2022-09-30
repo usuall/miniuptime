@@ -179,4 +179,4 @@ ALTER TABLE `tb_url` MODIFY `url_no` int(12) NOT NULL AUTO_INCREMENT COMMENT 'ur
 # 개별 URL 테스트
 - 숲나들e (252) backgroud 실행시 404로 처리됨. foreground 실행시 정상관제
 
-
+# daily.html 파일 중복되지 않도록 생성 필요. (동일 타이밍 점검시... 멈추는 현상 발생)
