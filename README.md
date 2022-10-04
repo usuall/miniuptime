@@ -177,6 +177,10 @@ ALTER TABLE `tb_url` MODIFY `url_no` int(12) NOT NULL AUTO_INCREMENT COMMENT 'ur
   https://sijoo.tistory.com/409
 
 # 개별 URL 테스트
-- 숲나들e (252) backgroud 실행시 404로 처리됨. foreground 실행시 정상관제
+- 숲나들e (252) backgroud 실행시 404로 처리됨. foreground 실행시 정상관제 (완료)
 
 # daily.html 파일 중복되지 않도록 생성 필요. (동일 타이밍 점검시... 멈추는 현상 발생)
+# html 비교시 성능 느린부분 개선 필요
+ - https://kass.mafra.go.kr/kass/ka/main.do
+ - 국세청 모바일
+ -
