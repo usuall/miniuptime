@@ -37,7 +37,11 @@ def main():
     #모니터링 실시
     
     #카테고리 취득
-    grp_list = mini.my_grp_list_combo()    
+    grp_list = mini.my_grp_list_combo()
+    
+    url_list = mini.list_combo()
+    
+    #print(grp_list)
     
     
     # grp_list_checkbox = mini.my_grp_list_checkbox()    
@@ -60,7 +64,8 @@ def main():
         # [sg.Text('Uptime Stream is URL Health Check Manager')],
         # [sg.InputText('', key='in1')],
         # [category_box],
-        [sg.Text('카테고리'), sg.Combo(values=(grp_list), default_value='전 체', size=(30, 1), key='-GRP_LIST-', enable_events=False, tooltip='카테고리를 선택해주세요.'),
+        [sg.Text('카테고리'), sg.Combo(values=(grp_list), default_value='전 체', size=(30, 1), key='-GRP_LIST-', enable_events=False, tooltip='카테고리를 선택해주세요.'),],
+        [sg.Text('검색범위'), sg.Combo(values=(url_list), default_value='----', size=(30, 1), key='-URL_LIST-', enable_events=False, tooltip='카테고리를 선택해주세요.'),
          sg.Text('URL번호'), sg.InputText('', key='-URL_NO-', size=(7, 1), tooltip='URL 번호')],
         # [sg.Listbox(values=(org_list), size=(30, 1), key='-ORG_LIST-', enable_events=True)],
         [sg.Text('사이트명'), sg.InputText('', key='-SITE_TITLE-', size=(30, 1), tooltip='사이트명을 입력하세요.'),
@@ -70,13 +75,13 @@ def main():
          sg.CBox('비활성화 URL 포함', key='-DISABLED-'),
          sg.CBox('랜덤 실행', key='-RANDOM-')],
          #sg.Radio('랜덤 실행', group_id="RADIO2", default=True, key='-RANDOM-'), sg.Radio('OLD 체크', group_id="RADIO2", default=False, key='-OLDEST-')],
-        [sg.CBox('이미지 유사도 검증', key='-IMAGE_MATCH-', default=True), sg.CBox('HTML 유사도 검증', key='-HTML_MATCH-', default=True), sg.CBox('ERR URL', key='-ERROR_URL-', default=False)],
+        [sg.CBox('ERR URL', key='-ERROR_URL-', default=False)],
         [sg.Text('타임아웃'), sg.Radio('5초', group_id="RADIO1", key='-TIMEOUT1-'),
                             sg.Radio('10초', group_id="RADIO1", default=True, key='-TIMEOUT2-'),
                             sg.Radio('15초', group_id="RADIO1", key='-TIMEOUT3-'),
                             sg.Radio('20초', group_id="RADIO1", key='-TIMEOUT4-'),
                             sg.Radio('25초', group_id="RADIO1", key='-TIMEOUT5-'),
-                            sg.Radio('30초', group_id="RADIO1", key='-TIMEOUT6-')],
+                            sg.Radio('30초', group_id="RADIO1", key='-TIMEOUT6-')],        
         [sg.MLine(default_text='', font=('Dotum',11), size=(60, 15), key='-OUTPUT-', autoscroll=True, disabled=True)],        
         [sg.Button('종 료', key='-BUTTON_EXIT-', button_color=('white', 'firebrick3')),
          sg.Button('도움말', key='-BUTTON_HELP-', button_color=('white', 'firebrick3')),
@@ -87,7 +92,7 @@ def main():
     window = sg.Window('Uptime Stream for NIRS', layout, default_element_size=(40, 1), grab_anywhere=False, icon=ico)
 
     stop_event = Event()
-    cnt = 0
+    cnt = 1
     #  ---------------- Window Event Loop ---------------- #
     while True:
         event, values = window.read()
