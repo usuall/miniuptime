@@ -77,9 +77,11 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
     } else if($data['mon_img_match1'] == '-2'){
         $data['mon_img_match1'] = '캡쳐안됨';
         $mon_img_match1_color = 'secondary';
-    } else if($data['mon_img_match1'] < 100 && $data['mon_img_match1'] > 60){
+    } else if($data['mon_img_match1'] < 100 && $data['mon_img_match1'] > 50){
         $mon_img_match1_color = 'success';
-    } else if ($data['mon_img_match1'] <= 60) {
+    } else if ($data['mon_img_match1'] <= 50 && $data['mon_img_match1'] > 30) {
+        $mon_img_match1_color = 'warning';
+    } else if ($data['mon_img_match1'] <= 30 && $data['mon_img_match1'] >= 0) {
         $mon_img_match1_color = 'danger';
     } else {
         $mon_img_match1_color = 'success';
@@ -92,9 +94,11 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
     // } else if($data['mon_html_match1'] == '-2'){
     //     $data['mon_html_match1'] = '캡쳐안됨';
     //     $mon_html_match1_color = 'secondary';
-    } else if($data['mon_html_match1'] < 100 && $data['mon_html_match1'] > 60){
+    } else if($data['mon_html_match1'] < 100 && $data['mon_html_match1'] > 50){
         $mon_html_match1_color = 'success';
-    } else if ($data['mon_html_match1'] <= 60) {
+    } else if($data['mon_html_match1'] <= 50 && $data['mon_html_match1'] > 30){
+        $mon_html_match1_color = 'warning';
+    } else if ($data['mon_html_match1'] <= 30 && $data['mon_html_match1'] >= 0) {
         $mon_html_match1_color = 'danger';
     } else {
         $mon_html_match1_color = 'success';
