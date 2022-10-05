@@ -113,7 +113,7 @@ def isExist_dir(path):
 def button_activate(window, activate):
     
     # 화면 요소ID
-    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-IMAGE_MATCH-', '-HTML_MATCH-', '-ERROR_URL-', '-BUTTON_START-', '-RANDOM-')
+    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_LIST-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-ERROR_URL-', '-BUTTON_START-', '-RANDOM-')
     #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
     
     # 버튼 활성화 전환
@@ -150,6 +150,7 @@ def getCondition(window, values):
     # window['-OUTPUT-'].update(value='- 실행시간 : ' + str1 + '\n', append=True)
     window['-OUTPUT-'].update(value='--------- <검색조건> ---------\n', append=True)
     window['-OUTPUT-'].update(value='- 카테고리 : ' + values['-GRP_LIST-'] + '\n', append=True)
+    window['-OUTPUT-'].update(value='- URL범위 : ' + values['-URL_LIST-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- URL번호 : ' + values['-URL_NO-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- 사이트명 : ' + values['-SITE_TITLE-'] + '\n', append=True)
     window['-OUTPUT-'].update(value='- URL명 : ' + values['-SITE_URL-'] + '\n', append=True)
@@ -158,14 +159,15 @@ def getCondition(window, values):
     #window['-OUTPUT-'].update(value='- 백그라운드 실행 : ' + str(values['-BG_EXE-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 랜덤 실행 : ' + str(values['-RANDOM-']) + '\n', append=True)    
     #window['-OUTPUT-'].update(value='- OLD 체크 : ' + str(values['-OLDEST-']) + '\n', append=True)    
-    window['-OUTPUT-'].update(value='- 이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']) + '\n', append=True)
-    window['-OUTPUT-'].update(value='- HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']) + '\n', append=True)
+    # window['-OUTPUT-'].update(value='- 이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']) + '\n', append=True)
+    # window['-OUTPUT-'].update(value='- HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- ERROR URL 검사 : ' + str(values['-ERROR_URL-']) + '\n', append=True)
     window['-OUTPUT-'].update(value='- 타임아웃 설정 : ' + str(timeout_term) + '초\n', append=True)
     # window['-OUTPUT-'].update(value='-------------------------------------------\n', append=True)
 
     #검색 조건 저장
     keyword = { 'GRP_LIST':     values['-GRP_LIST-'], 
+                'URL_LIST':     values['-URL_LIST-'], 
                 'URL_NO':       values['-URL_NO-'], 
                 'SITE_TITLE':   values['-SITE_TITLE-'], 
                 'SITE_URL':     values['-SITE_URL-'], 
@@ -174,13 +176,14 @@ def getCondition(window, values):
                 #'BG_EXE':       values['-BG_EXE-'],
                 'RANDOM':       values['-RANDOM-'],
                 #'OLDEST':       values['-OLDEST-'],
-                'IMAGE_MATCH':  values['-IMAGE_MATCH-'], 
-                'HTML_MATCH':   values['-HTML_MATCH-'], 
+                # 'IMAGE_MATCH':  values['-IMAGE_MATCH-'], 
+                # 'HTML_MATCH':   values['-HTML_MATCH-'], 
                 'ERROR_URL':    values['-ERROR_URL-'], 
                 'TIME_OUT':     timeout_term }
     
     logger.info('--------- <모니터링 시작> ---------')
     logger.info('카테고리 : ' + values['-GRP_LIST-'])
+    logger.info('URL범위 : ' + values['-URL_LIST-'])
     logger.info('URL번호 : ' + values['-URL_NO-'])
     logger.info('사이트명 : ' + values['-SITE_TITLE-'])
     logger.info('URL명 : ' + values['-SITE_URL-'])
@@ -188,8 +191,8 @@ def getCondition(window, values):
     logger.info('비활성화 URL포함. : ' + str(values['-DISABLED-']))
     logger.info('백그라운드 실행 : ' + str(values['-RANDOM-']))
     #logger.info('OLD 체크 실행 : ' + str(values['-OLDEST-']))
-    logger.info('이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']))
-    logger.info('HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']))
+    # logger.info('이미지 유사도 검증 : ' + str(values['-IMAGE_MATCH-']))
+    # logger.info('HTML 유사도 검증 : ' + str(values['-HTML_MATCH-']))
     logger.info('ERROR URL 검사 : ' + str(values['-ERROR_URL-']))
     logger.info('타임아웃 설정 : ' + str(timeout_term) + '초')
 
@@ -372,7 +375,9 @@ def get_monitoring(window, keyword):
         # new_img = img_daily_path + img_str
         
         # 이미지 유사도 검증
-        IMAGE_MATCH = keyword.get('IMAGE_MATCH')
+        # IMAGE_MATCH = keyword.get('IMAGE_MATCH')
+        IMAGE_MATCH = True
+        
         if(IMAGE_MATCH == True):
             origin_img = img_str
             # new_img = img_str
@@ -937,6 +942,39 @@ def my_grp_list_checkbox():
         logger.exception(e)
         raise
     
+    
+def list_combo():
+    
+    url_list = ['----']
+    result_cnt = model.get_url_list_cnt()
+    
+    # print(type(result_cnt))
+    # print('>>>>', result_cnt['cnt'])
+    
+    
+    unit = 50 # 조회 단위
+    try:
+        per = ( result_cnt['cnt'] / unit) + 1
+        
+        # print (per)
+        i = 1
+        ranges = i
+        for i in range(1, round(per)):
+            url_list.append(str(ranges) + ' ~ ' + str(ranges+unit-1))
+            ranges = ranges + unit            
+        
+        # grp_list.append(i)
+        
+        # for row in result:
+            #org_list.append(row['org_title']+'['+row['org_no']+']')
+            # grp_list.append(row['cnt'])
+
+        return url_list
+
+    except Exception as e:
+        logger.error(e)
+        logger.exception(e)
+        raise
 
 @logger.catch 
 def save_org_html(url_no, src_text):

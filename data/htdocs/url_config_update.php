@@ -62,9 +62,9 @@ if($url_no == ''){
 
     
 } else {
-    $mysql = $pdo->prepare('UPDATE `tb_url` SET grp_no = ?, url_title = ?, url_addr = ?, url_fg = ?, option_javascript_disabled = ?, option_browser_bg_execute = ?, option_delay_seconds =? where url_no = ? ');
+    $mysql = $pdo->prepare('UPDATE `tb_url` /* url_config 수정 */ SET grp_no = ?, url_title = ?, url_addr = ?, url_fg = ?, option_javascript_disabled = ?, option_browser_bg_execute = ?, option_delay_seconds =? where url_no = ? ');
 
-
+    echo ">>>>>".$grp_no;
     $mysql->bindValue(1, $grp_no);
     $mysql->bindValue(2, $url_title);
     $mysql->bindValue(3, $url_addr);
@@ -85,6 +85,7 @@ if($url_no == ''){
     //     echo "실패";
     // }
 
+    // sleep(3);
     alert('수정완료');
 }
 

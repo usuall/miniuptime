@@ -35,6 +35,17 @@ def with_cursor(original_func):
 
 
 @with_cursor
+def get_url_list_cnt(c):
+    c.execute("SELECT count(*) as cnt FROM tb_url where url_fg = 1")
+    
+    # print(c.fetchone())
+    
+    return c.fetchone()
+    
+    # cnt값 반환
+    # return number_of_rows
+
+@with_cursor
 def get_url_list(c):
     c.execute("SELECT * FROM tb_url where url_fg = 1")
     return c.fetchall()
@@ -51,7 +62,7 @@ def get_grp_url_list(c, keyword):
     if(keyword.get('DISABLED') == True):
         sql += f" where 1=1"
     else:
-        sql += f" where b.url_fg=1"
+        sql += f" where b.url_fg=1"    
 
     if(keyword.get('GRP_LIST') != '전 체' and len(keyword.get('GRP_LIST')) > 0):
         sql += f" and a.grp_title='{keyword.get('GRP_LIST')}'"
@@ -68,10 +79,10 @@ def get_grp_url_list(c, keyword):
     # elif(keyword.get('OLDEST') == True):
     #     sql += f" order by url_lastest_check_dt limit 1"
     #     가장 체크 오래된 것 5개(반복)
-
     else:    
         sql += f" order by b.url_no"
     
+    ##############################################################
     # ERROR 상태의 URL만 점검시 
     if(keyword.get('ERROR_URL') == True):
         sql = 'SELECT /* ERROR 상태의 URL만 점검시 */ b.* from tb_group as a right outer join tb_url as b on a.grp_no = b.grp_no '
@@ -82,6 +93,26 @@ def get_grp_url_list(c, keyword):
         sql += f" (b.url_response_time >= 12) /* 응답시간이 12초 이상 소요된 것 */ "
         sql += f" ) ORDER BY url_lastest_check_dt "
     
+    ##############################################################
+    # URL 범위 검색시
+    if(keyword.get('URL_LIST').strip() == '----'):
+        logger.info('URL 범위지정 하지 않음')
+    else:
+        logger.info('URL 범위지정')
+        ranges = keyword.get('URL_LIST').strip().split(' ~ ')
+        # print (ranges[0], 'TEST' , ranges[1])
+        
+        sql = f"select b.* from tb_group as a right outer join tb_url as b on a.grp_no = b.grp_no"
+        if(keyword.get('DISABLED') == True):
+            sql += f" where 1=1"
+        else:
+            sql += f" where b.url_fg=1"
+            
+        sql += f" and url_no between {ranges[0]} and {ranges[1]}"        
+
+
+    ##############################################################
+    # 최종 실행 SQL        
     logger.info('SQL : ' + sql )
     c.execute(sql)
     

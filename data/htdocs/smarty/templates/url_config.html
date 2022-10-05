@@ -66,7 +66,7 @@
                     <h3 class="card-title">Basic option</h3>
                   </div>
                   <div class="card-body">
-                    <form name='work_form' id='work_form' action='/url_config_update.php' method='post'>
+                    <form name='work' id='work' action='/url_config_update.php' method='post'>
                       <input type='hidden' name='mode' value=''>
                       <input type='hidden' name='url_no' value='{$result.url_no}'>
 
@@ -123,8 +123,6 @@
                     <h3 class="card-title">Addtional option</h3>
                   </div>
                   <div class="card-body">
-                      <input type='hidden' name='url_no' value='{$result.url_no}'>
-                      <input type='hidden' name='grp_no' value='{$result.grp_no}'>
                       <div class="form-group row">
                         <label class="col-3 col-form-label pt-0">브라우져 옵션</label>
                         <div class="col">
@@ -156,18 +154,16 @@
                           <small class="form-hint">세로사이즈(default=1000)</small>
                         </div>
                       </div>
-
+                    </form>
                     <form name='work_form' id='work_form' action='/url_config_delete.php' method='post'>
                       <input type='hidden' name='url_no' value='{$result.url_no}'>
-                      <input type='hidden' name='grp_no' value='{$result.grp_no}'>
                       <div class="form-footer">
                         <button type="submit" class="btn btn-danger">삭제</button>
                       </div>
                     </form>
                   </div>
                 </div>
-              </div>
-              
+              </div>             
 
           </div>
         </div>
