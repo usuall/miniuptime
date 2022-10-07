@@ -25,7 +25,7 @@ def long_function_thread(window, values):
     keyword = mini.getCondition(window, values)
     url_cnt = mini.get_monitoring(window, keyword)    
     logger.info('GET_MONITORING WORK_CNT : ' + str(url_cnt)) 
-    window.write_event_value('-THREAD DONE-', '') # Thread 종료 후 이벤트(반복 작업을 위해 사용)    
+    window.write_event_value('-THREAD DONE-', '') # Thread 종료 후 이벤트(반복 작업을 위해 사용)
     
 
 def long_function(window, values):

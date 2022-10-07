@@ -218,6 +218,7 @@ def get_monitoring(window, keyword):
     total_cnt = len(result) # 조회 건수
     logger.info('☞  조회결과 : '+ str(total_cnt) + '건')
     window['-OUTPUT-'].update(value='☞ 조회결과 : '+ str(total_cnt) +'건\n', append=True)
+    window['-OUTPUT-'].update(value='- 조회시간 : ' + str(stime) +'\n', append=True)
     window['-OUTPUT-'].update(value='------------------------------\n', append=True)
     
     # 조회결과가 있을때만 브라우져 기동
@@ -279,9 +280,10 @@ def get_monitoring(window, keyword):
             # print ('checkbox --> ', c1, c2)
             
             try:
+                # alert 창의 '확인'을 클릭
                 driver.switch_to.alert.accept()
             except NoAlertPresentException:
-                logger.info('NoAlertPresentException ... pass ')
+                # logger.info('NoAlertPresentException ... pass ')
                 pass
             
             # # 응답시간 취득
@@ -404,7 +406,12 @@ def get_monitoring(window, keyword):
 
         # HTML 저장 및 검증 ----------------------------------- #
         # HTML 소스코드 취득
-        html_source = driver.page_source # redirected 최종 URL의 소스를 취득
+        try:
+            # 소스파일 취득시 에러발생 회피( 에러 : "안전한 사용을 위해 키보드보안 보안솔루션(라온시큐어) 설치페이지로 이동합니다.")
+            html_source = driver.page_source # redirected 최종 URL의 소스를 취득
+        
+        except:
+            pass
         
         # 로그를 보기좋게 정리(prettfy)
         html_source = BeautifulSoup(html_source, 'html.parser').prettify
@@ -1266,11 +1273,17 @@ def delete_Old_HTML_File(path):
         
         if(file_yyyymmdd < delete_days):
 
-            if os.path.isfile(path + '/' + file):
-                os.remove(path + '/' + file)
-                print(file_yyyymmdd , delete_days)
-                print ('deleted.', cnt)
-                cnt += 1
+            if os.path.isfile(path + file):
+                
+                # 오류 발생시 pass 되도록 개선( 에러내용 : "PermissionError: [WinError 5] 액세스가 거부되었습니다")
+                try:
+                    os.remove(path + file)
+                    print(file_yyyymmdd , delete_days)
+                    print ('deleted.', cnt)
+                    cnt += 1
+                except:
+                    pass
+                    
             else:
                 print ('not deleted.')
         

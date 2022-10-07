@@ -89,9 +89,16 @@ def get_grp_url_list(c, keyword):
         sql += ' WHERE url_fg = 1 and url_lastest_check_dt <= DATE_ADD(NOW(), INTERVAL -1 MINUTE) /* 체크한지 1분 이상된것만 다시 점검 */ '
         sql += f" and ( (b.url_status <> 200 or b.url_status is NULL) /* 상태코드 200 아닌것 */ OR "
         sql += f" (b.url_img_match1 <= 50 or b.url_html_match1 <= 50) /* 이미지, html 유사도 낮은 경우(50%) */ OR "
-        sql += f" (b.url_img_match1 = -1 or b.url_html_match1 = -1) /* 원본이미지 또는 원본소스가 없는 경우 */ OR "
         sql += f" (b.url_response_time >= 12) /* 응답시간이 12초 이상 소요된 것 */ "
-        sql += f" ) ORDER BY url_lastest_check_dt "
+        sql += f" ) UNION ALL"
+        sql += f" SELECT /* ERROR 상태의 URL만 점검시 */ b.* from tb_group as a "
+        sql += f" RIGHT OUTER JOIN tb_url as b "
+        sql += f" ON a.grp_no = b.grp_no "
+        sql += f" WHERE url_fg = 1 "
+        # sql += f" AND url_lastest_check_dt <= DATE_ADD(NOW(), INTERVAL -30 SECOND) "
+        # sql += f" AND  (b.url_img_match1 = -1 or b.url_html_match1 = -1) /* 원본이미지 또는 원본소스가 없는 경우 */ "
+        sql += f" AND (b.url_img_match1 < 0 or b.url_html_match1 < 0)  /* 원본이미지 또는 원본소스가 없는 경우 */ "
+        sql += f" ORDER BY url_lastest_check_dt "
     
     ##############################################################
     # URL 범위 검색시
@@ -109,7 +116,7 @@ def get_grp_url_list(c, keyword):
             sql += f" where b.url_fg=1"
             
         sql += f" and url_no between {ranges[0]} and {ranges[1]}"        
-
+        sql += f" ORDER BY b.url_lastest_check_dt " # 가장 오래된것 부터 조회
 
     ##############################################################
     # 최종 실행 SQL        

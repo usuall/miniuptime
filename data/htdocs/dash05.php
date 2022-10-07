@@ -43,6 +43,8 @@ $sql = "SELECT * FROM `tb_url` WHERE url_lastest_check_dt <= DATE_ADD(NOW(), INT
 // echo $sql ;
 $mysql = $pdo->query($sql);
 
+// echo ("count --->".$mysql->rowCount());
+$smarty->assign('rowCount', $mysql->rowCount());
 //データ割り当て
 $result = array();
 $arr_row = array();
@@ -51,6 +53,8 @@ $i = 1;
 while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
 
     $grp_short_title = getGRP_short_title($data['grp_no']);
+
+    $arr_mon = getLastMonInfo($data['url_no']);
 
     // $arr_url = getUrlinfo($data['url_no']);
 
@@ -114,6 +118,7 @@ while ($data = $mysql->fetch(PDO::FETCH_ASSOC)) {
     #결과 출력용
     $arr_row[] = array(
         'grp_title' => $grp_short_title,
+        'mon_no' => $arr_mon['mon_no'],
         'url_title' => $data['url_title'],
         'url_addr' => $data['url_addr'],
         'url_no' => $data['url_no'],

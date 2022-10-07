@@ -68,7 +68,7 @@
               </div>
               <div class="col">
                 <h2 class="page-title">
-                  국가정보자원관리원 URL 모니터링 
+                  URL 점검 현황
                 </h2>
                 <div class="text-muted">
                   <ul class="list-inline list-inline-dots mb-0">
@@ -94,6 +94,11 @@
                     <!-- Download SVG icon from http://tabler-icons.io/i/settings -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><circle cx="12" cy="12" r="3" /></svg>
                     10 min
+                  </a>
+                  <a href="/dash05.php?min=15" class="btn">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/settings -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><circle cx="12" cy="12" r="3" /></svg>
+                    15 min
                   </a>
                   <a href="/dash05.php?min=20" class="btn">
                     <!-- Download SVG icon from http://tabler-icons.io/i/settings -->
@@ -138,7 +143,7 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="subheader">Incidents</div>
-                    <div class="h3 m-0">3</div>
+                    <div class="h3 m-0">{$rowCount}</div>
                   </div>
                 </div>
               </div>
@@ -205,7 +210,7 @@
                           <td class="sort-4"><span class="badge bg-{$row.url_response_time_color} me-1"></span> {$row.url_response_time}</td>
                           <td class="sort-5"><div class="{$row.status_code_color}"><span class="badge bg-{$row.status_code_color} me-1"></span>{$row.url_status}</div></td>
                           <td class="sort-6"><span class="badge bg-{$row.url_img_match1_color} me-1"></span>{$row.url_img_match1}
-                            <a href="/img_diff.php?url_no={$row.url_no}"  target='_blank' class="ms-1" aria-label="Open website">
+                            <a href="/img_diff.php?mon_no={$row.mon_no}"  target='_blank' class="ms-1" aria-label="Open website">
                               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg>
                             </a></div>
                           </td>
