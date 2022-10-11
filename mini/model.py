@@ -81,7 +81,7 @@ def get_grp_url_list(c, keyword):
     #     sql += f" order by url_lastest_check_dt limit 1"
     #     가장 체크 오래된 것 5개(반복)
     else:    
-        sql += f" order by b.url_no"
+        sql += f" order by b.url_lastest_check_dt "
     
     ##############################################################
     # ERROR 상태의 URL만 점검시 

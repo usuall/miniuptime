@@ -46,6 +46,7 @@ html_diff_path = web_path + config_sys['HTML_DIFF_PATH'] + '\\'
 skip_unchanged = config_sys['HTML_DIFF_SKIP_UNCHANGED']
 set_delete_days = config_sys['SET_DELETE_DAYS']
 remain_file_cnt = config_sys['REMAIN_FILE_CNT']
+unit_cnt = config_sys['UNIT_CNT']
 
 
 # 실행환경
@@ -959,8 +960,8 @@ def list_combo():
     # print(type(result_cnt))
     # print('>>>>', result_cnt['cnt'])
     
+    unit = int(unit_cnt)
     
-    unit = 50 # 조회 단위
     try:
         per = ( result_cnt['cnt'] / unit) + 1
         
@@ -968,7 +969,7 @@ def list_combo():
         i = 1
         ranges = i
         for i in range(1, round(per)):
-            url_list.append(str(ranges) + ' ~ ' + str(ranges+unit-1))
+            url_list.append(str(ranges) + ' ~ ' + str(ranges + unit - 1))
             ranges = ranges + unit            
         
         # grp_list.append(i)

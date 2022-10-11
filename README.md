@@ -186,3 +186,7 @@ ALTER TABLE `tb_url` MODIFY `url_no` int(12) NOT NULL AUTO_INCREMENT COMMENT 'ur
  -
 
 # GUI에 반복 횟수 및 마지막 처리시간 표시....(멈춘건지 확인 위해...)
+
+
+# USER_AGENT 설정기능 추가
+
