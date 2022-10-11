@@ -1,6 +1,7 @@
 from mini.config import get_Config
 import pymysql
 from loguru import logger
+import time
 
 # DB 환경에 맞게 입력할것
 
@@ -85,6 +86,7 @@ def get_grp_url_list(c, keyword):
     ##############################################################
     # ERROR 상태의 URL만 점검시 
     if(keyword.get('ERROR_URL') == True):
+        time.sleep(10)
         sql = 'SELECT /* ERROR 상태의 URL만 점검시 */ b.* from tb_group as a right outer join tb_url as b on a.grp_no = b.grp_no '
         sql += ' WHERE url_fg = 1 and url_lastest_check_dt <= DATE_ADD(NOW(), INTERVAL -1 MINUTE) /* 체크한지 1분 이상된것만 다시 점검 */ '
         sql += f" and ( (b.url_status <> 200 or b.url_status is NULL) /* 상태코드 200 아닌것 */ OR "

@@ -81,7 +81,8 @@ def main():
                             sg.Radio('15초', group_id="RADIO1", key='-TIMEOUT3-'),
                             sg.Radio('20초', group_id="RADIO1", key='-TIMEOUT4-'),
                             sg.Radio('25초', group_id="RADIO1", key='-TIMEOUT5-'),
-                            sg.Radio('30초', group_id="RADIO1", key='-TIMEOUT6-')],        
+                            sg.Radio('30초', group_id="RADIO1", key='-TIMEOUT6-')],
+        [sg.Text('반복 횟수'), sg.InputText('', key='-LOOP_CNT-', size=(10, 1), disabled=True)],
         [sg.MLine(default_text='', font=('Dotum',11), size=(60, 15), key='-OUTPUT-', autoscroll=True, disabled=True)],        
         [sg.Button('종 료', key='-BUTTON_EXIT-', button_color=('white', 'firebrick3')),
          sg.Button('도움말', key='-BUTTON_HELP-', button_color=('white', 'firebrick3')),
@@ -96,6 +97,8 @@ def main():
     #  ---------------- Window Event Loop ---------------- #
     while True:
         event, values = window.read()
+        
+        window['-LOOP_CNT-'].update(str(cnt))
         
         if stop_event.is_set():
             return
@@ -113,7 +116,7 @@ def main():
             cnt += 1
                 
         elif event == '-THREAD DONE-':
-            logger.info(' --- THREAD DONE --- ')
+            logger.info(' --- THREAD DONE --- ')            
             
             # 반복 점검
             if (keyword.get('REPEAT') == True):
@@ -128,6 +131,8 @@ def main():
                 # 버튼 활성화
                 mini.button_activate(window, 1)
                 
+            
+                
         elif event == '-BUTTON_EXIT-':
             mini.after_main()
             logger.info (' --- BUTTON_EXIT --- ')
@@ -135,8 +140,9 @@ def main():
 
         elif event == '-BUTTON_STOP-':
             logger.info (' --- BUTTON_STOP --- ')
-              
+            
             # 종료시 작업 반복되지 않도록 수정
+            mini.after_main()
             mini.stop_Signal()
             keyword.update({'REPEAT': 'False'})
             

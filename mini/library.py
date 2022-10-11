@@ -214,11 +214,12 @@ def get_monitoring(window, keyword):
         
     cnt = 0    
     result = model.get_grp_url_list(keyword)
+    window['-OUTPUT-'].update(value='- 조회시간 : ' + get_sysdate() +'\n', append=True)
+
     # print('resutl ',type(result), len(result))
     total_cnt = len(result) # 조회 건수
     logger.info('☞  조회결과 : '+ str(total_cnt) + '건')
     window['-OUTPUT-'].update(value='☞ 조회결과 : '+ str(total_cnt) +'건\n', append=True)
-    window['-OUTPUT-'].update(value='- 조회시간 : ' + str(stime) +'\n', append=True)
     window['-OUTPUT-'].update(value='------------------------------\n', append=True)
     
     # 조회결과가 있을때만 브라우져 기동
@@ -515,7 +516,7 @@ def get_monitoring(window, keyword):
     # 작업종료후 브라우져 닫기
     if(total_cnt > 0):
         driver.close() 
-    driver.quit() # Headless 실행시 chromedriver.exe 실행되고 작업종료 후 prompt창 닫기
+        driver.quit() # Headless 실행시 chromedriver.exe 실행되고 작업종료 후 prompt창 닫기
 
 
     deleted_cnt = delete_Old_HTML_File(html_diff_path)
