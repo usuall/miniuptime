@@ -96,84 +96,91 @@ def main():
     cnt = 1
     #  ---------------- Window Event Loop ---------------- #
     while True:
-        event, values = window.read()
         
-        window['-LOOP_CNT-'].update(str(cnt))
+        try:
         
-        if stop_event.is_set():
-            return
-
-        if event == sg.WIN_CLOSED or event == 'Exit':
-            break
-
-        if event == '-BUTTON_START-':
-            logger.info(' --- BUTTON_START --- ')
-            # 버튼 비활성화 전환
-            mini.button_activate(window, 0)
+            event, values = window.read()
             
-            # keyword = mini.getCondition(window, values)
-            long_function(window, values)
-            cnt += 1
-                
-        elif event == '-THREAD DONE-':
-            logger.info(' --- THREAD DONE --- ')            
+            window['-LOOP_CNT-'].update(str(cnt))
             
-            # 반복 점검
-            if (keyword.get('REPEAT') == True):
-                
+            if stop_event.is_set():
+                return
+
+            if event == sg.WIN_CLOSED or event == 'Exit':
+                break
+
+            if event == '-BUTTON_START-':
+                logger.info(' --- BUTTON_START --- ')
                 # 버튼 비활성화 전환
                 mini.button_activate(window, 0)
-            
-                cnt += 1
-                logger.info('--- THREAD REPEAT (' + str(cnt)+  ' times) ---')
+                
+                # keyword = mini.getCondition(window, values)
                 long_function(window, values)
+                cnt += 1
+                    
+            elif event == '-THREAD DONE-':
+                logger.info(' --- THREAD DONE --- ')            
+                
+                # 반복 점검
+                if (keyword.get('REPEAT') == True):
+                    
+                    # 버튼 비활성화 전환
+                    mini.button_activate(window, 0)
+                
+                    cnt += 1
+                    logger.info('--- THREAD REPEAT (' + str(cnt)+  ' times) ---')
+                    long_function(window, values)
+                else:
+                    # 버튼 활성화
+                    mini.button_activate(window, 1)
+                    
+                
+                    
+            elif event == '-BUTTON_EXIT-':
+                mini.after_main()
+                logger.info (' --- BUTTON_EXIT --- ')
+                break
+
+            elif event == '-BUTTON_STOP-':
+                logger.info (' --- BUTTON_STOP --- ')
+                
+                # 종료시 작업 반복되지 않도록 수정
+                mini.after_main()
+                mini.stop_Signal()
+                keyword.update({'REPEAT': 'False'})
+                
+            
+
+
+            elif event == '-BUTTON_HELP-':
+                help_text = '''Uptime Stream is URL Health Check Manager.
+                
+    ■ 기능설명
+    - 시뮬레이션 방식으로 브라우져가 URL을 접속하여 확인
+    - 최종 URL(redirect)의 이미지 캡쳐
+    (정상 상태의 이미지와 비교하여 유사도 체크)
+    - 최종 URL의 상태코드를 확인
+    (200 정상, 404 페이지 찾을수 없음 등..)
+    - 최종 URL의 html 소스코드를 저장
+    (정상 상태의 html과 비교하여 유사도 체크)
+
+    ■ 검색조건 : 카테고리, 사이트명, URL명 등 설정
+
+    ■ 동작 방법
+    - 반복 점검 : 전체 검색결과를 반복해서 점검
+    - 비활성화 URL 점검 : 일시적으로 비활성화된 URL도 점검함
+    - ERROR_URL : 이슈 발생 URL만 점검    
+                '''
+                sg.Popup(help_text)
             else:
-                # 버튼 활성화
-                mini.button_activate(window, 1)
+                print(' --- else --- ')
+                break
+                #print(event, values)
                 
+        except Exception as e:
+            logger.critical ('Main Processing .... Exception Occured. : ' + str(e))
+            pass
             
-                
-        elif event == '-BUTTON_EXIT-':
-            mini.after_main()
-            logger.info (' --- BUTTON_EXIT --- ')
-            break
-
-        elif event == '-BUTTON_STOP-':
-            logger.info (' --- BUTTON_STOP --- ')
-            
-            # 종료시 작업 반복되지 않도록 수정
-            mini.after_main()
-            mini.stop_Signal()
-            keyword.update({'REPEAT': 'False'})
-            
-           
-
-
-        elif event == '-BUTTON_HELP-':
-            help_text = '''Uptime Stream is URL Health Check Manager.
-            
-■ 기능설명
-- 시뮬레이션 방식으로 브라우져가 URL을 접속하여 확인
-- 최종 URL(redirect)의 이미지 캡쳐
- (정상 상태의 이미지와 비교하여 유사도 체크)
-- 최종 URL의 상태코드를 확인
- (200 정상, 404 페이지 찾을수 없음 등..)
-- 최종 URL의 html 소스코드를 저장
- (정상 상태의 html과 비교하여 유사도 체크)
-
-■ 검색조건 : 카테고리, 사이트명, URL명 등 설정
-
-■ 동작 방법
-- 반복 점검 : 전체 검색결과를 반복해서 점검
-- 비활성화 URL 점검 : 일시적으로 비활성화된 URL도 점검함
-- 백그라운드 실행 : 브라우져가 화면에서 실행되지 않음
-- 타임아웃 : 브라우져로 URL이 열리기까지의 타임아웃 시간(초)
-            '''
-            sg.Popup(help_text)
-        else:
-            print(' --- else --- ')
-            break
-            #print(event, values)
     
     window.close()
 

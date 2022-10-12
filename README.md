@@ -187,6 +187,12 @@ ALTER TABLE `tb_url` MODIFY `url_no` int(12) NOT NULL AUTO_INCREMENT COMMENT 'ur
 
 # GUI에 반복 횟수 및 마지막 처리시간 표시....(멈춘건지 확인 위해...)
 
+# GUI 정지 및 종료시 에러방지
+ - 정지 버튼 : 
+ - 종료 버튼 : 실행 중 종료시 에러
+ - x 창닫기 : 닫기 버튼
+
+
 
 # USER_AGENT 설정기능 추가
 
