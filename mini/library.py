@@ -114,7 +114,8 @@ def isExist_dir(path):
 def button_activate(window, activate):
     
     # 화면 요소ID
-    obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_LIST-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-ERROR_URL-', '-BUTTON_START-', '-RANDOM-')
+    obj_list = ('-GRP_LIST-', '-DISABLED-', '-URL_LIST-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-ERROR_URL-', '-BUTTON_START-', '-RANDOM-')
+    #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-URL_LIST-', '-URL_NO-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-ERROR_URL-', '-BUTTON_START-', '-RANDOM-')
     #obj_list = ('-GRP_LIST-', '-TIMEOUT1-', '-TIMEOUT2-', '-TIMEOUT3-', '-TIMEOUT4-', '-TIMEOUT5-', '-TIMEOUT6-', '-DISABLED-', '-SITE_TITLE-', '-SITE_URL-', '-REPEAT-', '-BG_EXE-', '-BUTTON_START-', '-BUTTON_EXIT-')
     
     # 버튼 활성화 전환
@@ -133,20 +134,22 @@ def button_activate(window, activate):
 # 검색 조건 확인
 def getCondition(window, values):
 
-    if(values['-TIMEOUT1-'] == True ):
-        timeout_term = 5
-    elif(values['-TIMEOUT2-'] == True ):
-        timeout_term = 10
-    elif(values['-TIMEOUT3-'] == True ):
-        timeout_term = 15
-    elif(values['-TIMEOUT4-'] == True ):
-        timeout_term = 20
-    elif(values['-TIMEOUT5-'] == True ):
-        timeout_term = 25
-    elif(values['-TIMEOUT6-'] == True ):
-        timeout_term = 30
-    else:
-        timeout_term = 12
+    # if(values['-TIMEOUT1-'] == True ):
+    #     timeout_term = 5
+    # elif(values['-TIMEOUT2-'] == True ):
+    #     timeout_term = 10
+    # elif(values['-TIMEOUT3-'] == True ):
+    #     timeout_term = 15
+    # elif(values['-TIMEOUT4-'] == True ):
+    #     timeout_term = 20
+    # elif(values['-TIMEOUT5-'] == True ):
+    #     timeout_term = 25
+    # elif(values['-TIMEOUT6-'] == True ):
+    #     timeout_term = 30
+    # else:
+    #     timeout_term = 12
+        
+    timeout_term = 12
 
     # window['-OUTPUT-'].update(value='- 실행시간 : ' + str1 + '\n', append=True)
     window['-OUTPUT-'].update(value='--------- <검색조건> ---------\n', append=True)
