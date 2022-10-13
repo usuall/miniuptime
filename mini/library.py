@@ -414,19 +414,19 @@ def get_monitoring(window, keyword):
         try:
             # 소스파일 취득시 에러발생 회피( 에러 : "안전한 사용을 위해 키보드보안 보안솔루션(라온시큐어) 설치페이지로 이동합니다.")
             html_source = driver.page_source # redirected 최종 URL의 소스를 취득
+            
+            # 로그를 보기좋게 정리(prettfy)
+            html_source = BeautifulSoup(html_source, 'html.parser').prettify
+            
+            # HTML 저장 ------------------------------------------- #
+            html_file = save_html(row['url_no'], html_source)
         
         except:
             pass
         
-        # 로그를 보기좋게 정리(prettfy)
-        html_source = BeautifulSoup(html_source, 'html.parser').prettify
-        
-        # HTML 저장 ------------------------------------------- #
-        html_file = save_html(row['url_no'], html_source)
         logger.info(step_add(total_step) + 'HTML Save'+ diff_time(pertime))
         window['-OUTPUT-'].update(value='→ HTML Save' + diff_time(pertime)+'\n', append=True)
         window.refresh()
-        
         
         # HTML 비교
         html_output = {}
