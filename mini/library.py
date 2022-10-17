@@ -129,7 +129,7 @@ def button_activate(window, activate):
         for key in obj_list:
             window[key].update(disabled=False)
             
-            
+       
 
 # 검색 조건 확인
 def getCondition(window, values):
@@ -235,6 +235,9 @@ def get_monitoring(window, keyword):
     total_step = 8
     process_stop = False
     for row in result:
+        
+        # window['-TIMESTAMP-'].update(value=get_sysdate(), append=False)
+        window['-TIMESTAMP-'].update(get_sysdate())
         
         # 사이트별 브라우져 설정 읽기
         driver = set_browser_option_url(browser_option=row)
@@ -420,20 +423,22 @@ def get_monitoring(window, keyword):
             
             # HTML 저장 ------------------------------------------- #
             html_file = save_html(row['url_no'], html_source)
+            
+            logger.info(step_add(total_step) + 'HTML Save'+ diff_time(pertime))
+            window['-OUTPUT-'].update(value='→ HTML Save' + diff_time(pertime)+'\n', append=True)
+            window.refresh()
+            
+            # HTML 비교
+            html_output = {}
+            org_html = str('{0:04}'.format(row['url_no'])) + '.html'
+            # html_rate, html_diff_output = diff_html(org_html, html_file, row['url_no'])
+            diff_st_time = time.time()
+            html_output = diff_html(org_html, html_file, row['url_no'])
         
         except:
             pass
         
-        logger.info(step_add(total_step) + 'HTML Save'+ diff_time(pertime))
-        window['-OUTPUT-'].update(value='→ HTML Save' + diff_time(pertime)+'\n', append=True)
-        window.refresh()
         
-        # HTML 비교
-        html_output = {}
-        org_html = str('{0:04}'.format(row['url_no'])) + '.html'
-        # html_rate, html_diff_output = diff_html(org_html, html_file, row['url_no'])
-        diff_st_time = time.time()
-        html_output = diff_html(org_html, html_file, row['url_no'])
         # HTML 비교 소요시간
         mon_html_diff_time = str(round(time.time()-diff_st_time, 2))
         logger.info('HTML Simlarity '+ mon_html_diff_time)
@@ -969,11 +974,15 @@ def list_combo():
         per = ( result_cnt['cnt'] / unit) + 1
         
         # print (per)
+        print('>>>>', range(1, round(per)))
         i = 1
         ranges = i
         for i in range(1, round(per)):
+            
+            print ('list -> ', str(ranges) + ' ~ ' + str(ranges + unit - 1))
+            
             url_list.append(str(ranges) + ' ~ ' + str(ranges + unit - 1))
-            ranges = ranges + unit            
+            ranges = ranges + unit
         
         # grp_list.append(i)
         
