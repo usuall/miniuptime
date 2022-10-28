@@ -627,7 +627,7 @@ def diff_html(org_html, html_file, url_no):
         reader1 = f.read()
         
     except:
-        logger.warning("Origin file not existed : %s\n" % org_html)
+        logger.warning("Origin file is not existed : %s\n" % org_html)
         html_output['s4'] = '-1'
         return html_output
 
@@ -636,7 +636,7 @@ def diff_html(org_html, html_file, url_no):
         f2 = open(daily_html, "r", encoding='utf-8')
         reader2 = f2.read()        
     except:
-        logger.warning("Daily file not existed : %s\n" % daily_html)
+        logger.warning("Daily file is not existed : %s\n" % daily_html)
         html_output['s4'] = '-1'
         return html_output
 
