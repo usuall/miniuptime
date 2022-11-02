@@ -974,12 +974,12 @@ def list_combo():
         per = ( result_cnt['cnt'] / unit) + 1
         
         # print (per)
-        print('>>>>', range(1, round(per)))
+        # print('>>>>', range(1, round(per)))
         i = 1
         ranges = i
-        for i in range(1, round(per)):
+        for i in range(0, round(per)):
             
-            print ('list -> ', str(ranges) + ' ~ ' + str(ranges + unit - 1))
+            # print ('list -> ', str(i) + ' --- ' + str(ranges) + ' ~ ' + str(ranges + unit - 1))
             
             url_list.append(str(ranges) + ' ~ ' + str(ranges + unit - 1))
             ranges = ranges + unit
