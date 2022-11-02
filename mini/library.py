@@ -309,8 +309,8 @@ def get_monitoring(window, keyword):
         
         # 응답시간 취득
         resp_time = str(round(time.time()-outtime, 2))
-            
-        redirected_url = driver.current_url
+
+        redirected_url = driver.current_url            
         
         #팝업 레이어 
         # driver.execute_script("document.getElementsByClassName('popup-container').style.display='none';")
