@@ -17,5 +17,9 @@ set CUR_MS=%time:~9,2%
 set SUBFILENAME=%CUR_YYYY%%CUR_MM%%CUR_DD%-%CUR_HH%%CUR_NN%%CUR_SS%
 
 REM .venv\Scripts\activate.bat && pythonw -u run.py > data/logs/run_%SUBFILENAME%.log 2>&1
+<<<<<<< HEAD
 .venv\Scripts\activate.bat && pythonw -u run.py > NUL 2>&1
+=======
+.venv\Scripts\activate.bat && pythonw -u run.pyw >NUL 2>&1
+>>>>>>> 3efe27ae1260f0b7a0f3302b70f2a400801921e1
 
